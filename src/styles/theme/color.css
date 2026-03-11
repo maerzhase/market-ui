@@ -1,0 +1,103 @@
+@theme {
+  /* ============================================================
+     PRIMITIVE SCALE — fixed values, never change per mode
+     ============================================================ */
+  --color-grey-50:   #fcfcfc;
+  --color-grey-100:  #f9f9f9;
+  --color-grey-200:  #f0f0f0;
+  --color-grey-300:  #e8e8e8;
+  --color-grey-400:  #e0e0e0;
+  --color-grey-500:  #d9d9d9;
+  --color-grey-600:  #cecece;
+  --color-grey-700:  #bbbbbb;
+  --color-grey-800:  #8d8d8d;
+  --color-grey-900:  #838383;
+  --color-grey-950:  #646464;
+  --color-grey-1000: #202020;
+
+  --color-white:       #ffffff;
+  --color-black:       #000000;
+  --color-current:     currentColor;
+  --color-transparent: transparent;
+
+  /* ============================================================
+     SEMANTIC TOKENS — light mode defaults
+     ============================================================ */
+
+  /* Backgrounds */
+  --color-background-primary:   var(--color-white);
+  --color-background-secondary: var(--color-grey-50);
+  --color-background-ui:        var(--color-grey-100);
+  --color-background-ui-hover:  var(--color-grey-200);
+  --color-background-ui-active: var(--color-grey-300);
+
+  /* Borders */
+  --color-border-subtle:        var(--color-grey-400);
+  --color-border-ui:            var(--color-grey-500);
+  --color-border-strong:        var(--color-grey-700);
+
+  /* Solid fills */
+  --color-solid:                var(--color-grey-1000);
+  --color-solid-hover:          var(--color-grey-950);
+
+  /* Text */
+  --color-text-primary:         var(--color-grey-1000);
+  --color-text-secondary:       var(--color-grey-950);
+  --color-text-tertiary:        var(--color-grey-900);
+  --color-text-disabled:        var(--color-grey-700);
+
+  /* Status */
+  --color-success:              #18794e;
+  --color-success-bg:           #e9f9ee;
+  --color-success-solid:        #30a46c;
+
+  --color-alert:                #946800;
+  --color-alert-bg:             #fefce9;
+  --color-alert-solid:          #f5d90a;
+
+  --color-error:                #cd2b31;
+  --color-error-bg:             #fff8f8;
+  --color-error-solid:          #e5484d;
+}
+
+/* ============================================================
+   DARK MODE — only semantic tokens switch, primitives untouched
+   ============================================================ */
+@layer base {
+  @variant dark {
+    /* Backgrounds — walk the scale in reverse */
+    --color-background-primary:   var(--color-black);
+    --color-background-secondary: var(--color-grey-1000);
+    --color-background-ui:        var(--color-grey-950);
+    --color-background-ui-hover:  var(--color-grey-900);
+    --color-background-ui-active: var(--color-grey-800);
+
+    /* Borders */
+    --color-border-subtle:        var(--color-grey-1000);
+    --color-border-ui:            var(--color-grey-900);
+    --color-border-strong:        var(--color-grey-800);
+
+    /* Solid fills */
+    --color-solid:                var(--color-white);
+    --color-solid-hover:          var(--color-grey-50);
+
+    /* Text */
+    --color-text-primary:         var(--color-grey-50);
+    --color-text-secondary:       var(--color-grey-100);
+    --color-text-tertiary:        var(--color-grey-700);
+    --color-text-disabled:        var(--color-grey-900);
+
+    /* Status */
+    --color-success:              #4cc38a;
+    --color-success-bg:           #0d2117;
+    --color-success-solid:        #30a46c;
+
+    --color-alert:                #f0c000;
+    --color-alert-bg:             #1c1500;
+    --color-alert-solid:          #f5d90a;
+
+    --color-error:                #ff6369;
+    --color-error-bg:             #1f1315;
+    --color-error-solid:          #e5484d;
+  }
+}

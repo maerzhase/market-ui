@@ -1,0 +1,8 @@
+/* Dark theme via class */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Helpers for data attributes (Base UI) */
+@custom-variant data-active (&[data-state~="active"]);
+@custom-variant data-open (&[data-state~="open"]);
+@custom-variant data-close (&[data-state~="close"]);
+@custom-variant data-disabled (&[data-state~="disabled"]);
