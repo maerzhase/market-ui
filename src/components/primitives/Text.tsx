@@ -1,8 +1,8 @@
-import { mergeProps } from "@base-ui/react/merge-props"
-import { useRender } from "@base-ui/react/use-render"
-import { cva, type VariantProps } from "class-variance-authority"
-import type * as React from "react"
-import { cn } from "@/lib/cn"
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
+import { cva, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
+import { cn } from "@/lib/cn";
 
 const textVariants = cva("font-sans", {
   variants: {
@@ -46,22 +46,29 @@ const textVariants = cva("font-sans", {
     color: "primary",
   },
 }) as (props?: {
-  size?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-  weight?: "regular" | "medium" | "semibold"
-  align?: "left" | "center" | "right"
-  color?: "primary" | "secondary" | "tertiary" | "disabled" | "current" | "success" | "error"
-  tabularNums?: true
-  className?: string
-}) => string
+  size?: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+  weight?: "regular" | "medium" | "semibold";
+  align?: "left" | "center" | "right";
+  color?:
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "disabled"
+    | "current"
+    | "success"
+    | "error";
+  tabularNums?: true;
+  className?: string;
+}) => string;
 
-type TextVariants = typeof textVariants
+type TextVariants = typeof textVariants;
 
 export interface TextProps
   extends
-  VariantProps<TextVariants>,
-  Omit<useRender.ComponentProps<"span">, "color"> { }
+    VariantProps<TextVariants>,
+    Omit<useRender.ComponentProps<"span">, "color"> {}
 
-export type TextElement = React.ComponentRef<"span">
+export type TextElement = React.ComponentRef<"span">;
 
 export function Text({
   className,
@@ -77,20 +84,19 @@ export function Text({
   const defaultProps: useRender.ElementProps<"span"> = {
     className: cn(
       textVariants({ align, size, weight, color, tabularNums }),
-      className
+      className,
     ),
-  }
+  };
 
   const element = useRender({
     defaultTagName: "span",
     render,
     props: mergeProps<"span">(defaultProps, props),
     ref: ref,
-  })
+  });
 
-  return element
+  return element;
 }
 
-
-export { textVariants }
-export type { VariantProps }
+export { textVariants };
+export type { VariantProps };

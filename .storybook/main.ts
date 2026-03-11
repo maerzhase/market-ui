@@ -1,5 +1,5 @@
-import type { StorybookConfig } from "@storybook/react-vite"
-import tsconfigPaths from "vite-tsconfig-paths"
+import type { StorybookConfig } from "@storybook/react-vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 const config: StorybookConfig = {
   typescript: {
@@ -8,10 +8,10 @@ const config: StorybookConfig = {
       shouldExtractLiteralValuesFromEnum: true,
       shouldRemoveUndefinedFromOptional: true,
       savePropValueAsString: true,
-      propFilter: prop =>
+      propFilter: (prop) =>
         prop.parent
           ? !/node_modules\/(?!class-variance-authority)/.test(
-              prop.parent.fileName
+              prop.parent.fileName,
             )
           : true,
     },
@@ -29,10 +29,10 @@ const config: StorybookConfig = {
   features: {
     backgrounds: false,
   },
-  viteFinal: async config => {
-    config.plugins = config.plugins || []
-    config.plugins.push(tsconfigPaths())
-    return config
+  viteFinal: async (config) => {
+    config.plugins = config.plugins || [];
+    config.plugins.push(tsconfigPaths());
+    return config;
   },
-}
-export default config
+};
+export default config;

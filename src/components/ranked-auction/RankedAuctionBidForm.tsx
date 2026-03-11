@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
-import { cn } from "@/lib"
-import { Button, Text } from "@/components/primitives"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
-import { SteppedInput } from "@/components/primitives"
-import { CursorGrowIcon } from "../primitives/SteppedInput"
+import type { ReactNode } from "react";
+import { cn } from "@/lib";
+import { Button, Text } from "@/components/primitives";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { SteppedInput } from "@/components/primitives";
+import { CursorGrowIcon } from "../primitives/SteppedInput";
 
 interface BidFormContextValue {
-  projectedRank: number | null
-  isWinning: boolean
-  bidWei: bigint
-  isLoading: boolean
+  projectedRank: number | null;
+  isWinning: boolean;
+  bidWei: bigint;
+  isLoading: boolean;
 }
 
 export function RankedAuctionBidFormRoot({
   children,
   className,
 }: {
-  children?: ReactNode
-  className?: string
+  children?: ReactNode;
+  className?: string;
 }): React.ReactElement {
   const {
     isAuctionEnded,
@@ -37,40 +37,40 @@ export function RankedAuctionBidFormRoot({
     setBidWei,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext()
+  } = useRankedAuctionContext();
 
   const effectiveMinBidWei =
     lockedBid !== null && lockedBid.priceWei > minBidWei
       ? lockedBid.priceWei
-      : minBidWei
+      : minBidWei;
 
   const getTickSize = (currentValue: bigint) => {
-    if (!tickConfig) return tickSizeWei
+    if (!tickConfig) return tickSizeWei;
     return currentValue > tickConfig.threshold
       ? tickConfig.largeTickSize
-      : tickConfig.smallTickSize
-  }
+      : tickConfig.smallTickSize;
+  };
 
   const activeOperation =
-    lockedBid !== null ? topUpOperation : placeBidOperation
-  const status = activeOperation.status
-  const errorMessage = activeOperation.error
+    lockedBid !== null ? topUpOperation : placeBidOperation;
+  const status = activeOperation.status;
+  const errorMessage = activeOperation.error;
 
   const { rank: projectedRank, isWinning: isProjectedWinning } =
-    getProjectedRank(bidWei)
+    getProjectedRank(bidWei);
 
-  const bidDisplay = `${formatPrice(bidWei)} ${currencySymbol}`
+  const bidDisplay = `${formatPrice(bidWei)} ${currencySymbol}`;
 
   const handleSubmit = async () => {
     const success =
       lockedBid !== null
         ? await handleTopUp(bidWei.toString())
-        : await handlePlaceBid(bidWei.toString())
-    if (success) setBidWei(effectiveMinBidWei)
-  }
+        : await handlePlaceBid(bidWei.toString());
+    if (success) setBidWei(effectiveMinBidWei);
+  };
 
   const isLoading =
-    status === "pending" || status === "confirming" || status === "indexing"
+    status === "pending" || status === "confirming" || status === "indexing";
 
   return (
     <div className={cn("flex flex-col gap-4", className)}>
@@ -79,7 +79,10 @@ export function RankedAuctionBidFormRoot({
           <Text size="1">{errorMessage}</Text>
         </div>
       ) : null}
-      <fieldset disabled={isAuctionEnded} className="flex w-full flex-col gap-4">
+      <fieldset
+        disabled={isAuctionEnded}
+        className="flex w-full flex-col gap-4"
+      >
         <SteppedInput.Root
           value={bidWei}
           onChange={setBidWei}
@@ -87,8 +90,8 @@ export function RankedAuctionBidFormRoot({
           getTickSize={getTickSize}
           formatValue={(val) => Number(val)}
           parseValue={(val) => {
-            const [numStr] = val.toString().split('.')
-            return BigInt(numStr || '0')
+            const [numStr] = val.toString().split(".");
+            return BigInt(numStr || "0");
           }}
           disabled={isAuctionEnded}
         >
@@ -99,7 +102,9 @@ export function RankedAuctionBidFormRoot({
                 <CursorGrowIcon />
               </SteppedInput.ScrubAreaCursor>
               <SteppedInput.Value>
-                {({ displayValue }) => `${formatPrice(BigInt(displayValue))} ${currencySymbol}`}
+                {({ displayValue }) =>
+                  `${formatPrice(BigInt(displayValue))} ${currencySymbol}`
+                }
               </SteppedInput.Value>
             </SteppedInput.ScrubArea>
             <SteppedInput.Increment />
@@ -107,14 +112,22 @@ export function RankedAuctionBidFormRoot({
         </SteppedInput.Root>
         <div className="flex flex-col gap-3 rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
           <div className="flex items-center justify-between">
-            <Text size="2" color="secondary">Projected rank</Text>
+            <Text size="2" color="secondary">
+              Projected rank
+            </Text>
             <Text size="2" weight="medium">
-              {projectedRank != null ? `#${projectedRank} of ${isAuctionEnded ? "N" : "N"}` : "N/A"}
+              {projectedRank != null
+                ? `#${projectedRank} of ${isAuctionEnded ? "N" : "N"}`
+                : "N/A"}
             </Text>
           </div>
           <div className="flex items-center justify-between">
-            <Text size="2" color="secondary">You'd pay</Text>
-            <Text size="2" weight="medium">{bidDisplay}</Text>
+            <Text size="2" color="secondary">
+              You'd pay
+            </Text>
+            <Text size="2" weight="medium">
+              {bidDisplay}
+            </Text>
           </div>
         </div>
         <div className="flex flex-row gap-2">
@@ -140,13 +153,13 @@ export function RankedAuctionBidFormRoot({
         </div>
       </fieldset>
     </div>
-  )
+  );
 }
 
 export function RankedAuctionBidFormSuggestions({
   className,
 }: {
-  className?: string
+  className?: string;
 }): React.ReactElement | null {
   const {
     getSuggestedBids,
@@ -155,24 +168,26 @@ export function RankedAuctionBidFormSuggestions({
     setBidWei,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext()
+  } = useRankedAuctionContext();
 
-  const suggestionsWei = getSuggestedBids()
-  const suggestions = suggestionsWei.map(value => ({
+  const suggestionsWei = getSuggestedBids();
+  const suggestions = suggestionsWei.map((value) => ({
     wei: value,
     display: `${formatPrice(value)} ${currencySymbol}`,
-  }))
+  }));
 
   if (suggestions.length === 0 || isAuctionEnded) {
-    return null
+    return null;
   }
 
   return (
     <div className={cn("flex flex-col gap-3", className)}>
-      <Text size="2" weight="medium" color="primary">Quick picks</Text>
+      <Text size="2" weight="medium" color="primary">
+        Quick picks
+      </Text>
       <div className="grid grid-cols-2 gap-2">
-        {suggestions.map(suggestion => {
-          const isActive = suggestion.wei === bidWei
+        {suggestions.map((suggestion) => {
+          const isActive = suggestion.wei === bidWei;
           return (
             <Button
               key={suggestion.display}
@@ -186,22 +201,30 @@ export function RankedAuctionBidFormSuggestions({
             >
               {suggestion.display}
             </Button>
-          )
+          );
         })}
       </div>
       <div className="flex items-center gap-3">
-        <div className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800" aria-hidden />
-        <Text size="1" color="tertiary" className="shrink-0">or set your own</Text>
-        <div className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800" aria-hidden />
+        <div
+          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
+          aria-hidden
+        />
+        <Text size="1" color="tertiary" className="shrink-0">
+          or set your own
+        </Text>
+        <div
+          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
+          aria-hidden
+        />
       </div>
     </div>
-  )
+  );
 }
 
 export const RankedAuctionBidForm: {
-  Root: typeof RankedAuctionBidFormRoot
-  Suggestions: typeof RankedAuctionBidFormSuggestions
+  Root: typeof RankedAuctionBidFormRoot;
+  Suggestions: typeof RankedAuctionBidFormSuggestions;
 } = {
   Root: RankedAuctionBidFormRoot,
   Suggestions: RankedAuctionBidFormSuggestions,
-}
+};

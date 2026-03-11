@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect } from "react"
-import { Button, Text } from "@/components/primitives"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
-import { SteppedInput } from "@/components/primitives"
-import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids"
-import { CursorGrowIcon } from "../primitives/SteppedInput"
+import { useCallback, useEffect } from "react";
+import { Button, Text } from "@/components/primitives";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { SteppedInput } from "@/components/primitives";
+import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids";
+import { CursorGrowIcon } from "../primitives/SteppedInput";
 
 export interface RankedAuctionBidInputProps {
-  className?: string
+  className?: string;
   /** Hide the suggested bids buttons */
-  hideSuggestions?: boolean
+  hideSuggestions?: boolean;
 }
 
 export function RankedAuctionBidInput({
@@ -33,54 +33,58 @@ export function RankedAuctionBidInput({
     setBidWei,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext()
+  } = useRankedAuctionContext();
 
   const effectiveMinBidWei =
     lockedBid !== null && lockedBid.priceWei > minBidWei
       ? lockedBid.priceWei
-      : minBidWei
+      : minBidWei;
 
   useEffect(() => {
-    setBidWei(prev => (prev < effectiveMinBidWei ? effectiveMinBidWei : prev))
-  }, [effectiveMinBidWei, setBidWei])
+    setBidWei((prev) =>
+      prev < effectiveMinBidWei ? effectiveMinBidWei : prev,
+    );
+  }, [effectiveMinBidWei, setBidWei]);
 
   const getTickSize = useCallback(
     (currentValue: bigint) => {
-      if (!tickConfig) return tickSizeWei
+      if (!tickConfig) return tickSizeWei;
       return currentValue > tickConfig.threshold
         ? tickConfig.largeTickSize
-        : tickConfig.smallTickSize
+        : tickConfig.smallTickSize;
     },
-    [tickConfig, tickSizeWei]
-  )
+    [tickConfig, tickSizeWei],
+  );
 
   const activeOperation =
-    lockedBid !== null ? topUpOperation : placeBidOperation
-  const status = activeOperation.status
-  const errorMessage = activeOperation.error
+    lockedBid !== null ? topUpOperation : placeBidOperation;
+  const status = activeOperation.status;
+  const errorMessage = activeOperation.error;
 
   const { rank: projectedRank, isWinning: isProjectedWinning } =
-    getProjectedRank(bidWei)
+    getProjectedRank(bidWei);
 
-  const bidDisplay = `${formatPrice(bidWei)} ${currencySymbol}`
+  const bidDisplay = `${formatPrice(bidWei)} ${currencySymbol}`;
 
   const primaryCtaLabel =
     lockedBid !== null
       ? projectedRank != null && !isAuctionEnded
-        ? `Top up to rank #${projectedRank}${!isProjectedWinning ? " (outside winning range)" : ""
-        }`
+        ? `Top up to rank #${projectedRank}${
+            !isProjectedWinning ? " (outside winning range)" : ""
+          }`
         : "Top up"
       : projectedRank != null && !isAuctionEnded
-        ? `Bid ${bidDisplay} and get rank #${projectedRank}${!isProjectedWinning ? " (outside winning range)" : ""
-        }`
-        : `Bid ${bidDisplay}`
+        ? `Bid ${bidDisplay} and get rank #${projectedRank}${
+            !isProjectedWinning ? " (outside winning range)" : ""
+          }`
+        : `Bid ${bidDisplay}`;
 
   const handleSubmit = useCallback(async () => {
     const success =
       lockedBid !== null
         ? await handleTopUp(bidWei.toString())
-        : await handlePlaceBid(bidWei.toString())
-    if (success) setBidWei(effectiveMinBidWei)
+        : await handlePlaceBid(bidWei.toString());
+    if (success) setBidWei(effectiveMinBidWei);
   }, [
     bidWei,
     effectiveMinBidWei,
@@ -88,10 +92,10 @@ export function RankedAuctionBidInput({
     handlePlaceBid,
     handleTopUp,
     setBidWei,
-  ])
+  ]);
 
   const isLoading =
-    status === "pending" || status === "confirming" || status === "indexing"
+    status === "pending" || status === "confirming" || status === "indexing";
 
   return (
     <div className={className}>
@@ -111,8 +115,8 @@ export function RankedAuctionBidInput({
           getTickSize={getTickSize}
           formatValue={(val) => Number(val)}
           parseValue={(val) => {
-            const [numStr] = val.toString().split('.')
-            return BigInt(numStr || '0')
+            const [numStr] = val.toString().split(".");
+            return BigInt(numStr || "0");
           }}
           disabled={isAuctionEnded}
         >
@@ -123,7 +127,9 @@ export function RankedAuctionBidInput({
                 <CursorGrowIcon />
               </SteppedInput.ScrubAreaCursor>
               <SteppedInput.Value>
-                {({ displayValue }) => `${formatPrice(BigInt(displayValue))} ${currencySymbol}`}
+                {({ displayValue }) =>
+                  `${formatPrice(BigInt(displayValue))} ${currencySymbol}`
+                }
               </SteppedInput.Value>
             </SteppedInput.ScrubArea>
             <SteppedInput.Increment />
@@ -153,5 +159,5 @@ export function RankedAuctionBidInput({
         </div>
       </fieldset>
     </div>
-  )
+  );
 }

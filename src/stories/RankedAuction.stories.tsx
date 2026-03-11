@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react";
 import {
   RankedAuction,
   RankedAuctionBidForm,
@@ -11,12 +11,12 @@ import {
   RankedAuctionRankingsContainer,
   RankedAuctionRankings,
   RankedAuctionYourBids,
-} from "@/components/ranked-auction"
+} from "@/components/ranked-auction";
 import type {
   RankableBid,
   RankedAuctionData,
   RankedAuctionUserBid,
-} from "@/types"
+} from "@/types";
 
 const mockAuction: RankedAuctionData = {
   id: "0x1234567890abcdef1234567890abcdef12345678",
@@ -29,7 +29,7 @@ const mockAuction: RankedAuctionData = {
     smallTickSize: 1000000000000000n,
     largeTickSize: 10000000000000000n,
   },
-}
+};
 
 const mockBids: RankableBid[] = [
   {
@@ -162,7 +162,7 @@ const mockBids: RankableBid[] = [
     price: "12000000000000000",
     created_at: new Date(Date.now() - 36000000).toISOString(),
   },
-]
+];
 
 const mockUserBids: RankedAuctionUserBid[] = [
   {
@@ -174,7 +174,7 @@ const mockUserBids: RankedAuctionUserBid[] = [
     status: "active",
     isWinning: true,
   },
-]
+];
 
 const meta: Meta<typeof RankedAuction> = {
   title: "Trading UI/RankedAuction",
@@ -182,37 +182,31 @@ const meta: Meta<typeof RankedAuction> = {
   parameters: {
     layout: "fullscreen",
   },
-}
+};
 
-export default meta
+export default meta;
 
 export const FullAuction: StoryObj<typeof RankedAuction> = {
   render: () => (
-    <div className="
-      h-screen w-full bg-neutral-50 p-8
-      dark:bg-neutral-950
-    ">
+    <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
         <RankedAuction
           auction={mockAuction}
           bids={mockBids}
           userBids={mockUserBids}
           onPlaceBid={async (price, qty) => {
-            console.log("Place bid:", price, qty)
-            return true
+            console.log("Place bid:", price, qty);
+            return true;
           }}
           onTopUpBid={async (bidId, newPrice, value) => {
-            console.log("Top up:", bidId, newPrice, value)
-            return true
+            console.log("Top up:", bidId, newPrice, value);
+            return true;
           }}
-          onClaimEdition={async bidId => {
-            console.log("Claim:", bidId)
-            return true
+          onClaimEdition={async (bidId) => {
+            console.log("Claim:", bidId);
+            return true;
           }}
-          className="
-            size-full rounded-lg border border-neutral-200 shadow-lg
-            dark:border-neutral-800
-          "
+          className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
         >
           <RankedAuctionLayout>
             <RankedAuctionDetails>
@@ -235,38 +229,30 @@ export const FullAuction: StoryObj<typeof RankedAuction> = {
       </div>
     </div>
   ),
-}
+};
 
 export const LiveAuction: StoryObj<typeof RankedAuction> = {
   render: () => {
     const liveAuction: RankedAuctionData = {
       ...mockAuction,
       endsAt: new Date(Date.now() + 3600000),
-    }
+    };
     return (
-      <div className="
-        h-screen w-full bg-neutral-50 p-8
-        dark:bg-neutral-950
-      ">
-        <div className="
-          mx-auto flex h-full max-w-7xl items-center justify-center
-        ">
+      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={liveAuction}
             bids={mockBids}
             userBids={[]}
             onPlaceBid={async (price, qty) => {
-              console.log("Place bid:", price, qty)
-              return true
+              console.log("Place bid:", price, qty);
+              return true;
             }}
             onTopUpBid={async (bidId, newPrice, value) => {
-              console.log("Top up:", bidId, newPrice, value)
-              return true
+              console.log("Top up:", bidId, newPrice, value);
+              return true;
             }}
-            className="
-            size-full rounded-lg border border-neutral-200 shadow-lg
-            dark:border-neutral-800
-          "
+            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
@@ -288,9 +274,9 @@ export const LiveAuction: StoryObj<typeof RankedAuction> = {
           </RankedAuction>
         </div>
       </div>
-    )
+    );
   },
-}
+};
 
 export const ClosedAuction: StoryObj<typeof RankedAuction> = {
   render: () => {
@@ -299,25 +285,17 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
       opensAt: new Date(Date.now() - 86400000 * 5),
       endsAt: new Date(Date.now() - 86400000),
       clearingPrice: 100000000000000000n,
-    }
+    };
     return (
-      <div className="
-        h-screen w-full bg-neutral-50 p-8
-        dark:bg-neutral-950
-      ">
-        <div className="
-          mx-auto flex h-full max-w-7xl items-center justify-center
-        ">
+      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={closedAuction}
             bids={mockBids}
             userBids={[]}
             onPlaceBid={async () => false}
             onTopUpBid={async () => false}
-            className="
-            size-full rounded-lg border border-neutral-200 shadow-lg
-            dark:border-neutral-800
-          "
+            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
@@ -339,35 +317,30 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
           </RankedAuction>
         </div>
       </div>
-    )
+    );
   },
-}
+};
 
 export const DollarAuction: StoryObj<typeof RankedAuction> = {
   render: () => {
     const dollarAuction: RankedAuctionData = {
       ...mockAuction,
       reservePrice: 10000000n,
-    }
-    const tezosBids: RankableBid[] = mockBids.map(b => ({
+    };
+    const tezosBids: RankableBid[] = mockBids.map((b) => ({
       ...b,
       price: (BigInt(b.price) / 1000000n).toString(),
-    }))
+    }));
     const formatPrice = (price: bigint) => {
-      const usd = Number(price) / 1e6
+      const usd = Number(price) / 1e6;
       return usd.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 6,
-      })
-    }
+      });
+    };
     return (
-      <div className="
-        h-screen w-full bg-neutral-50 p-8
-        dark:bg-neutral-950
-      ">
-        <div className="
-          mx-auto flex h-full max-w-7xl items-center justify-center
-        ">
+      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={dollarAuction}
             bids={tezosBids}
@@ -377,17 +350,14 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
               currencySymbol: "$",
             }}
             onPlaceBid={async (price, qty) => {
-              console.log("Place bid:", price, "cents", qty)
-              return true
+              console.log("Place bid:", price, "cents", qty);
+              return true;
             }}
             onTopUpBid={async (bidId, newPrice, value) => {
-              console.log("Top up:", bidId, newPrice, "cents", value)
-              return true
+              console.log("Top up:", bidId, newPrice, "cents", value);
+              return true;
             }}
-            className="
-              size-full rounded-lg border border-neutral-200 shadow-lg
-              dark:border-neutral-800
-            "
+            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
@@ -409,6 +379,6 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
           </RankedAuction>
         </div>
       </div>
-    )
+    );
   },
-}
+};

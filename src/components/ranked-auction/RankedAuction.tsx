@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 import type {
   RankableBid,
   RankedAuctionData,
   RankedAuctionFormatters,
   RankedAuctionUserBid,
-} from "@/types"
-import { RankedAuctionProvider } from "./RankedAuctionContext"
+} from "@/types";
+import { RankedAuctionProvider } from "./RankedAuctionContext";
 
 export interface RankedAuctionProps {
-  auction: RankedAuctionData
-  bids: RankableBid[]
-  userBids: RankedAuctionUserBid[]
-  onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>
+  auction: RankedAuctionData;
+  bids: RankableBid[];
+  userBids: RankedAuctionUserBid[];
+  onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>;
   onTopUpBid: (
     bidId: bigint,
     newPrice: bigint,
-    additionalValue: bigint
-  ) => Promise<boolean>
-  onClaimEdition?: (bidId: string) => Promise<boolean>
-  formatters?: RankedAuctionFormatters
-  children: ReactNode
-  className?: string
+    additionalValue: bigint,
+  ) => Promise<boolean>;
+  onClaimEdition?: (bidId: string) => Promise<boolean>;
+  formatters?: RankedAuctionFormatters;
+  children: ReactNode;
+  className?: string;
 }
 
 /**
@@ -68,7 +68,7 @@ export function RankedAuction({
     >
       <div className={className}>{children}</div>
     </RankedAuctionProvider>
-  )
+  );
 }
 
-export { useRankedAuctionContext } from "./RankedAuctionContext"
+export { useRankedAuctionContext } from "./RankedAuctionContext";

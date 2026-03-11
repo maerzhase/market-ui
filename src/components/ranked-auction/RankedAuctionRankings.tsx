@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { Separator, Skeleton, Text } from "@/components/primitives"
-import { RankedList } from "@/components"
-import type { GroupItemContextValue } from "@/components"
-import type { RankedAuctionBid } from "@/types"
-import { formatShortRelative } from "@/utils"
-import { cn } from "@/lib"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
+import { Separator, Skeleton, Text } from "@/components/primitives";
+import { RankedList } from "@/components";
+import type { GroupItemContextValue } from "@/components";
+import type { RankedAuctionBid } from "@/types";
+import { formatShortRelative } from "@/utils";
+import { cn } from "@/lib";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionRankingsProps {
-  className?: string
+  className?: string;
   renderBidRow?: (
     bid: RankedAuctionBid,
-    context: GroupItemContextValue<RankedAuctionBid> & { isOutbid: boolean }
-  ) => React.ReactNode
+    context: GroupItemContextValue<RankedAuctionBid> & { isOutbid: boolean },
+  ) => React.ReactNode;
 }
 
 function BidRow({
@@ -23,20 +23,17 @@ function BidRow({
   formatPrice,
   currencySymbol,
 }: {
-  bid: RankedAuctionBid
-  rank: number
-  isOutbid: boolean
-  formatPrice: (priceWei: bigint) => string
-  currencySymbol: string
+  bid: RankedAuctionBid;
+  rank: number;
+  isOutbid: boolean;
+  formatPrice: (priceWei: bigint) => string;
+  currencySymbol: string;
 }): React.ReactElement {
-  const timeShort = formatShortRelative(bid.createdAt)
+  const timeShort = formatShortRelative(bid.createdAt);
 
   return (
     <div
-      className={`
-        flex items-center justify-between gap-2 px-6 py-2
-        ${isOutbid ? `opacity-50` : ""}
-      `}
+      className={`flex items-center justify-between gap-2 px-6 py-2 ${isOutbid ? `opacity-50` : ""} `}
     >
       <div className="flex min-w-0 items-center gap-3">
         <Text color="tertiary" className="w-8 shrink-0" size="1">
@@ -68,7 +65,7 @@ function BidRow({
         </Text>
       </div>
     </div>
-  )
+  );
 }
 
 function RankingsSkeleton(): React.ReactElement {
@@ -84,30 +81,30 @@ function RankingsSkeleton(): React.ReactElement {
       </div>
       <Separator orientation="horizontal" />
     </div>
-  )
+  );
 }
 
-export { RankingsSkeleton }
+export { RankingsSkeleton };
 
 export function RankedAuctionRankings({
   className,
   renderBidRow,
 }: RankedAuctionRankingsProps): React.ReactElement {
   const { bids, maxTotalItems, formatPrice, currencySymbol } =
-    useRankedAuctionContext()
+    useRankedAuctionContext();
 
-  const allBids: RankedAuctionBid[] = bids.map(b => ({
+  const allBids: RankedAuctionBid[] = bids.map((b) => ({
     id: b.id,
     price: BigInt(b.price),
     createdAt: new Date(b.created_at),
     bidder: { id: b.id, name: "Unknown" },
-  }))
+  }));
 
   return (
     <div className={cn("min-h-0 flex-1 overflow-y-auto", className)}>
       <RankedList.Root
         items={allBids}
-        getKey={bid => bid.id}
+        getKey={(bid) => bid.id}
         boundaries={[maxTotalItems]}
         labels={["Winning Bids", "Outbid"]}
       >
@@ -119,8 +116,8 @@ export function RankedAuctionRankings({
           <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(bid: RankedAuctionBid, context) => {
-                const isOutbid = context.groupIndex === 1
-                const extendedContext = { ...context, isOutbid }
+                const isOutbid = context.groupIndex === 1;
+                const extendedContext = { ...context, isOutbid };
 
                 return (
                   <>
@@ -139,12 +136,12 @@ export function RankedAuctionRankings({
                       <Separator orientation="horizontal" />
                     )}
                   </>
-                )
+                );
               }}
             </RankedList.GroupItemValue>
           </RankedList.GroupItem>
         </RankedList.Group>
       </RankedList.Root>
     </div>
-  )
+  );
 }

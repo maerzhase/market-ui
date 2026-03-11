@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import React from "react"
-import { Countdown } from "@/components/countdown"
-import { Meter } from "@base-ui/react/meter"
+import type { Meta, StoryObj } from "@storybook/react";
+import React from "react";
+import { Countdown } from "@/components/countdown";
+import { Meter } from "@base-ui/react/meter";
 
 const meta: Meta<typeof Countdown> = {
   title: "Trading UI/Countdown",
@@ -10,7 +10,7 @@ const meta: Meta<typeof Countdown> = {
     layout: "centered",
   },
   decorators: [
-    Story => (
+    (Story) => (
       <div className="flex flex-col items-center gap-4 rounded-lg p-8">
         <Story />
       </div>
@@ -21,49 +21,43 @@ const meta: Meta<typeof Countdown> = {
       control: "boolean",
     },
   },
-}
+};
 
-export default meta
+export default meta;
 
 export const Live: StoryObj<typeof Countdown> = {
-  render: args => (
+  render: (args) => (
     <Countdown {...args} to={new Date(Date.now() + 3600000 * 2 + 45000)} />
   ),
-}
+};
 
 export const ShortTime: StoryObj<typeof Countdown> = {
-  render: () => (
-    <Countdown to={new Date(Date.now() + 60000)} />
-  ),
-}
+  render: () => <Countdown to={new Date(Date.now() + 60000)} />,
+};
 
 export const DaysLeft: StoryObj<typeof Countdown> = {
-  render: () => (
-    <Countdown to={new Date(Date.now() + 86400000 * 5)} />
-  ),
-}
+  render: () => <Countdown to={new Date(Date.now() + 86400000 * 5)} />,
+};
 
 export const ShowWhenExpired: StoryObj<typeof Countdown> = {
   render: () => (
     <Countdown to={new Date(Date.now() - 3600000)} showWhenExpired />
   ),
-}
+};
 
 export const CustomRender: StoryObj<typeof Countdown> = {
   render: () => (
     <Countdown to={new Date(Date.now() + 86400000)}>
       {({ timeString }) => (
-        <span className="font-mono text-4 text-success">
-          {timeString}
-        </span>
+        <span className="font-mono text-4 text-success">{timeString}</span>
       )}
     </Countdown>
   ),
-}
+};
 
 export const SemanticLabels: StoryObj<typeof Countdown> = {
   decorators: [
-    Story => (
+    (Story) => (
       <div className="flex flex-col gap-6 rounded-lg p-8">
         <Story />
       </div>
@@ -105,11 +99,11 @@ export const SemanticLabels: StoryObj<typeof Countdown> = {
       </div>
     </>
   ),
-}
+};
 
 export const LiveToClosed: StoryObj<typeof Countdown> = {
   render: () => {
-    const [targetDate] = React.useState(() => new Date(Date.now() + 10000))
+    const [targetDate] = React.useState(() => new Date(Date.now() + 10000));
 
     return (
       <>
@@ -119,11 +113,9 @@ export const LiveToClosed: StoryObj<typeof Countdown> = {
         <Countdown to={targetDate}>
           {({ timeString, isExpired }) => (
             <span
-              className={`
-                font-mono text-4 transition-colors
-                ${isExpired ? "text-error" : "text-success"
-                }
-              `}
+              className={`font-mono text-4 transition-colors ${
+                isExpired ? "text-error" : "text-success"
+              } `}
             >
               {isExpired
                 ? `Closed — ${timeString} ago`
@@ -132,41 +124,33 @@ export const LiveToClosed: StoryObj<typeof Countdown> = {
           )}
         </Countdown>
       </>
-    )
+    );
   },
-}
+};
 
 export const WithProgress: StoryObj<typeof Countdown> = {
   render: () => (
     <Countdown to={new Date(Date.now() + 60 * 1 * 1000)} stopOnExpired>
       {({ timeString, remainingMs, isExpired }) => {
-        const total = 60 * 1 * 1000
+        const total = 60 * 1 * 1000;
         const progress = isExpired
           ? 100
-          : ((total - (remainingMs ?? 0)) / total) * 100
+          : ((total - (remainingMs ?? 0)) / total) * 100;
 
         return (
-          <Meter.Root
-            value={progress}
-            className="w-full"
-          >
+          <Meter.Root value={progress} className="w-full">
             <div className="mb-1 flex justify-between gap-4 text-2">
               <Meter.Label className="text-text-tertiary">
                 Time remaining
               </Meter.Label>
               <span className="font-mono">{timeString}</span>
             </div>
-            <Meter.Track className="
-              h-2 overflow-hidden rounded-full bg-gray-300
-              dark:bg-gray-800
-            ">
-              <Meter.Indicator className="
-                h-full bg-success transition-all duration-1000
-              " />
+            <Meter.Track className="h-2 overflow-hidden rounded-full bg-gray-300 dark:bg-gray-800">
+              <Meter.Indicator className="h-full bg-success transition-all duration-1000" />
             </Meter.Track>
           </Meter.Root>
-        )
+        );
       }}
     </Countdown>
   ),
-}
+};

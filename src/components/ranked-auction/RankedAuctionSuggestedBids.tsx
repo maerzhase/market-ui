@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/primitives"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
+import { Button } from "@/components/primitives";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionSuggestedBidsProps {
-  className?: string
+  className?: string;
   /** Custom render function for suggestions */
   render?: (
     suggestions: Array<{ wei: bigint; display: string }>,
     props: {
-      selectedWei: bigint
-      onSelect: (wei: bigint) => void
-      disabled: boolean
-    }
-  ) => React.ReactNode
+      selectedWei: bigint;
+      onSelect: (wei: bigint) => void;
+      disabled: boolean;
+    },
+  ) => React.ReactNode;
 }
 
 export function RankedAuctionSuggestedBids({
@@ -27,20 +27,20 @@ export function RankedAuctionSuggestedBids({
     setBidWei,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext()
+  } = useRankedAuctionContext();
 
-  const suggestionsWei = getSuggestedBids()
-  const suggestions = suggestionsWei.map(value => ({
+  const suggestionsWei = getSuggestedBids();
+  const suggestions = suggestionsWei.map((value) => ({
     wei: value,
     display: `${formatPrice(value)} ${currencySymbol}`,
-  }))
+  }));
 
-  const selectedWei = bidWei
-  const onSelect = (wei: bigint) => setBidWei(wei)
-  const disabled = isAuctionEnded
+  const selectedWei = bidWei;
+  const onSelect = (wei: bigint) => setBidWei(wei);
+  const disabled = isAuctionEnded;
 
   if (suggestions.length === 0 || isAuctionEnded) {
-    return null
+    return null;
   }
 
   if (render) {
@@ -48,14 +48,14 @@ export function RankedAuctionSuggestedBids({
       <div className={className}>
         {render(suggestions, { selectedWei, onSelect, disabled })}
       </div>
-    )
+    );
   }
 
   return (
     <div className={className}>
       <div className="flex flex-row justify-between gap-2">
-        {suggestions.map(suggestion => {
-          const isActive = suggestion.wei === selectedWei
+        {suggestions.map((suggestion) => {
+          const isActive = suggestion.wei === selectedWei;
           return (
             <Button
               key={suggestion.display}
@@ -69,9 +69,9 @@ export function RankedAuctionSuggestedBids({
             >
               {suggestion.display}
             </Button>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

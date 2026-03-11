@@ -1,29 +1,29 @@
-import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
-import type * as React from "react"
-import { cn } from "@/lib/cn"
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
+import type * as React from "react";
+import { cn } from "@/lib/cn";
 
 type SeparatorVariantsProps = {
-  color?: "primary"
-  orientation?: "horizontal" | "vertical"
-}
+  color?: "primary";
+  orientation?: "horizontal" | "vertical";
+};
 
 const separatorVariants = (props: SeparatorVariantsProps) => {
   const colorClasses = {
     primary: `
       bg-border-subtle
     `,
-  }
+  };
   const orientationClasses = {
     horizontal: "h-px",
     vertical: "w-px",
-  }
-  return `${colorClasses[props.color ?? "primary"]} ${orientationClasses[props.orientation ?? "horizontal"]}`
-}
+  };
+  return `${colorClasses[props.color ?? "primary"]} ${orientationClasses[props.orientation ?? "horizontal"]}`;
+};
 
-type SeparatorOwnProps = Omit<SeparatorVariantsProps, "orientation">
+type SeparatorOwnProps = Omit<SeparatorVariantsProps, "orientation">;
 
 interface SeparatorProps
-  extends React.ComponentProps<typeof SeparatorPrimitive>, SeparatorOwnProps { }
+  extends React.ComponentProps<typeof SeparatorPrimitive>, SeparatorOwnProps {}
 
 function Separator({
   className,
@@ -39,7 +39,7 @@ function Separator({
       orientation={orientation}
       {...props}
     />
-  )
+  );
 }
 
-export { Separator }
+export { Separator };

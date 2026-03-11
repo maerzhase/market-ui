@@ -1,4 +1,4 @@
-import { create } from "storybook/theming"
+import { create } from "storybook/theming";
 
 export const light = create({
   base: "light",
@@ -8,7 +8,7 @@ export const light = create({
   appBorderColor: "#b5b5b5",
   barBg: "transparent",
   inputBg: "transparent",
-})
+});
 
 export const dark = create({
   base: "dark",
@@ -18,4 +18,4 @@ export const dark = create({
   appBorderColor: "#2b2b2b",
   barBg: "transparent",
   inputBg: "transparent",
-})
+});

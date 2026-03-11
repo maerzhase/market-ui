@@ -1,4 +1,4 @@
-import type { RankedAuctionTickConfig } from "@/types"
+import type { RankedAuctionTickConfig } from "@/types";
 
 /**
  * Returns the tick size (in wei) to use for +/- steps based on the current bid.
@@ -6,11 +6,11 @@ import type { RankedAuctionTickConfig } from "@/types"
  */
 export function getActiveTickSizeWei(
   bidPriceWei: bigint,
-  tickConfig: RankedAuctionTickConfig
+  tickConfig: RankedAuctionTickConfig,
 ): bigint {
   return bidPriceWei > tickConfig.threshold
     ? tickConfig.largeTickSize
-    : tickConfig.smallTickSize
+    : tickConfig.smallTickSize;
 }
 
 /**
@@ -22,17 +22,17 @@ export function isValidTickPrice(
   priceWei: bigint,
   reservePriceWei: bigint,
   tickConfig: RankedAuctionTickConfig | undefined,
-  referencePriceWei: bigint
+  referencePriceWei: bigint,
 ): boolean {
-  if (!tickConfig) return true
-  if (priceWei < reservePriceWei) return false
+  if (!tickConfig) return true;
+  if (priceWei < reservePriceWei) return false;
 
-  const { threshold, smallTickSize, largeTickSize } = tickConfig
-  if (smallTickSize === 0n || largeTickSize === 0n) return false
+  const { threshold, smallTickSize, largeTickSize } = tickConfig;
+  if (smallTickSize === 0n || largeTickSize === 0n) return false;
 
-  const activeTickSize = getActiveTickSizeWei(referencePriceWei, tickConfig)
-  const base = activeTickSize === smallTickSize ? reservePriceWei : threshold
-  return (priceWei - base) % activeTickSize === 0n
+  const activeTickSize = getActiveTickSizeWei(referencePriceWei, tickConfig);
+  const base = activeTickSize === smallTickSize ? reservePriceWei : threshold;
+  return (priceWei - base) % activeTickSize === 0n;
 }
 
 /**
@@ -44,24 +44,24 @@ export function roundDownToValidBidWei(
   priceWei: bigint,
   minBidWei: bigint,
   reservePriceWei: bigint,
-  tickConfig: RankedAuctionTickConfig | undefined
+  tickConfig: RankedAuctionTickConfig | undefined,
 ): bigint {
-  if (priceWei < minBidWei) return minBidWei
-  if (!tickConfig) return minBidWei
+  if (priceWei < minBidWei) return minBidWei;
+  if (!tickConfig) return minBidWei;
 
-  const { threshold, smallTickSize, largeTickSize } = tickConfig
-  if (smallTickSize === 0n || largeTickSize === 0n) return minBidWei
+  const { threshold, smallTickSize, largeTickSize } = tickConfig;
+  if (smallTickSize === 0n || largeTickSize === 0n) return minBidWei;
 
-  const activeTickSize = getActiveTickSizeWei(priceWei, tickConfig)
+  const activeTickSize = getActiveTickSizeWei(priceWei, tickConfig);
   const base =
     activeTickSize === smallTickSize
       ? reservePriceWei
-      : threshold + smallTickSize
+      : threshold + smallTickSize;
 
-  if (priceWei < base) return minBidWei
+  if (priceWei < base) return minBidWei;
 
-  const n = (priceWei - base) / activeTickSize
-  const candidate = base + n * activeTickSize
+  const n = (priceWei - base) / activeTickSize;
+  const candidate = base + n * activeTickSize;
 
-  return candidate >= minBidWei ? candidate : minBidWei
+  return candidate >= minBidWei ? candidate : minBidWei;
 }

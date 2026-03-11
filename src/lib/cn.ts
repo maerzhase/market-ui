@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from "clsx"
-import { extendTailwindMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { extendTailwindMerge } from "tailwind-merge";
 
 const FX_COLORS = [
   "grey-50",
@@ -27,7 +27,7 @@ const FX_COLORS = [
   "success",
   "alert",
   "error",
-]
+];
 
 const customTwMerge = extendTailwindMerge({
   extend: {
@@ -59,8 +59,8 @@ const customTwMerge = extendTailwindMerge({
       "bg-color": [{ bg: FX_COLORS }],
     },
   },
-})
+});
 
 export function cn(...inputs: ClassValue[]) {
-  return customTwMerge(clsx(inputs))
+  return customTwMerge(clsx(inputs));
 }

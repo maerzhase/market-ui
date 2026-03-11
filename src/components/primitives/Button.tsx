@@ -1,126 +1,127 @@
-import { Button as ButtonPrimitive } from "@base-ui/react/button"
-import { cva, type VariantProps } from "class-variance-authority"
-import type * as React from "react"
-import { cn } from "@/lib/cn"
+import { Button as ButtonPrimitive } from "@base-ui/react/button";
+import { cva, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
+import { cn } from "@/lib/cn";
 
-type ButtonColor = "primary" | "secondary" | "tertiary" | "ghost" | "destructive" | "link"
-type ButtonSize = "default" | "sm" | "lg" | "xl" | "icon" | "icon-sm" | "icon-lg"
+type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "ghost"
+  | "destructive"
+  | "link";
+type ButtonSize =
+  | "default"
+  | "sm"
+  | "lg"
+  | "xl"
+  | "icon"
+  | "icon-sm"
+  | "icon-lg";
 
 interface ButtonVariantProps {
-  color?: ButtonColor
-  size?: ButtonSize
-  className?: string
+  color?: ButtonColor;
+  size?: ButtonSize;
+  className?: string;
 }
 
 const buttonVariants = cva(
   [
     // Base layout & typography
-    'inline-flex cursor-pointer items-center justify-center gap-1.5',
-    'whitespace-nowrap font-sans text-sm font-medium leading-none',
-    'shrink-0 select-none',
+    "inline-flex cursor-pointer items-center justify-center gap-1.5",
+    "font-sans text-sm leading-none font-medium whitespace-nowrap",
+    "shrink-0 select-none",
     // Transitions
-    'transition-all duration-150 ease-out',
+    "transition-all duration-150 ease-out",
     // SVG children
-    "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     // Focus ring
-    'outline-none',
-    'focus-visible:ring-2 focus-visible:ring-offset-2',
-    'focus-visible:ring-grey-1000 focus-visible:ring-offset-background-primary',
-    'dark:focus-visible:ring-grey-50 dark:focus-visible:ring-offset-background-primary',
+    "outline-none",
+    "focus-visible:ring-2 focus-visible:ring-offset-2",
+    "focus-visible:ring-grey-1000 focus-visible:ring-offset-background-primary",
+    "dark:focus-visible:ring-grey-50 dark:focus-visible:ring-offset-background-primary",
     // Disabled
-    'disabled:pointer-events-none',
-    'disabled:border-border-subtle disabled:bg-background-ui disabled:text-text-disabled',
+    "disabled:pointer-events-none",
+    "disabled:border-border-subtle disabled:bg-background-ui disabled:text-text-disabled",
     // aria-invalid
-    'aria-invalid:ring-2 aria-invalid:ring-error-solid/30 aria-invalid:border-error-solid',
-  ].join(' '),
+    "aria-invalid:border-error-solid aria-invalid:ring-2 aria-invalid:ring-error-solid/30",
+  ].join(" "),
   {
     variants: {
       color: {
         primary: [
-          'border border-solid',
-          'border-solid bg-solid text-background-primary',
-          'hover:border-solid-hover hover:bg-solid-hover',
-          'active:opacity-90',
-          'shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]',
-        ].join(' '),
+          "border border-solid",
+          "border-solid bg-solid text-background-primary",
+          "hover:border-solid-hover hover:bg-solid-hover",
+          "active:opacity-90",
+          "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
+        ].join(" "),
 
         secondary: [
-          'border border-solid',
-          'border-border-ui bg-transparent text-text-primary',
-          'hover:border-border-strong hover:bg-background-ui',
-          'active:bg-background-ui-active active:border-border-strong',
-          'shadow-[0_1px_2px_0_rgb(0,0,0,0.04)]',
-        ].join(' '),
+          "border border-solid",
+          "border-border-ui bg-transparent text-text-primary",
+          "hover:border-border-strong hover:bg-background-ui",
+          "active:border-border-strong active:bg-background-ui-active",
+          "shadow-[0_1px_2px_0_rgb(0,0,0,0.04)]",
+        ].join(" "),
 
         tertiary: [
-          'border border-solid',
-          'border-border-subtle bg-background-ui text-text-secondary',
-          'hover:border-border-ui hover:bg-background-ui-hover hover:text-text-primary',
-          'active:bg-background-ui-active active:text-text-primary',
-        ].join(' '),
+          "border border-solid",
+          "border-border-subtle bg-background-ui text-text-secondary",
+          "hover:border-border-ui hover:bg-background-ui-hover hover:text-text-primary",
+          "active:bg-background-ui-active active:text-text-primary",
+        ].join(" "),
 
         ghost: [
-          'border border-transparent bg-transparent',
-          'text-text-secondary',
-          'hover:bg-background-ui hover:text-text-primary',
-          'active:bg-background-ui-active active:text-text-primary',
-          'disabled:border-transparent disabled:bg-transparent',
-        ].join(' '),
+          "border border-transparent bg-transparent",
+          "text-text-secondary",
+          "hover:bg-background-ui hover:text-text-primary",
+          "active:bg-background-ui-active active:text-text-primary",
+          "disabled:border-transparent disabled:bg-transparent",
+        ].join(" "),
 
         destructive: [
-          'border border-solid',
-          'border-error-solid bg-error-solid text-white',
-          'hover:opacity-90',
-          'active:opacity-80',
-          'shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]',
-        ].join(' '),
+          "border border-solid",
+          "border-error-solid bg-error-solid text-white",
+          "hover:opacity-90",
+          "active:opacity-80",
+          "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
+        ].join(" "),
 
         link: [
-          'border-transparent bg-transparent',
-          'text-text-primary underline-offset-4',
-          'hover:underline',
-          'h-auto px-0 py-0',
-        ].join(' '),
+          "border-transparent bg-transparent",
+          "text-text-primary underline-offset-4",
+          "hover:underline",
+          "h-auto px-0 py-0",
+        ].join(" "),
       },
 
       size: {
-        default: `
-          h-9 rounded-md px-4 py-2
-          has-[>svg]:px-3
-        `,
-        sm: `
-          h-8 gap-1 rounded-md px-3 text-xs
-          has-[>svg]:px-2.5
-        `,
-        lg: `
-          h-10 rounded-lg px-5 text-[15px]
-          has-[>svg]:px-4
-        `,
-        xl: `
-          h-12 rounded-lg px-6 text-[15px] font-semibold
-          has-[>svg]:px-5
-        `,
-        icon: 'size-9 rounded-md',
-        'icon-sm': 'size-8 rounded-md',
-        'icon-lg': 'size-10 rounded-lg',
+        default: `h-9 rounded-md px-4 py-2 has-[>svg]:px-3`,
+        sm: `h-8 gap-1 rounded-md px-3 text-xs has-[>svg]:px-2.5`,
+        lg: `h-10 rounded-lg px-5 text-[15px] has-[>svg]:px-4`,
+        xl: `h-12 rounded-lg px-6 text-[15px] font-semibold has-[>svg]:px-5`,
+        icon: "size-9 rounded-md",
+        "icon-sm": "size-8 rounded-md",
+        "icon-lg": "size-10 rounded-lg",
       },
     },
     defaultVariants: {
-      color: 'primary',
-      size: 'default',
+      color: "primary",
+      size: "default",
     },
   },
-) as (props?: ButtonVariantProps) => string
+) as (props?: ButtonVariantProps) => string;
 
-type ButtonVariants = typeof buttonVariants
+type ButtonVariants = typeof buttonVariants;
 
 export type ButtonProps = React.ComponentProps<typeof ButtonPrimitive> &
   VariantProps<ButtonVariants> & {
-    loading?: boolean
-    active?: boolean
-  }
+    loading?: boolean;
+    active?: boolean;
+  };
 
-export type ButtonElement = React.ComponentRef<"button">
+export type ButtonElement = React.ComponentRef<"button">;
 
 export function Button({
   className,
@@ -132,7 +133,7 @@ export function Button({
   active,
   ...props
 }: ButtonProps): React.ReactElement {
-  const _disabled = disabled || loading
+  const _disabled = disabled || loading;
 
   const _children = loading ? (
     <>
@@ -160,7 +161,7 @@ export function Button({
     </>
   ) : (
     children
-  )
+  );
 
   return (
     <ButtonPrimitive
@@ -172,13 +173,13 @@ export function Button({
         {
           relative: loading,
         },
-        className
+        className,
       )}
       {...props}
     >
       {_children}
     </ButtonPrimitive>
-  )
+  );
 }
 
-export { buttonVariants }
+export { buttonVariants };

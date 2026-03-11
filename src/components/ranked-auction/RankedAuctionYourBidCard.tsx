@@ -1,31 +1,31 @@
-"use client"
+"use client";
 
-import { Button, Text } from "@/components/primitives"
-import type { RankedAuctionUserBid } from "@/types"
-import { formatDateTime } from "@/utils"
+import { Button, Text } from "@/components/primitives";
+import type { RankedAuctionUserBid } from "@/types";
+import { formatDateTime } from "@/utils";
 
 export interface RankedAuctionYourBidCardProps {
-  bid: RankedAuctionUserBid
-  getRankForBid: (bidId: string) => number | null
-  lockedBidId: bigint | null
-  onLockForTopUp: (bidId: bigint, priceWei: bigint) => void
-  onCancelTopUp: () => void
-  isAuctionEnded: boolean
-  onClaim?: (bidId: string) => Promise<boolean>
+  bid: RankedAuctionUserBid;
+  getRankForBid: (bidId: string) => number | null;
+  lockedBidId: bigint | null;
+  onLockForTopUp: (bidId: bigint, priceWei: bigint) => void;
+  onCancelTopUp: () => void;
+  isAuctionEnded: boolean;
+  onClaim?: (bidId: string) => Promise<boolean>;
   /** Format price for display */
-  formatPrice?: (priceWei: bigint) => string
+  formatPrice?: (priceWei: bigint) => string;
   /** Currency symbol */
-  currencySymbol?: string
+  currencySymbol?: string;
 }
 
 function getBidStatusLabel(
   status: RankedAuctionUserBid["status"],
-  isWinning: boolean
+  isWinning: boolean,
 ): string {
-  if (status === "claimed") return "Won & Claimed"
-  if (isWinning) return "Winning"
-  if (status === "refunded") return "Refunded"
-  return "Outbid"
+  if (status === "claimed") return "Won & Claimed";
+  if (isWinning) return "Winning";
+  if (status === "refunded") return "Refunded";
+  return "Outbid";
 }
 
 export function RankedAuctionYourBidCard({
@@ -36,32 +36,23 @@ export function RankedAuctionYourBidCard({
   onCancelTopUp,
   isAuctionEnded,
   onClaim,
-  formatPrice = w =>
+  formatPrice = (w) =>
     (Number(w) / 1e18).toLocaleString("en-US", {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3,
     }),
   currencySymbol = "ETH",
 }: RankedAuctionYourBidCardProps): React.ReactElement {
-  const rank = getRankForBid(bid.id)
-  const isLocked = lockedBidId !== null && bid.globalBidId === lockedBidId
+  const rank = getRankForBid(bid.id);
+  const isLocked = lockedBidId !== null && bid.globalBidId === lockedBidId;
 
   return (
     <div
-      className={`
-        rounded-xs border bg-grey-100 p-4
-        dark:bg-grey-1000
-        ${isLocked
-          ? `
-            border-success
-            dark:border-success
-          `
-          : `
-            border-transparent
-            dark:border-transparent
-          `
-        }
-      `}
+      className={`rounded-xs border bg-grey-100 p-4 dark:bg-grey-1000 ${
+        isLocked
+          ? `border-success dark:border-success`
+          : `border-transparent dark:border-transparent`
+      } `}
     >
       <div className="flex items-start justify-between gap-2">
         <Text size="1" color="tertiary">
@@ -122,5 +113,5 @@ export function RankedAuctionYourBidCard({
         </div>
       ) : null}
     </div>
-  )
+  );
 }

@@ -5,9 +5,9 @@
  * Prices below the threshold use smallTickSize; prices above use largeTickSize.
  */
 export interface RankedAuctionTickConfig {
-  threshold: bigint
-  smallTickSize: bigint
-  largeTickSize: bigint
+  threshold: bigint;
+  smallTickSize: bigint;
+  largeTickSize: bigint;
 }
 
 /**
@@ -16,19 +16,19 @@ export interface RankedAuctionTickConfig {
  */
 export interface RankedAuctionData {
   /** Unique identifier for the auction (e.g. contract address) */
-  id: string
+  id: string;
   /** Minimum accepted bid price in wei */
-  reservePrice: bigint
+  reservePrice: bigint;
   /** Final clearing price after settlement, if finalized */
-  clearingPrice?: bigint
+  clearingPrice?: bigint;
   /** When the auction opens for bidding (null = already open) */
-  opensAt: Date | null
+  opensAt: Date | null;
   /** When the auction closes (null = no end time set) */
-  endsAt: Date | null
+  endsAt: Date | null;
   /** Maximum number of winning bidders / editions */
-  maxTotalItems: number
+  maxTotalItems: number;
   /** Tick configuration for bid price stepping */
-  tickConfig?: RankedAuctionTickConfig
+  tickConfig?: RankedAuctionTickConfig;
 }
 
 // ─── Bid Types ──────────────────────────────────────────────────────────────
@@ -38,11 +38,11 @@ export interface RankedAuctionData {
  */
 export interface RankedAuctionBidder {
   /** Unique user identifier (e.g. wallet address) */
-  id: string
+  id: string;
   /** Display name */
-  name?: string
+  name?: string;
   /** Avatar image URL */
-  avatarUrl?: string
+  avatarUrl?: string;
 }
 
 /**
@@ -51,19 +51,19 @@ export interface RankedAuctionBidder {
  */
 export interface RankedAuctionBid {
   /** Unique bid identifier */
-  id: string
+  id: string;
   /** Bid price in wei */
-  price: bigint
+  price: bigint;
   /** When the bid was placed */
-  createdAt: Date
+  createdAt: Date;
   /** The bidder */
-  bidder: RankedAuctionBidder
+  bidder: RankedAuctionBidder;
   /** Link to the bid transaction on a block explorer */
-  explorerUrl?: string
+  explorerUrl?: string;
 }
 
 /** Bid status for user's own bids */
-export type RankedAuctionBidStatus = "active" | "refunded" | "claimed"
+export type RankedAuctionBidStatus = "active" | "refunded" | "claimed";
 
 /**
  * Extended bid data for the current user's bids.
@@ -71,15 +71,15 @@ export type RankedAuctionBidStatus = "active" | "refunded" | "claimed"
  */
 export interface RankedAuctionUserBid extends RankedAuctionBid {
   /** On-chain global bid ID (used for top-up) */
-  globalBidId: bigint
+  globalBidId: bigint;
   /** Current bid status */
-  status: RankedAuctionBidStatus
+  status: RankedAuctionBidStatus;
   /** Whether this bid is currently in the winning range */
-  isWinning: boolean
+  isWinning: boolean;
   /** When the edition was claimed (for winning bids) */
-  claimedAt?: Date
+  claimedAt?: Date;
   /** Refund transaction explorer URL */
-  refundExplorerUrl?: string
+  refundExplorerUrl?: string;
 }
 
 // ─── Operation Status ───────────────────────────────────────────────────────
@@ -91,12 +91,12 @@ export type OperationStatus =
   | "confirming"
   | "indexing"
   | "success"
-  | "error"
+  | "error";
 
 /** Tracks the state of an in-flight operation */
 export interface OperationState {
-  status: OperationStatus
-  error?: string
+  status: OperationStatus;
+  error?: string;
 }
 
 // ─── Callbacks ──────────────────────────────────────────────────────────────
@@ -107,15 +107,15 @@ export interface OperationState {
  */
 export interface RankedAuctionCallbacks {
   /** Place a new bid. Called with price (wei) and quantity. */
-  onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>
+  onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>;
   /** Top up an existing bid to a new price. */
   onTopUpBid: (
     bidId: bigint,
     newPrice: bigint,
-    additionalValue: bigint
-  ) => Promise<boolean>
+    additionalValue: bigint,
+  ) => Promise<boolean>;
   /** Claim an edition for a winning bid. Optional. */
-  onClaimEdition?: (bidId: string) => Promise<boolean>
+  onClaimEdition?: (bidId: string) => Promise<boolean>;
 }
 
 // ─── Formatters ─────────────────────────────────────────────────────────────
@@ -126,11 +126,11 @@ export interface RankedAuctionCallbacks {
  */
 export interface RankedAuctionFormatters {
   /** Format a price (bigint wei) for display. Default: wei-to-ETH conversion */
-  formatPrice?: (priceWei: bigint) => string
+  formatPrice?: (priceWei: bigint) => string;
   /** Format a date for display. Default: relative time (e.g. "5m ago") */
-  formatTime?: (date: Date) => string
+  formatTime?: (date: Date) => string;
   /** Currency symbol to display alongside prices. Default: "ETH" */
-  currencySymbol?: string
+  currencySymbol?: string;
 }
 
 // ─── Internal Rankable Bid ──────────────────────────────────────────────────
@@ -140,7 +140,7 @@ export interface RankedAuctionFormatters {
  * Consumers don't need to use this directly -- it's derived from RankedAuctionBid.
  */
 export interface RankableBid {
-  id: string
-  price: string
-  created_at: string
+  id: string;
+  price: string;
+  created_at: string;
 }

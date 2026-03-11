@@ -1,20 +1,22 @@
-"use client"
+"use client";
 
-import { Text } from "@/components/primitives"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
-import { RankedAuctionStatusTag } from "./RankedAuctionStatusTag"
+import { Text } from "@/components/primitives";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { RankedAuctionStatusTag } from "./RankedAuctionStatusTag";
 
 export interface RankedAuctionInfoProps {
-  className?: string
+  className?: string;
 }
 
-export function RankedAuctionInfo({ className }: RankedAuctionInfoProps): React.ReactElement {
-  const { auction, isAuctionEnded, maxTotalItems } = useRankedAuctionContext()
+export function RankedAuctionInfo({
+  className,
+}: RankedAuctionInfoProps): React.ReactElement {
+  const { auction, isAuctionEnded, maxTotalItems } = useRankedAuctionContext();
 
   const editionsLabel =
     maxTotalItems === 1
       ? "1 curated edition"
-      : `${maxTotalItems} curated editions`
+      : `${maxTotalItems} curated editions`;
 
   return (
     <div className={className}>
@@ -32,5 +34,5 @@ export function RankedAuctionInfo({ className }: RankedAuctionInfoProps): React.
         </Text>
       ) : null}
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Text } from "@/components/primitives"
-import { useRankedAuctionContext } from "./RankedAuctionContext"
-import { RankedAuctionYourBidCard } from "./RankedAuctionYourBidCard"
+import { Text } from "@/components/primitives";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { RankedAuctionYourBidCard } from "./RankedAuctionYourBidCard";
 
 export interface RankedAuctionYourBidsProps {
-  className?: string
+  className?: string;
 }
 
 export function RankedAuctionYourBids({
@@ -20,15 +20,15 @@ export function RankedAuctionYourBids({
     handleClaimEdition,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext()
+  } = useRankedAuctionContext();
 
-  if (userBids.length === 0) return null
+  if (userBids.length === 0) return null;
 
   const onLockForTopUp = (bidId: bigint, priceWei: bigint) => {
-    setLockedBid({ bidId, priceWei })
-  }
+    setLockedBid({ bidId, priceWei });
+  };
 
-  const onCancelTopUp = () => setLockedBid(null)
+  const onCancelTopUp = () => setLockedBid(null);
 
   return (
     <div className={className}>
@@ -52,5 +52,5 @@ export function RankedAuctionYourBids({
         ))}
       </div>
     </div>
-  )
+  );
 }
