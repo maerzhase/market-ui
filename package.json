@@ -6,12 +6,11 @@
     "@tsconfig/vite-react": "7.0.2",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "motion": "12.35.2",
     "tailwind-merge": "3.3.1"
   },
   "devDependencies": {
-    "eslint": "9.39.1",
-    "eslint-plugin-better-tailwindcss": "4.1.1",
-    "typescript-eslint": "8.46.4",
+    "@biomejs/biome": "2.2.0",
     "@storybook/addon-a11y": "10.1.2",
     "@storybook/addon-docs": "10.1.2",
     "@storybook/addon-themes": "10.1.2",
@@ -21,10 +20,13 @@
     "@types/node": "22.14.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.3",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "react-docgen-typescript": "2.4.0",
     "storybook": "10.1.2",
     "tsdown": "0.20.3",
     "typescript": "5.9.2",
+    "typescript-eslint": "8.46.4",
     "vite-tsconfig-paths": "5.1.4"
   },
   "exports": {
@@ -50,7 +52,10 @@
     "build-storybook": "storybook build",
     "check-types": "tsc --noEmit",
     "dev": "tsdown --watch",
-    "storybook": "storybook dev -p 6007"
+    "storybook": "storybook dev -p 6007",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "format:tw": "prettier --write \"**/*.{ts,tsx}\""
   },
   "sideEffects": false,
   "type": "module"
