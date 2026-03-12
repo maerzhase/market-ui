@@ -7,19 +7,12 @@ type TagVariantsProps = {
 };
 
 const tagVariants = (props: TagVariantsProps) => {
-  const baseClasses = `
-    inline-flex rounded-xs border-1 border-solid border-grey-200
-    bg-grey-200 px-1 leading-none
-    dark:border-fx-800 dark:bg-grey-800
-  `;
+  const baseClasses =
+    "inline-flex rounded-xs border border-solid border-border bg-muted px-1 leading-none";
   const typeClasses = {
     informative: "",
-    interactive: `
-      underline
-      hover:bg-grey-100
-      focus-visible:ring focus-visible:outline-none
-      dark:hover:bg-grey-900
-    `,
+    interactive:
+      "underline hover:bg-accent-hover focus-visible:ring focus-visible:outline-none",
   };
   return `${baseClasses} ${typeClasses[props.type ?? "informative"]}`;
 };

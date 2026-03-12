@@ -39,9 +39,8 @@ export function RankedAuctionDetails({
     <div
       className={cn(
         "flex h-full min-h-0 flex-col overflow-hidden",
-        "border-neutral-200",
+        "border-border",
         "lg:border-r",
-        "dark:border-neutral-800",
         className,
       )}
     >
@@ -60,13 +59,7 @@ export function RankedAuctionDetailsHeader({
   className,
 }: RankedAuctionDetailsHeaderProps): React.ReactElement {
   return (
-    <div
-      className={cn(
-        "shrink-0 border-b border-neutral-200 p-6",
-        "dark:border-neutral-800",
-        className,
-      )}
-    >
+    <div className={cn("shrink-0 border-b border-border p-6", className)}>
       {children}
     </div>
   );
@@ -98,13 +91,7 @@ export function RankedAuctionDetailsFooter({
   className,
 }: RankedAuctionDetailsFooterProps): React.ReactElement {
   return (
-    <div
-      className={cn(
-        "shrink-0 border-t border-neutral-200 p-6",
-        "dark:border-neutral-800",
-        className,
-      )}
-    >
+    <div className={cn("shrink-0 border-t border-border p-6", className)}>
       {children}
     </div>
   );

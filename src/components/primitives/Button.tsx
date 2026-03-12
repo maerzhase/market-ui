@@ -38,69 +38,68 @@ const buttonVariants = cva(
     // Focus ring
     "outline-none",
     "focus-visible:ring-2 focus-visible:ring-offset-2",
-    "focus-visible:ring-grey-1000 focus-visible:ring-offset-background-primary",
-    "dark:focus-visible:ring-grey-50 dark:focus-visible:ring-offset-background-primary",
-    // Disabled
+    "focus-visible:ring-ring focus-visible:ring-offset-background",
+    // Disabled - muted colors with proper contrast
     "disabled:pointer-events-none",
-    "disabled:border-border-subtle disabled:bg-background-ui disabled:text-text-disabled",
+    "disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
     // aria-invalid
-    "aria-invalid:border-error-solid aria-invalid:ring-2 aria-invalid:ring-error-solid/30",
+    "aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/30",
   ].join(" "),
   {
     variants: {
       color: {
         primary: [
           "border border-solid",
-          "border-solid bg-solid text-background-primary",
-          "hover:border-solid-hover hover:bg-solid-hover",
+          "border-primary bg-primary text-primary-foreground",
+          "hover:border-primary-hover hover:bg-primary-hover",
           "active:opacity-90",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
         ].join(" "),
 
         secondary: [
           "border border-solid",
-          "border-border-ui bg-transparent text-text-primary",
-          "hover:border-border-strong hover:bg-background-ui",
-          "active:border-border-strong active:bg-background-ui-active",
+          "border-border bg-transparent text-foreground",
+          "hover:border-input hover:bg-accent",
+          "active:border-input active:bg-accent-active",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.04)]",
         ].join(" "),
 
         tertiary: [
           "border border-solid",
-          "border-border-subtle bg-background-ui text-text-secondary",
-          "hover:border-border-ui hover:bg-background-ui-hover hover:text-text-primary",
-          "active:bg-background-ui-active active:text-text-primary",
+          "border-border bg-muted text-muted-foreground",
+          "hover:border-input hover:bg-accent-hover hover:text-foreground",
+          "active:bg-accent-active active:text-foreground",
         ].join(" "),
 
         ghost: [
           "border border-transparent bg-transparent",
-          "text-text-secondary",
-          "hover:bg-background-ui hover:text-text-primary",
-          "active:bg-background-ui-active active:text-text-primary",
+          "text-muted-foreground",
+          "hover:bg-accent hover:text-foreground",
+          "active:bg-accent-active active:text-foreground",
           "disabled:border-transparent disabled:bg-transparent",
         ].join(" "),
 
         destructive: [
           "border border-solid",
-          "border-error-solid bg-error-solid text-white",
-          "hover:opacity-90",
-          "active:opacity-80",
+          "border-destructive bg-destructive text-destructive-foreground",
+          "hover:border-destructive-hover hover:bg-destructive-hover",
+          "active:opacity-90",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
         ].join(" "),
 
         link: [
           "border-transparent bg-transparent",
-          "text-text-primary underline-offset-4",
+          "text-foreground underline-offset-4",
           "hover:underline",
           "h-auto px-0 py-0",
         ].join(" "),
       },
 
       size: {
-        default: `h-9 rounded-md px-4 py-2 has-[>svg]:px-3`,
-        sm: `h-8 gap-1 rounded-md px-3 text-xs has-[>svg]:px-2.5`,
-        lg: `h-10 rounded-lg px-5 text-[15px] has-[>svg]:px-4`,
-        xl: `h-12 rounded-lg px-6 text-[15px] font-semibold has-[>svg]:px-5`,
+        default: "h-9 rounded-md px-4 py-2 has-[>svg]:px-3",
+        sm: "h-8 gap-1 rounded-md px-3 text-xs has-[>svg]:px-2.5",
+        lg: "h-10 rounded-lg px-5 text-[15px] has-[>svg]:px-4",
+        xl: "h-12 rounded-lg px-6 text-[15px] font-semibold has-[>svg]:px-5",
         icon: "size-9 rounded-md",
         "icon-sm": "size-8 rounded-md",
         "icon-lg": "size-10 rounded-lg",

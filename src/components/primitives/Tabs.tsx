@@ -32,20 +32,17 @@ function Tabs({
   );
 }
 
-const tabsListVariants = cva(
-  `relative flex border-b border-b-grey-300 pb-4 dark:border-b-grey-800`,
-  {
-    variants: {
-      layout: {
-        default: "items-center gap-5",
-        centered: "justify-between px-1",
-      },
-    },
-    defaultVariants: {
-      layout: "default",
+const tabsListVariants = cva("relative flex border-b border-b-border pb-4", {
+  variants: {
+    layout: {
+      default: "items-center gap-5",
+      centered: "justify-between px-1",
     },
   },
-);
+  defaultVariants: {
+    layout: "default",
+  },
+});
 
 function TabsList({
   children,
@@ -73,7 +70,7 @@ function TabsIndicator({
   return (
     <TabsPrimitive.Indicator
       className={cn(
-        `absolute bottom-0 left-0 z-1 h-[3px] w-(--active-tab-width) translate-x-(--active-tab-left) bg-black transition-transform duration-200 ease-in-out dark:bg-white`,
+        "absolute bottom-0 left-0 z-1 h-[3px] w-(--active-tab-width) translate-x-(--active-tab-left) bg-foreground transition-transform duration-200 ease-in-out",
         {
           "w-[calc(var(--active-tab-width)+4px)]":
             context.layout === "centered",
@@ -88,12 +85,12 @@ function TabsIndicator({
 }
 
 const tabVariants = cva(
-  `relative rounded-xs font-sans text-2 leading-none whitespace-nowrap text-text-tertiary after:pointer-events-auto after:absolute after:z-0 after:rounded-xs after:bg-transparent after:content-[''] hover:text-text-primary focus-visible:ring focus-visible:outline-none data-active:text-text-primary`,
+  "relative rounded-xs font-sans text-2 leading-none whitespace-nowrap text-muted-foreground after:pointer-events-auto after:absolute after:z-0 after:rounded-xs after:bg-transparent after:content-[''] hover:text-foreground focus-visible:ring focus-visible:outline-none data-active:text-foreground",
   {
     variants: {
       layout: {
         default: "after:-inset-x-2.5 after:-inset-y-1.5",
-        centered: `w-full after:inset-x-0 after:-inset-y-1.5`,
+        centered: "w-full after:inset-x-0 after:-inset-y-1.5",
       },
     },
     defaultVariants: {

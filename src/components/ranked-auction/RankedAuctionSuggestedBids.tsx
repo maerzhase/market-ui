@@ -65,7 +65,7 @@ export function RankedAuctionSuggestedBids({
               disabled={disabled}
               onClick={() => onSelect(suggestion.wei)}
               aria-label={`Set bid to ${suggestion.display}`}
-              size="md"
+              size="default"
             >
               {suggestion.display}
             </Button>

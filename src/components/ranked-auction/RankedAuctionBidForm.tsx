@@ -1,11 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { Button, SteppedInput, Text } from "@/components/primitives";
 import { cn } from "@/lib";
-import { Button, Text } from "@/components/primitives";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
-import { SteppedInput } from "@/components/primitives";
 import { CursorGrowIcon } from "../primitives/SteppedInput";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 interface BidFormContextValue {
   projectedRank: number | null;
@@ -75,7 +74,7 @@ export function RankedAuctionBidFormRoot({
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       {status === "error" ? (
-        <div className="rounded-xs bg-error/10 p-2 text-error">
+        <div className="rounded-xs bg-destructive-muted p-2 text-destructive">
           <Text size="1">{errorMessage}</Text>
         </div>
       ) : null}
@@ -110,7 +109,7 @@ export function RankedAuctionBidFormRoot({
             <SteppedInput.Increment />
           </SteppedInput.Group>
         </SteppedInput.Root>
-        <div className="flex flex-col gap-3 rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
+        <div className="flex flex-col gap-3 rounded-md border border-border p-4">
           <div className="flex items-center justify-between">
             <Text size="2" color="secondary">
               Projected rank
@@ -205,17 +204,11 @@ export function RankedAuctionBidFormSuggestions({
         })}
       </div>
       <div className="flex items-center gap-3">
-        <div
-          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
-          aria-hidden
-        />
+        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
         <Text size="1" color="tertiary" className="shrink-0">
           or set your own
         </Text>
-        <div
-          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
-          aria-hidden
-        />
+        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
       </div>
     </div>
   );

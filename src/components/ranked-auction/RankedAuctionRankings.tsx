@@ -1,11 +1,11 @@
 "use client";
 
-import { Separator, Skeleton, Text } from "@/components/primitives";
-import { RankedList } from "@/components";
 import type { GroupItemContextValue } from "@/components";
+import { RankedList } from "@/components";
+import { Separator, Skeleton, Text } from "@/components/primitives";
+import { cn } from "@/lib";
 import type { RankedAuctionBid } from "@/types";
 import { formatShortRelative } from "@/utils";
-import { cn } from "@/lib";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionRankingsProps {
@@ -33,7 +33,10 @@ function BidRow({
 
   return (
     <div
-      className={`flex items-center justify-between gap-2 px-6 py-2 ${isOutbid ? `opacity-50` : ""} `}
+      className={cn(
+        "flex items-center justify-between gap-2 px-6 py-2",
+        isOutbid && "opacity-50",
+      )}
     >
       <div className="flex min-w-0 items-center gap-3">
         <Text color="tertiary" className="w-8 shrink-0" size="1">

@@ -1,7 +1,8 @@
 "use client";
 
-import { Text } from "./primitives/Text";
 import * as React from "react";
+import { cn } from "@/lib/cn";
+import { Text } from "./primitives/Text";
 
 interface RankedListContextValue<T> {
   items: T[];
@@ -68,9 +69,7 @@ interface EmptyProps {
 
 function Empty({ children, className }: EmptyProps): React.ReactElement {
   return (
-    <div
-      className={`flex flex-1 items-center justify-center ${className ?? ""} `}
-    >
+    <div className={cn("flex flex-1 items-center justify-center", className)}>
       {children}
     </div>
   );
@@ -240,7 +239,7 @@ function GroupItemIndex({
   }
 
   return (
-    <Text color="tertiary" className={`w-8 shrink-0 ${className ?? ""} `}>
+    <Text color="tertiary" className={cn("w-8 shrink-0", className)}>
       #{globalIndex + 1}
     </Text>
   );
@@ -274,7 +273,7 @@ function GroupDivider({
   if (children) {
     return (
       <div
-        className={`sticky top-0 bg-white dark:bg-black ${className ?? ""} `}
+        className={cn("sticky top-0 bg-background", className)}
         style={{ zIndex: 10 + groupIndex }}
       >
         {children({ label: groupLabel, groupIndex })}
@@ -284,21 +283,15 @@ function GroupDivider({
 
   return (
     <div
-      className={`sticky top-0 bg-background-ui ${className ?? ""} `}
+      className={cn("sticky top-0 bg-background", className)}
       style={{ zIndex: 10 + groupIndex }}
     >
       <div className="flex items-center gap-3 py-2">
-        <div
-          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
-          aria-hidden
-        />
+        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
         <Text size="1" color="secondary" className="shrink-0">
           {groupLabel}
         </Text>
-        <div
-          className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
-          aria-hidden
-        />
+        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
       </div>
     </div>
   );

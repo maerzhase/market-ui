@@ -1,6 +1,6 @@
 html,
 body {
   -webkit-font-smoothing: antialiased;
-  background-color: var(--color-background-primary);
-  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }

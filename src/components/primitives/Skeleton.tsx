@@ -15,7 +15,7 @@ export function Skeleton({
 }: SkeletonProps): React.ReactElement {
   const defaultProps: useRender.ElementProps<"span"> = {
     className: cn(
-      `pointer-events-none animate-pulse rounded-xs border-none! bg-grey-300 bg-none! text-transparent! shadow-none! select-none *:invisible empty:block dark:bg-grey-800`,
+      "pointer-events-none animate-pulse rounded-xs border-none! bg-muted bg-none! text-transparent! shadow-none! select-none *:invisible empty:block",
       className,
     ),
     "aria-hidden": true,

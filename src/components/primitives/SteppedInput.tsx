@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib";
 import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
+import { cn } from "@/lib";
 
 interface SteppedInputContextValue {
   value: bigint;
@@ -96,7 +96,7 @@ interface GroupProps {
 
 function Group({ children, className }: GroupProps): React.ReactElement {
   return (
-    <NumberField.Group className={cn("flex", "disabled:opacity-50", className)}>
+    <NumberField.Group className={cn("flex", className)}>
       {children}
     </NumberField.Group>
   );
@@ -115,10 +115,10 @@ function Decrement({
     <NumberField.Decrement
       className={cn(
         "flex size-10 items-center justify-center rounded-l-md border",
-        "border-r-0 border-gray-200 bg-gray-50 bg-clip-padding text-gray-900 select-none",
-        "hover:bg-gray-100",
-        "active:bg-gray-100",
-        `disabled:cursor-not-allowed disabled:border-grey-600 disabled:bg-grey-600 disabled:text-gray-800`,
+        "border-r-0 border-input bg-muted text-foreground select-none",
+        "hover:bg-accent-hover",
+        "active:bg-accent-active",
+        "disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
         className,
       )}
     >
@@ -140,10 +140,10 @@ function Increment({
     <NumberField.Increment
       className={cn(
         "flex size-10 items-center justify-center rounded-r-md border",
-        "border-l-0 border-gray-200 bg-gray-50 bg-clip-padding text-gray-900 select-none",
-        "hover:bg-gray-100",
-        "active:bg-gray-100",
-        `disabled:cursor-not-allowed disabled:border-grey-600 disabled:bg-grey-600 disabled:text-gray-800`,
+        "border-l-0 border-input bg-muted text-foreground select-none",
+        "hover:bg-accent-hover",
+        "active:bg-accent-active",
+        "disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
         className,
       )}
     >
@@ -183,10 +183,10 @@ function Input({ className }: InputProps): React.ReactElement {
     <NumberField.Input
       readOnly
       className={cn(
-        "h-10 w-auto grow cursor-default border border-gray-200 px-4",
-        "text-center text-base text-text-primary tabular-nums",
-        "focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset",
-        `disabled:cursor-not-allowed disabled:border-grey-600 disabled:text-grey-600`,
+        "h-10 w-auto grow cursor-default border border-input px-4",
+        "text-center text-base text-foreground tabular-nums",
+        "focus:ring-2 focus:ring-ring focus:outline-none focus:ring-inset",
+        "disabled:cursor-not-allowed disabled:border-disabled disabled:text-disabled-foreground",
         className,
       )}
     />
@@ -206,15 +206,14 @@ function Value({ children, className }: ValueProps): React.ReactElement {
   return (
     <div
       className={cn(
-        "relative flex h-10 grow items-center border border-gray-200",
+        "relative flex h-10 grow items-center border border-input",
         "px-4",
-        "focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-inset",
-        `disabled:cursor-not-allowed disabled:border-grey-600 disabled:text-grey-600`,
+        "focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset",
         className,
       )}
     >
       <NumberField.Input readOnly className="sr-only" />
-      <div className="w-full text-center text-base text-text-primary tabular-nums">
+      <div className="w-full text-center text-base text-foreground tabular-nums">
         {children({ value, displayValue })}
       </div>
     </div>
@@ -229,11 +228,11 @@ export function CursorGrowIcon(
       width="26"
       height="14"
       viewBox="0 0 24 14"
-      fill="black"
-      stroke="white"
+      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
+      <title>Drag to adjust</title>
       <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
     </svg>
   );

@@ -28,13 +28,13 @@ const textVariants = cva("font-sans", {
       right: "text-right",
     },
     color: {
-      primary: "text-text-primary",
-      secondary: "text-text-secondary",
-      tertiary: "text-text-tertiary",
-      disabled: "text-text-disabled",
+      primary: "text-foreground",
+      secondary: "text-muted-foreground",
+      tertiary: "text-muted-foreground",
+      disabled: "text-disabled-foreground",
       current: "text-current",
       success: "text-success",
-      error: "text-error",
+      error: "text-destructive",
     },
     tabularNums: {
       true: "tabular-nums",
@@ -64,8 +64,7 @@ const textVariants = cva("font-sans", {
 type TextVariants = typeof textVariants;
 
 export interface TextProps
-  extends
-    VariantProps<TextVariants>,
+  extends VariantProps<TextVariants>,
     Omit<useRender.ComponentProps<"span">, "color"> {}
 
 export type TextElement = React.ComponentRef<"span">;

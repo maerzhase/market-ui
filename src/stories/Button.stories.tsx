@@ -63,7 +63,7 @@ export const Sizes: StoryObj<typeof Button> = {
   render: () => (
     <div className="flex flex-col items-start gap-4">
       <Button size="default">Default Button</Button>
-      <Button size="md">Medium Button</Button>
+      <Button size="sm">Small Button</Button>
     </div>
   ),
 };

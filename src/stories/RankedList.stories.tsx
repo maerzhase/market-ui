@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Separator, Text } from "@/components/primitives";
 import { RankedList } from "@/components";
+import { Separator, Text } from "@/components/primitives";
+import { cn } from "@/lib";
 
 interface Player {
   id: string;
@@ -17,7 +18,7 @@ const meta: Meta<typeof RankedList.Root> = {
   },
   decorators: [
     (Story) => (
-      <div className="h-125 w-96 overflow-y-auto rounded-lg border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-black">
+      <div className="h-125 w-96 overflow-y-auto rounded-lg border border-border bg-background">
         <Story />
       </div>
     ),
@@ -101,12 +102,13 @@ export const ThreeGroups: StoryObj<typeof RankedList.Root> = {
           <RankedList.GroupItem className="px-4">
             <RankedList.GroupItemValue>
               {(team: Player, context) => {
+                // Keep decorative colors for demo purposes
                 const colors = [
                   "text-yellow-500",
                   "text-gray-400",
                   "text-orange-400",
                 ];
-                const color = colors[context.groupIndex] || "text-primary";
+                const color = colors[context.groupIndex] || "text-foreground";
 
                 return (
                   <>
@@ -157,10 +159,10 @@ export const CustomDivider: StoryObj<typeof RankedList.Root> = {
           <Text color="tertiary">No items</Text>
         </RankedList.Empty>
         <RankedList.Group>
-          <RankedList.GroupDivider className="bg-linear-to-r from-transparent via-neutral-200 to-transparent dark:via-neutral-800">
+          <RankedList.GroupDivider className="bg-linear-to-r from-transparent via-separator to-transparent">
             {({ label }) => (
               <div className="flex items-center justify-center py-1">
-                <span className="rounded-full bg-neutral-100 px-4 py-1 text-xs text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400">
+                <span className="rounded-full bg-muted px-4 py-1 text-xs text-muted-foreground">
                   {label}
                 </span>
               </div>
@@ -242,7 +244,10 @@ export const WithAvatars: StoryObj<typeof RankedList.Root> = {
                 return (
                   <>
                     <div
-                      className={`flex items-center justify-between py-2 ${!isTop ? "opacity-50" : ""} `}
+                      className={cn(
+                        "flex items-center justify-between py-2",
+                        !isTop && "opacity-50",
+                      )}
                     >
                       <div className="flex items-center gap-3">
                         <RankedList.GroupItemIndex />
@@ -358,7 +363,10 @@ export const LongList: StoryObj<typeof RankedList.Root> = {
                 return (
                   <>
                     <div
-                      className={`flex items-center justify-between py-2 ${!isTop ? "opacity-40" : ""} `}
+                      className={cn(
+                        "flex items-center justify-between py-2",
+                        !isTop && "opacity-40",
+                      )}
                     >
                       <div className="flex items-center gap-3">
                         <RankedList.GroupItemIndex />
@@ -404,6 +412,7 @@ export const StyledGroups: StoryObj<typeof RankedList.Root> = {
         <RankedList.Group>
           <RankedList.GroupDivider>
             {({ label, groupIndex }) => {
+              // Keep decorative gradient colors for demo purposes
               const bgColors = [
                 "bg-linear-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20",
                 "bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20",
@@ -417,22 +426,22 @@ export const StyledGroups: StoryObj<typeof RankedList.Root> = {
 
               return (
                 <div
-                  className={`sticky top-0 z-10 ${bgColors[groupIndex]} `}
+                  className={cn("sticky top-0 z-10", bgColors[groupIndex])}
                   style={{ zIndex: 10 + groupIndex }}
                 >
                   <div className="flex items-center gap-3 px-4 py-2">
                     <div
-                      className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
+                      className="h-px min-w-0 flex-1 bg-separator"
                       aria-hidden
                     />
                     <Text
                       size="1"
-                      className={`shrink-0 ${textColors[groupIndex]} `}
+                      className={cn("shrink-0", textColors[groupIndex])}
                     >
                       {label}
                     </Text>
                     <div
-                      className="h-px min-w-0 flex-1 bg-neutral-200 dark:bg-neutral-800"
+                      className="h-px min-w-0 flex-1 bg-separator"
                       aria-hidden
                     />
                   </div>

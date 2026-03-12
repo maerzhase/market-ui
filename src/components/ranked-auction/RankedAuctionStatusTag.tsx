@@ -20,8 +20,7 @@ function getAuctionState(
   return "live";
 }
 
-const transparentTagClassName =
-  "bg-transparent border-transparent p-0 dark:bg-transparent dark:border-transparent";
+const transparentTagClassName = "bg-transparent border-transparent p-0";
 
 export interface RankedAuctionStatusTagProps {
   opensAt: Date | null;
@@ -55,10 +54,10 @@ export function RankedAuctionStatusTag({
         <Text>
           {showCountdown && countdownTo ? (
             <>
-              Live — <Countdown to={countdownTo} />
+              Live - <Countdown to={countdownTo} />
             </>
           ) : (
-            <>Live — Until {formatDateTime(endsAt)}</>
+            <>Live - Until {formatDateTime(endsAt)}</>
           )}
         </Text>
       </Tag>
@@ -85,10 +84,10 @@ export function RankedAuctionStatusTag({
     return (
       <Tag className={tagClassName}>
         <div
-          className="size-2.5 shrink-0 rounded-full bg-neutral-500"
+          className="size-2.5 shrink-0 rounded-full bg-muted-foreground"
           aria-hidden
         />
-        <Text>Closed — ended {formatDateTime(endsAt)}</Text>
+        <Text>Closed - ended {formatDateTime(endsAt)}</Text>
       </Tag>
     );
   }

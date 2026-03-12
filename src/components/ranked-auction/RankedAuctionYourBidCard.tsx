@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Text } from "@/components/primitives";
+import { cn } from "@/lib";
 import type { RankedAuctionUserBid } from "@/types";
 import { formatDateTime } from "@/utils";
 
@@ -48,15 +49,14 @@ export function RankedAuctionYourBidCard({
 
   return (
     <div
-      className={`rounded-xs border bg-grey-100 p-4 dark:bg-grey-1000 ${
-        isLocked
-          ? `border-success dark:border-success`
-          : `border-transparent dark:border-transparent`
-      } `}
+      className={cn(
+        "rounded-xs border bg-muted p-4",
+        isLocked ? "border-success" : "border-transparent",
+      )}
     >
       <div className="flex items-start justify-between gap-2">
         <Text size="1" color="tertiary">
-          Rank #{rank ?? "—"}
+          Rank #{rank ?? "-"}
         </Text>
         <Text size="1" color="tertiary" className="tabular-nums">
           {formatDateTime(bid.createdAt)}
@@ -70,14 +70,14 @@ export function RankedAuctionYourBidCard({
           {bid.isWinning ? (
             <>
               <div className="size-4 rounded-full bg-success" aria-hidden />
-              <Text size="2" className="text-success">
+              <Text size="2" color="success">
                 {getBidStatusLabel(bid.status, bid.isWinning)}
               </Text>
             </>
           ) : (
             <>
-              <div className="size-4 rounded-full bg-error" aria-hidden />
-              <Text size="2" className="text-error">
+              <div className="size-4 rounded-full bg-destructive" aria-hidden />
+              <Text size="2" color="error">
                 {getBidStatusLabel(bid.status, bid.isWinning)}
               </Text>
             </>

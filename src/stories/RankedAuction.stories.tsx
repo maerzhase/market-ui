@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react";
 import {
   RankedAuction,
   RankedAuctionBidForm,
-  RankedAuctionInfo,
-  RankedAuctionLayout,
   RankedAuctionDetails,
-  RankedAuctionDetailsHeader,
   RankedAuctionDetailsBody,
   RankedAuctionDetailsFooter,
-  RankedAuctionRankingsContainer,
+  RankedAuctionDetailsHeader,
+  RankedAuctionInfo,
+  RankedAuctionLayout,
   RankedAuctionRankings,
+  RankedAuctionRankingsContainer,
   RankedAuctionYourBids,
 } from "@/components/ranked-auction";
 import type {
@@ -188,7 +188,7 @@ export default meta;
 
 export const FullAuction: StoryObj<typeof RankedAuction> = {
   render: () => (
-    <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+    <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
         <RankedAuction
           auction={mockAuction}
@@ -206,7 +206,7 @@ export const FullAuction: StoryObj<typeof RankedAuction> = {
             console.log("Claim:", bidId);
             return true;
           }}
-          className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
+          className="size-full rounded-lg border border-border bg-background shadow-lg"
         >
           <RankedAuctionLayout>
             <RankedAuctionDetails>
@@ -238,7 +238,7 @@ export const LiveAuction: StoryObj<typeof RankedAuction> = {
       endsAt: new Date(Date.now() + 3600000),
     };
     return (
-      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+      <div className="h-screen w-full bg-muted p-8">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={liveAuction}
@@ -252,7 +252,7 @@ export const LiveAuction: StoryObj<typeof RankedAuction> = {
               console.log("Top up:", bidId, newPrice, value);
               return true;
             }}
-            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
+            className="size-full rounded-lg border border-border bg-background shadow-lg"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
@@ -287,7 +287,7 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
       clearingPrice: 100000000000000000n,
     };
     return (
-      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+      <div className="h-screen w-full bg-muted p-8">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={closedAuction}
@@ -295,7 +295,7 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
             userBids={[]}
             onPlaceBid={async () => false}
             onTopUpBid={async () => false}
-            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
+            className="size-full rounded-lg border border-border bg-background shadow-lg"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
@@ -339,7 +339,7 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
       });
     };
     return (
-      <div className="h-screen w-full bg-neutral-50 p-8 dark:bg-neutral-950">
+      <div className="h-screen w-full bg-muted p-8">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={dollarAuction}
@@ -357,7 +357,7 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
               console.log("Top up:", bidId, newPrice, "cents", value);
               return true;
             }}
-            className="size-full rounded-lg border border-neutral-200 shadow-lg dark:border-neutral-800"
+            className="size-full rounded-lg border border-border bg-background shadow-lg"
           >
             <RankedAuctionLayout>
               <RankedAuctionDetails>
