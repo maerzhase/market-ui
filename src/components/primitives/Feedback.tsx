@@ -9,7 +9,6 @@ interface FeedbackContextValue {
   show: boolean;
   position: FeedbackPosition;
   transition: {
-    duration: number;
     stiffness: number;
     damping: number;
   };
@@ -46,7 +45,6 @@ interface FeedbackRootProps {
   position?: FeedbackPosition;
   className?: string;
   transition?: {
-    duration?: number;
     stiffness?: number;
     damping?: number;
   };
@@ -57,16 +55,15 @@ const FeedbackRoot: React.FC<FeedbackRootProps> = ({
   show = false,
   position = "bottom",
   className,
-  transition = { duration: 0.3, stiffness: 300, damping: 25 },
+  transition = { stiffness: 300, damping: 20 },
 }): React.ReactElement => {
   const contextValue = React.useMemo(
     () => ({
       show,
       position,
       transition: {
-        duration: transition.duration ?? 0.3,
         stiffness: transition.stiffness ?? 300,
-        damping: transition.damping ?? 25,
+        damping: transition.damping ?? 20,
       },
     }),
     [show, position, transition],
@@ -145,14 +142,13 @@ const FeedbackContent: React.FC<FeedbackContentProps> = ({
             rotateZ: 5,
           }}
           animate={{ x: "0%", y: "0%", opacity: 1, rotateZ: 0 }}
-          exit={{ ...initialAnimations[position], opacity: 0, rotateZ: -5 }}
+          exit={{ ...initialAnimations[position], opacity: 0, rotateZ: 0 }}
           className={cn(
             "absolute z-0 flex items-center justify-center",
             positionStyles[position],
             className,
           )}
           transition={{
-            duration: transition.duration,
             type: "spring",
             stiffness: transition.stiffness,
             damping: transition.damping,

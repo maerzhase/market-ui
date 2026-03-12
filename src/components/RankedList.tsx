@@ -284,7 +284,7 @@ function GroupDivider({
 
   return (
     <div
-      className={`sticky top-0 bg-white dark:bg-black ${className ?? ""} `}
+      className={`sticky top-0 bg-background-ui ${className ?? ""} `}
       style={{ zIndex: 10 + groupIndex }}
     >
       <div className="flex items-center gap-3 py-2">

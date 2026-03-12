@@ -1,6 +1,6 @@
 export type { ButtonElement, ButtonProps } from "./Button";
 export { Button, buttonVariants } from "./Button";
-export { Feedback } from "./FeedbackWrapper";
+export { Feedback } from "./Feedback";
 export { Separator } from "./Separator";
 export type { SkeletonElement, SkeletonProps } from "./Skeleton";
 export { Skeleton } from "./Skeleton";

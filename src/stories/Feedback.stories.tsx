@@ -33,14 +33,19 @@ export default meta;
 
 export const Primary: StoryObj<typeof Button> = {
   render() {
-    const [showFeedback, setShowFeedback] = useState(false);
+    const [feedback, setFeedback] = useState<string | null>();
+    const handleClick = async () => {
+      setFeedback("feedback for 2000ms");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setFeedback(null);
+    };
     return (
-      <Feedback.Root show={showFeedback}>
-        <Button onClick={() => setShowFeedback(!showFeedback)}>Test</Button>
+      <Feedback.Root show={!!feedback}>
+        <Button onClick={handleClick}>Test</Button>
         <Feedback.Content className="w-full">
-          <span className="rounded-md bg-solid px-2 py-1 text-sm text-background-primary">
-            feedback
-          </span>
+          <div className="mt-0.5 rounded-md bg-solid px-2 py-1 text-sm whitespace-nowrap text-background-primary">
+            {feedback}
+          </div>
         </Feedback.Content>
       </Feedback.Root>
     );
