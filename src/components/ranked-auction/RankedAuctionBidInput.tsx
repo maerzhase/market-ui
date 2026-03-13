@@ -1,11 +1,11 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect } from "react";
-import { Button, Text } from "@/components/primitives";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
-import { SteppedInput } from "@/components/primitives";
-import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids";
+import { Button, SteppedInput, Text } from "@/components/primitives";
 import { CursorGrowIcon } from "../primitives/SteppedInput";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids";
 
 export interface RankedAuctionBidInputProps {
   className?: string;
@@ -100,7 +100,7 @@ export function RankedAuctionBidInput({
   return (
     <div className={className}>
       {status === "error" ? (
-        <div className="mb-2 rounded-xs bg-error/10 p-2 text-error">
+        <div className="bg-error/10 text-error mb-2 rounded-xs p-2">
           <Text size="1">{errorMessage}</Text>
         </div>
       ) : null}
@@ -119,6 +119,7 @@ export function RankedAuctionBidInput({
             return BigInt(numStr || "0");
           }}
           disabled={isAuctionEnded}
+          snapToTick="down"
         >
           <SteppedInput.Group>
             <SteppedInput.Decrement />
@@ -137,25 +138,38 @@ export function RankedAuctionBidInput({
         </SteppedInput.Root>
         {!hideSuggestions ? <RankedAuctionSuggestedBids /> : null}
         <div className="flex flex-row gap-2">
-          {lockedBid !== null ? (
+          <AnimatePresence mode="popLayout">
+            {lockedBid !== null && (
+              <motion.div
+                key="cancel-button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex-1"
+              >
+                <Button
+                  type="button"
+                  color="tertiary"
+                  className="w-full whitespace-nowrap"
+                  onClick={() => setLockedBid(null)}
+                >
+                  Cancel top up
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className="min-w-0 flex-1">
             <Button
               type="button"
-              color="tertiary"
-              className="flex-1"
-              onClick={() => setLockedBid(null)}
+              loading={isLoading}
+              disabled={isAuctionEnded}
+              onClick={handleSubmit}
+              className="w-full whitespace-nowrap"
             >
-              Cancel top up
+              {primaryCtaLabel}
             </Button>
-          ) : null}
-          <Button
-            type="button"
-            loading={isLoading}
-            disabled={isAuctionEnded}
-            onClick={handleSubmit}
-            className={lockedBid !== null ? "flex-1" : "w-full"}
-          >
-            {primaryCtaLabel}
-          </Button>
+          </div>
         </div>
       </fieldset>
     </div>

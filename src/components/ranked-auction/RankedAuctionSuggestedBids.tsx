@@ -1,77 +1,104 @@
 "use client";
 
-import { Button } from "@/components/primitives";
+import { Button, Scale } from "@/components/primitives";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionSuggestedBidsProps {
   className?: string;
-  /** Custom render function for suggestions */
-  render?: (
-    suggestions: Array<{ wei: bigint; display: string }>,
-    props: {
-      selectedWei: bigint;
-      onSelect: (wei: bigint) => void;
-      disabled: boolean;
-    },
-  ) => React.ReactNode;
+  /** Number of suggestion buttons to show (default: 3) */
+  count?: number;
+  /** Custom render function for each suggestion */
+  render?: (context: {
+    value: bigint;
+    display: string;
+    position: number;
+    isSelected: boolean;
+    onSelect: () => void;
+    disabled: boolean;
+  }) => React.ReactNode;
 }
 
 export function RankedAuctionSuggestedBids({
   className,
+  count = 3,
   render,
 }: RankedAuctionSuggestedBidsProps): React.ReactElement | null {
   const {
-    getSuggestedBids,
+    minBidWei,
+    tickConfig,
+    tickSizeWei,
     isAuctionEnded,
     bidWei,
     setBidWei,
     formatPrice,
     currencySymbol,
+    bids,
   } = useRankedAuctionContext();
 
-  const suggestionsWei = getSuggestedBids();
-  const suggestions = suggestionsWei.map((value) => ({
-    wei: value,
-    display: `${formatPrice(value)} ${currencySymbol}`,
-  }));
-
-  const selectedWei = bidWei;
-  const onSelect = (wei: bigint) => setBidWei(wei);
-  const disabled = isAuctionEnded;
-
-  if (suggestions.length === 0 || isAuctionEnded) {
+  if (isAuctionEnded) {
     return null;
   }
 
-  if (render) {
-    return (
-      <div className={className}>
-        {render(suggestions, { selectedWei, onSelect, disabled })}
-      </div>
-    );
-  }
+  // Calculate the max of the scale domain
+  // Use highest bid + some buffer, or 3x min bid if no bids yet
+  const highestBidWei =
+    bids.length > 0 ? BigInt(bids[0].price) : minBidWei * 3n;
+
+  // Ensure max is at least min + reasonable buffer
+  const maxBidWei = highestBidWei > minBidWei ? highestBidWei : minBidWei * 3n;
+
+  // Get tick size for the scale
+  const getTickSize = (value: bigint): bigint => {
+    if (!tickConfig) return tickSizeWei;
+    return value > tickConfig.threshold
+      ? tickConfig.largeTickSize
+      : tickConfig.smallTickSize;
+  };
+
+  const selectedWei = bidWei;
+  const disabled = isAuctionEnded;
 
   return (
     <div className={className}>
-      <div className="flex flex-row justify-between gap-2">
-        {suggestions.map((suggestion) => {
-          const isActive = suggestion.wei === selectedWei;
-          return (
-            <Button
-              key={suggestion.display}
-              type="button"
-              color={isActive ? "tertiary" : "tertiary"}
-              className="flex-1"
-              disabled={disabled}
-              onClick={() => onSelect(suggestion.wei)}
-              aria-label={`Set bid to ${suggestion.display}`}
-              size="default"
-            >
-              {suggestion.display}
-            </Button>
-          );
-        })}
-      </div>
+      <Scale.Linear
+        domain={[minBidWei, maxBidWei]}
+        getTickSize={getTickSize}
+        snapMode="up"
+        className="flex flex-row justify-between gap-2"
+      >
+        <Scale.Ticks count={count}>
+          {({ value, position }) => {
+            const v = value as bigint;
+            const display = `${formatPrice(v)} ${currencySymbol}`;
+            const isSelected = v === selectedWei;
+
+            if (render) {
+              return render({
+                value: v,
+                display,
+                position,
+                isSelected,
+                onSelect: () => setBidWei(v),
+                disabled,
+              });
+            }
+
+            return (
+              <Button
+                type="button"
+                color={isSelected ? "secondary" : "tertiary"}
+                className="flex-1"
+                disabled={disabled}
+                onClick={() => setBidWei(v)}
+                aria-label={`Set bid to ${display}`}
+                size="default"
+              >
+                {display}
+              </Button>
+            );
+          }}
+        </Scale.Ticks>
+      </Scale.Linear>
     </div>
   );
 }

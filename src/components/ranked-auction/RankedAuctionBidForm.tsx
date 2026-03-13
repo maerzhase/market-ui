@@ -1,7 +1,8 @@
 "use client";
 
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import type { ReactNode } from "react";
-import { Button, SteppedInput, Text } from "@/components/primitives";
+import { Button, Separator, SteppedInput, Text } from "@/components/primitives";
 import { cn } from "@/lib";
 import { CursorGrowIcon } from "../primitives/SteppedInput";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
@@ -93,6 +94,7 @@ export function RankedAuctionBidFormRoot({
             return BigInt(numStr || "0");
           }}
           disabled={isAuctionEnded}
+          snapToTick="down"
         >
           <SteppedInput.Group>
             <SteppedInput.Decrement />
@@ -129,26 +131,55 @@ export function RankedAuctionBidFormRoot({
             </Text>
           </div>
         </div>
-        <div className="flex flex-row gap-2">
-          {lockedBid !== null ? (
-            <Button
-              type="button"
-              color="tertiary"
-              className="flex-1"
-              onClick={() => setLockedBid(null)}
+        <div className="flex w-full gap-2">
+          <LayoutGroup>
+            <AnimatePresence mode="popLayout">
+              {lockedBid !== null && (
+                <motion.div
+                  key="cancel-button"
+                  initial={{ opacity: 0, scaleX: 0.8 }}
+                  animate={{ opacity: 1, scaleX: 1 }}
+                  exit={{ opacity: 0, scaleX: 0.8 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 25,
+                  }}
+                  layout
+                  className="grow"
+                >
+                  <Button
+                    type="button"
+                    color="tertiary"
+                    className="w-full whitespace-nowrap"
+                    onClick={() => setLockedBid(null)}
+                  >
+                    Cancel
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <motion.div
+              layout="position"
+              key="submit-button"
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 25,
+              }}
+              className="grow"
             >
-              Cancel
-            </Button>
-          ) : null}
-          <Button
-            type="button"
-            loading={isLoading}
-            disabled={isAuctionEnded}
-            onClick={handleSubmit}
-            className={lockedBid !== null ? "flex-1" : "w-full"}
-          >
-            Place bid {bidDisplay}
-          </Button>
+              <Button
+                className="w-full"
+                type="button"
+                loading={isLoading}
+                disabled={isAuctionEnded}
+                onClick={handleSubmit}
+              >
+                <span>Place bid {bidDisplay}</span>
+              </Button>
+            </motion.div>
+          </LayoutGroup>
         </div>
       </fieldset>
     </div>
@@ -203,13 +234,7 @@ export function RankedAuctionBidFormSuggestions({
           );
         })}
       </div>
-      <div className="flex items-center gap-3">
-        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
-        <Text size="1" color="tertiary" className="shrink-0">
-          or set your own
-        </Text>
-        <div className="h-px min-w-0 flex-1 bg-separator" aria-hidden />
-      </div>
+      <Separator color="subtle" label="or set your own" className="mb-2" />
     </div>
   );
 }

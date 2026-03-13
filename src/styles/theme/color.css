@@ -92,7 +92,7 @@
   --color-warning-muted-foreground: #946800;
 
   /* Separator (subtle dividers) */
-  --color-separator: var(--color-grey-6);
+  --color-separator: var(--color-grey-3);
 }
 
 /* ============================================================
@@ -180,6 +180,6 @@
     --color-warning-muted-foreground: #f0c000;
 
     /* Separator */
-    --color-separator: var(--color-grey-6);
+    --color-separator: var(--color-grey-3);
   }
 }

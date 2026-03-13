@@ -27,6 +27,50 @@ const defaultFormatOptions: Intl.NumberFormatOptions = {
   currency: "USD",
 };
 
+type SnapToTickMode = "up" | "down" | "nearest";
+
+/**
+ * Rounds a value to the tick grid based on the specified mode.
+ * @param value - The value to snap
+ * @param tickSize - The tick size to snap to
+ * @param mode - How to round: 'up' (ceiling), 'down' (floor), or 'nearest'
+ * @param min - Optional minimum value (snapped value won't go below this)
+ */
+function snapValueToTick(
+  value: bigint,
+  tickSize: bigint,
+  mode: SnapToTickMode,
+  min?: bigint,
+): bigint {
+  if (tickSize <= 0n) return value;
+
+  const remainder = value % tickSize;
+  if (remainder === 0n) return value;
+
+  let snapped: bigint;
+  switch (mode) {
+    case "up":
+      snapped = value - remainder + tickSize;
+      break;
+    case "down":
+      snapped = value - remainder;
+      break;
+    case "nearest":
+      snapped =
+        remainder * 2n >= tickSize
+          ? value - remainder + tickSize
+          : value - remainder;
+      break;
+  }
+
+  // Ensure we don't snap below minimum
+  if (min !== undefined && snapped < min) {
+    snapped = min;
+  }
+
+  return snapped;
+}
+
 interface RootProps {
   value: bigint;
   onChange: (value: bigint) => void;
@@ -39,6 +83,14 @@ interface RootProps {
   className?: string;
   format?: Intl.NumberFormatOptions;
   children: React.ReactNode;
+  /**
+   * Snap values to the tick grid on change.
+   * - 'up': Round up to the next tick
+   * - 'down': Round down to the previous tick
+   * - 'nearest': Round to the nearest tick
+   * - false/undefined: No snapping (default)
+   */
+  snapToTick?: SnapToTickMode | false;
 }
 
 function Root({
@@ -53,9 +105,37 @@ function Root({
   className,
   format = defaultFormatOptions,
   children,
+  snapToTick = false,
 }: RootProps): React.ReactElement {
   const displayValue = formatValueFn(value);
   const step = formatValueFn(getTickSize(value));
+
+  const handleValueChange = React.useCallback(
+    (val: number | null) => {
+      if (val === null || val === undefined) return;
+
+      let newValue = parseValueFn(val);
+
+      // Clamp to min first (before snapping)
+      if (min !== undefined && newValue < min) {
+        newValue = min;
+      }
+
+      // Clamp to max
+      if (max !== undefined && newValue > max) {
+        newValue = max;
+      }
+
+      // Apply tick snapping if enabled
+      if (snapToTick) {
+        const tickSize = getTickSize(newValue);
+        newValue = snapValueToTick(newValue, tickSize, snapToTick, min);
+      }
+
+      onChange(newValue);
+    },
+    [parseValueFn, snapToTick, getTickSize, min, max, onChange],
+  );
 
   const contextValue: SteppedInputContextValue = React.useMemo(
     () => ({
@@ -71,11 +151,7 @@ function Root({
     <SteppedInputContext.Provider value={contextValue}>
       <NumberField.Root
         value={displayValue}
-        onValueChange={(val) => {
-          if (val !== null && val !== undefined) {
-            onChange(parseValueFn(val));
-          }
-        }}
+        onValueChange={handleValueChange}
         min={min !== undefined ? formatValueFn(min) : -Infinity}
         max={max !== undefined ? formatValueFn(max) : Infinity}
         step={step}

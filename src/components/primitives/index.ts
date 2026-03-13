@@ -1,6 +1,8 @@
 export type { ButtonElement, ButtonProps } from "./Button";
 export { Button, buttonVariants } from "./Button";
 export { Feedback } from "./Feedback";
+export type { ScaleTickContext, ScaleValue, SnapMode } from "./Scale";
+export { Scale, useScale } from "./Scale";
 export { Separator } from "./Separator";
 export type { SkeletonElement, SkeletonProps } from "./Skeleton";
 export { Skeleton } from "./Skeleton";
