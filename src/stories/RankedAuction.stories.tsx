@@ -323,19 +323,32 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
 
 export const DollarAuction: StoryObj<typeof RankedAuction> = {
   render: () => {
+    // Dollar auction using cents as the base unit (1 dollar = 100 cents)
+    // - reservePrice: 10000 cents = $100 minimum bid
+    // - threshold: 100000 cents = $1000 (tick size changes above this)
+    // - smallTickSize: 1000 cents = $10 increments below $1000
+    // - largeTickSize: 10000 cents = $100 increments above $1000
     const dollarAuction: RankedAuctionData = {
       ...mockAuction,
-      reservePrice: 10000000n,
+      reservePrice: 10000n, // $100 in cents
+      tickConfig: {
+        threshold: 100000n, // $1000 in cents
+        smallTickSize: 1000n, // $10 in cents
+        largeTickSize: 10000n, // $100 in cents
+      },
     };
-    const tezosBids: RankableBid[] = mockBids.map((b) => ({
+    // Convert ETH bids to dollar amounts (scale down for realistic values)
+    const dollarBids: RankableBid[] = mockBids.map((b, i) => ({
       ...b,
-      price: (BigInt(b.price) / 1000000n).toString(),
+      // Generate bids from ~$500 down to ~$100
+      price: (50000n - BigInt(i) * 1500n).toString(),
     }));
+    // Format cents as dollars
     const formatPrice = (price: bigint) => {
-      const usd = Number(price) / 1e6;
-      return usd.toLocaleString("en-US", {
+      const dollars = Number(price) / 100;
+      return dollars.toLocaleString("en-US", {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 6,
+        maximumFractionDigits: 2,
       });
     };
     return (
@@ -343,7 +356,7 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
         <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
           <RankedAuction
             auction={dollarAuction}
-            bids={tezosBids}
+            bids={dollarBids}
             userBids={[]}
             formatters={{
               formatPrice: formatPrice,

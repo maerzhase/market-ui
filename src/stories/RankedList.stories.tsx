@@ -50,11 +50,11 @@ export const Basic: StoryObj<typeof RankedList.Root> = {
         </RankedList.Empty>
         <RankedList.Group>
           <RankedList.GroupDivider />
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(player: Player, context) => (
                 <>
-                  <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center justify-between px-4 py-2">
                     <div className="flex items-center gap-3">
                       <RankedList.GroupItemIndex />
                       <Text>{player.name}</Text>
@@ -99,10 +99,9 @@ export const ThreeGroups: StoryObj<typeof RankedList.Root> = {
         </RankedList.Empty>
         <RankedList.Group>
           <RankedList.GroupDivider />
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(team: Player, context) => {
-                // Keep decorative colors for demo purposes
                 const colors = [
                   "text-yellow-500",
                   "text-gray-400",
@@ -112,7 +111,7 @@ export const ThreeGroups: StoryObj<typeof RankedList.Root> = {
 
                 return (
                   <>
-                    <div className="flex items-center justify-between py-2">
+                    <div className="flex items-center justify-between px-4 py-2">
                       <div className="flex items-center gap-3">
                         <RankedList.GroupItemIndex>
                           {({ globalIndex }) => (
@@ -168,11 +167,11 @@ export const CustomDivider: StoryObj<typeof RankedList.Root> = {
               </div>
             )}
           </RankedList.GroupDivider>
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(player: Player, context) => (
                 <>
-                  <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center justify-between px-4 py-2">
                     <Text>{player.name}</Text>
                     <Text color="secondary">{player.score}</Text>
                   </div>
@@ -236,7 +235,7 @@ export const WithAvatars: StoryObj<typeof RankedList.Root> = {
         </RankedList.Empty>
         <RankedList.Group>
           <RankedList.GroupDivider />
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(user: Player, context) => {
                 const isTop = context.groupIndex === 0;
@@ -245,7 +244,7 @@ export const WithAvatars: StoryObj<typeof RankedList.Root> = {
                   <>
                     <div
                       className={cn(
-                        "flex items-center justify-between py-2",
+                        "flex items-center justify-between px-4 py-2",
                         !isTop && "opacity-50",
                       )}
                     >
@@ -311,11 +310,11 @@ export const SingleGroup: StoryObj<typeof RankedList.Root> = {
         </RankedList.Empty>
         <RankedList.Group>
           <RankedList.GroupDivider />
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(player: Player, context) => (
                 <>
-                  <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center justify-between px-4 py-2">
                     <div className="flex items-center gap-3">
                       <RankedList.GroupItemIndex />
                       <Text>{player.name}</Text>
@@ -355,7 +354,7 @@ export const LongList: StoryObj<typeof RankedList.Root> = {
         </RankedList.Empty>
         <RankedList.Group>
           <RankedList.GroupDivider />
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(player: Player, context) => {
                 const isTop = context.groupIndex === 0;
@@ -364,7 +363,7 @@ export const LongList: StoryObj<typeof RankedList.Root> = {
                   <>
                     <div
                       className={cn(
-                        "flex items-center justify-between py-2",
+                        "flex items-center justify-between px-4 py-2",
                         !isTop && "opacity-40",
                       )}
                     >
@@ -449,11 +448,11 @@ export const StyledGroups: StoryObj<typeof RankedList.Root> = {
               );
             }}
           </RankedList.GroupDivider>
-          <RankedList.GroupItem className="px-4">
+          <RankedList.GroupItem>
             <RankedList.GroupItemValue>
               {(player: Player, context) => (
                 <>
-                  <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center justify-between px-4 py-2">
                     <div className="flex items-center gap-3">
                       <RankedList.GroupItemIndex />
                       <Text>{player.name}</Text>
