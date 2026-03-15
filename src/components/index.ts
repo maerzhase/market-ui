@@ -1,6 +1,10 @@
 export * from "./countdown";
 export * from "./primitives";
-export * from "./ranked-auction";
-
-export type { RankedListProps, GroupItemContextValue } from "./RankedList";
+export type {
+  GroupItemContextValue,
+  RankedListProps,
+  SlotContext,
+  SlotProps,
+} from "./RankedList";
 export { RankedList } from "./RankedList";
+export * from "./ranked-auction";

@@ -46,6 +46,7 @@ export interface RankedAuctionContextValue {
   lockedBid: { bidId: bigint; priceWei: bigint } | null;
 
   // Rank utilities
+  mergedForRank: RankableBid[];
   getRankForBid: (bidId: string) => number | null;
   getProjectedRank: (priceWei: bigint) => {
     rank: number | null;
@@ -151,52 +152,8 @@ export function RankedAuctionProvider({
 
   const totalActiveQty = BigInt(activeBids.length);
 
-  // Compute min bid: max(reserve, highest active bid if not full)
-  const minBidWei = useMemo(() => {
-    if (totalActiveQty >= BigInt(auction.maxTotalItems)) {
-      // Auction is full - use cutoff (lowest winning bid)
-      const winningBids = activeBids
-        .sort((a, b) => {
-          const pa = BigInt(a.price);
-          const pb = BigInt(b.price);
-          if (pa !== pb) return pb > pa ? 1 : -1;
-          return (
-            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-          );
-        })
-        .slice(0, auction.maxTotalItems);
-
-      if (winningBids.length > 0) {
-        const lastWinning = winningBids[winningBids.length - 1];
-        const tickSize = tickConfig
-          ? BigInt(lastWinning.price) > tickConfig.threshold
-            ? tickConfig.largeTickSize
-            : tickConfig.smallTickSize
-          : BigInt(lastWinning.price);
-        return BigInt(lastWinning.price) + tickSize;
-      }
-    }
-    return reservePriceWei;
-  }, [
-    reservePriceWei,
-    totalActiveQty,
-    auction.maxTotalItems,
-    activeBids,
-    tickConfig,
-  ]);
-
-  // Tick reference price: minBidWei (for tick grid calculation)
-  const tickReferencePriceWei = minBidWei;
-
-  // Current tick size at reference price
-  const tickSizeWei = useMemo(() => {
-    if (!tickConfig) return minBidWei;
-    return BigInt(minBidWei) > tickConfig.threshold
-      ? tickConfig.largeTickSize
-      : tickConfig.smallTickSize;
-  }, [tickConfig, minBidWei]);
-
   // Build merged bid list for ranking (active bids + user bids not in list)
+  // This must come before minBidWei calculation
   const mergedForRank = useMemo(() => {
     const cutoffIds = new Set(bids.map((b) => b.id));
 
@@ -221,6 +178,43 @@ export function RankedAuctionProvider({
       );
     });
   }, [bids, userBids]);
+
+  // Compute min bid: max(reserve, highest active bid if not full)
+  // Use mergedForRank to be consistent with getProjectedRank
+  const minBidWei = useMemo(() => {
+    if (totalActiveQty >= BigInt(auction.maxTotalItems)) {
+      // Auction is full - use cutoff (lowest winning bid)
+      const winningBids = mergedForRank.slice(0, auction.maxTotalItems);
+
+      if (winningBids.length > 0) {
+        const lastWinning = winningBids[winningBids.length - 1];
+        const tickSize = tickConfig
+          ? BigInt(lastWinning.price) > tickConfig.threshold
+            ? tickConfig.largeTickSize
+            : tickConfig.smallTickSize
+          : BigInt(lastWinning.price);
+        return BigInt(lastWinning.price) + tickSize;
+      }
+    }
+    return reservePriceWei;
+  }, [
+    reservePriceWei,
+    totalActiveQty,
+    auction.maxTotalItems,
+    mergedForRank,
+    tickConfig,
+  ]);
+
+  // Tick reference price: minBidWei (for tick grid calculation)
+  const tickReferencePriceWei = minBidWei;
+
+  // Current tick size at reference price
+  const tickSizeWei = useMemo(() => {
+    if (!tickConfig) return minBidWei;
+    return BigInt(minBidWei) > tickConfig.threshold
+      ? tickConfig.largeTickSize
+      : tickConfig.smallTickSize;
+  }, [tickConfig, minBidWei]);
 
   // Get rank for a bid ID
   const getRankForBid = useCallback(
@@ -374,6 +368,7 @@ export function RankedAuctionProvider({
     placeBidOperation,
     topUpOperation,
     lockedBid,
+    mergedForRank,
     getRankForBid,
     getProjectedRank,
     getSuggestedBids,

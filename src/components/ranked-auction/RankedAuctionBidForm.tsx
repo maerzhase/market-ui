@@ -6,6 +6,7 @@ import { Button, Separator, SteppedInput, Text } from "@/components/primitives";
 import { cn } from "@/lib";
 import { CursorGrowIcon } from "../primitives/SteppedInput";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids";
 
 interface BidFormContextValue {
   projectedRank: number | null;
@@ -88,13 +89,10 @@ export function RankedAuctionBidFormRoot({
           onChange={setBidWei}
           min={effectiveMinBidWei}
           getTickSize={getTickSize}
-          formatValue={(val) => Number(val)}
-          parseValue={(val) => {
-            const [numStr] = val.toString().split(".");
-            return BigInt(numStr || "0");
-          }}
+          formatValue={(val) => Number(val) / 1e18}
+          parseValue={(val) => BigInt(Math.round(val * 1e18))}
           disabled={isAuctionEnded}
-          snapToTick="down"
+          snapToTick="nearest"
         >
           <SteppedInput.Group>
             <SteppedInput.Decrement />
@@ -103,9 +101,7 @@ export function RankedAuctionBidFormRoot({
                 <CursorGrowIcon />
               </SteppedInput.ScrubAreaCursor>
               <SteppedInput.Value>
-                {({ displayValue }) =>
-                  `${formatPrice(BigInt(displayValue))} ${currencySymbol}`
-                }
+                {({ value }) => `${formatPrice(value)} ${currencySymbol}`}
               </SteppedInput.Value>
             </SteppedInput.ScrubArea>
             <SteppedInput.Increment />
@@ -191,22 +187,9 @@ export function RankedAuctionBidFormSuggestions({
 }: {
   className?: string;
 }): React.ReactElement | null {
-  const {
-    getSuggestedBids,
-    isAuctionEnded,
-    bidWei,
-    setBidWei,
-    formatPrice,
-    currencySymbol,
-  } = useRankedAuctionContext();
+  const { isAuctionEnded } = useRankedAuctionContext();
 
-  const suggestionsWei = getSuggestedBids();
-  const suggestions = suggestionsWei.map((value) => ({
-    wei: value,
-    display: `${formatPrice(value)} ${currencySymbol}`,
-  }));
-
-  if (suggestions.length === 0 || isAuctionEnded) {
+  if (isAuctionEnded) {
     return null;
   }
 
@@ -215,25 +198,13 @@ export function RankedAuctionBidFormSuggestions({
       <Text size="2" weight="medium" color="primary">
         Quick picks
       </Text>
-      <div className="grid grid-cols-2 gap-2">
-        {suggestions.map((suggestion) => {
-          const isActive = suggestion.wei === bidWei;
-          return (
-            <Button
-              key={suggestion.display}
-              type="button"
-              color={isActive ? "primary" : "secondary"}
-              className="w-full"
-              disabled={isAuctionEnded}
-              onClick={() => setBidWei(suggestion.wei)}
-              aria-label={`Set bid to ${suggestion.display}`}
-              size="default"
-            >
-              {suggestion.display}
-            </Button>
-          );
-        })}
-      </div>
+      <RankedAuctionSuggestedBids.Root count={4}>
+        {() => (
+          <RankedAuctionSuggestedBids.Item
+            labels={["Minimum Bid", "Safe Entry", "Competitive", "Leading"]}
+          />
+        )}
+      </RankedAuctionSuggestedBids.Root>
       <Separator color="subtle" label="or set your own" className="mb-2" />
     </div>
   );

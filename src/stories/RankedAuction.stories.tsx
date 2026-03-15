@@ -1,22 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   RankedAuction,
+  RankedAuctionArtwork,
   RankedAuctionBidForm,
   RankedAuctionDetails,
-  RankedAuctionDetailsBody,
   RankedAuctionDetailsFooter,
   RankedAuctionDetailsHeader,
   RankedAuctionInfo,
   RankedAuctionLayout,
   RankedAuctionRankings,
   RankedAuctionRankingsContainer,
-  RankedAuctionYourBids,
 } from "@/components/ranked-auction";
 import type {
   RankableBid,
   RankedAuctionData,
   RankedAuctionUserBid,
 } from "@/types";
+
+// Classical painting from Wikimedia Commons (public domain)
+const ARTWORK_URL =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1920px-1665_Girl_with_a_Pearl_Earring.jpg";
+const ARTWORK_ALT = "Girl with a Pearl Earring by Johannes Vermeer";
 
 const mockAuction: RankedAuctionData = {
   id: "0x1234567890abcdef1234567890abcdef12345678",
@@ -211,11 +215,9 @@ export const FullAuction: StoryObj<typeof RankedAuction> = {
           <RankedAuctionLayout>
             <RankedAuctionDetails>
               <RankedAuctionDetailsHeader>
-                <RankedAuctionInfo />
+                <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
+                <RankedAuctionInfo className="mt-4" />
               </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
-                <RankedAuctionYourBids />
-              </RankedAuctionDetailsBody>
               <RankedAuctionDetailsFooter>
                 <RankedAuctionBidForm.Suggestions />
                 <RankedAuctionBidForm.Root />
@@ -257,11 +259,9 @@ export const LiveAuction: StoryObj<typeof RankedAuction> = {
             <RankedAuctionLayout>
               <RankedAuctionDetails>
                 <RankedAuctionDetailsHeader>
-                  <RankedAuctionInfo />
+                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
+                  <RankedAuctionInfo className="mt-4" />
                 </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsBody>
-                  <div />
-                </RankedAuctionDetailsBody>
                 <RankedAuctionDetailsFooter>
                   <RankedAuctionBidForm.Suggestions />
                   <RankedAuctionBidForm.Root />
@@ -300,11 +300,9 @@ export const ClosedAuction: StoryObj<typeof RankedAuction> = {
             <RankedAuctionLayout>
               <RankedAuctionDetails>
                 <RankedAuctionDetailsHeader>
-                  <RankedAuctionInfo />
+                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
+                  <RankedAuctionInfo className="mt-4" />
                 </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsBody>
-                  <div />
-                </RankedAuctionDetailsBody>
                 <RankedAuctionDetailsFooter>
                   <RankedAuctionBidForm.Suggestions />
                   <RankedAuctionBidForm.Root />
@@ -375,11 +373,9 @@ export const DollarAuction: StoryObj<typeof RankedAuction> = {
             <RankedAuctionLayout>
               <RankedAuctionDetails>
                 <RankedAuctionDetailsHeader>
-                  <RankedAuctionInfo />
+                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
+                  <RankedAuctionInfo className="mt-4" />
                 </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsBody>
-                  <div />
-                </RankedAuctionDetailsBody>
                 <RankedAuctionDetailsFooter>
                   <RankedAuctionBidForm.Suggestions />
                   <RankedAuctionBidForm.Root />

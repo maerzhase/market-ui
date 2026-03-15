@@ -17,7 +17,8 @@ type ButtonSize =
   | "xl"
   | "icon"
   | "icon-sm"
-  | "icon-lg";
+  | "icon-lg"
+  | "card";
 
 interface ButtonVariantProps {
   color?: ButtonColor;
@@ -61,6 +62,7 @@ const buttonVariants = cva(
           "border-border bg-transparent text-foreground",
           "hover:border-input hover:bg-accent",
           "active:border-input active:bg-accent-active",
+          "data-[state=active]:border-input data-[state=active]:bg-accent-active",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.04)]",
         ].join(" "),
 
@@ -69,6 +71,7 @@ const buttonVariants = cva(
           "border-border bg-muted text-muted-foreground",
           "hover:border-input hover:bg-accent-hover hover:text-foreground",
           "active:bg-accent-active active:text-foreground",
+          "data-[state=active]:bg-accent-active data-[state=active]:text-foreground",
         ].join(" "),
 
         ghost: [
@@ -76,6 +79,7 @@ const buttonVariants = cva(
           "text-muted-foreground",
           "hover:bg-accent hover:text-foreground",
           "active:bg-accent-active active:text-foreground",
+          "data-[state=active]:bg-accent-active data-[state=active]:text-foreground",
           "disabled:border-transparent disabled:bg-transparent",
         ].join(" "),
 
@@ -103,6 +107,7 @@ const buttonVariants = cva(
         icon: "size-9 rounded-md",
         "icon-sm": "size-8 rounded-md",
         "icon-lg": "size-10 rounded-lg",
+        card: "min-h-[4rem] rounded-md px-4 py-3",
       },
     },
     defaultVariants: {

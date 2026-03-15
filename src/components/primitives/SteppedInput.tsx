@@ -127,14 +127,16 @@ function Root({
       }
 
       // Apply tick snapping if enabled
+      // Use the tick size from the CURRENT value (before the change) to avoid
+      // snapping issues when crossing thresholds
       if (snapToTick) {
-        const tickSize = getTickSize(newValue);
+        const tickSize = getTickSize(value);
         newValue = snapValueToTick(newValue, tickSize, snapToTick, min);
       }
 
       onChange(newValue);
     },
-    [parseValueFn, snapToTick, getTickSize, min, max, onChange],
+    [parseValueFn, snapToTick, getTickSize, min, max, onChange, value],
   );
 
   const contextValue: SteppedInputContextValue = React.useMemo(

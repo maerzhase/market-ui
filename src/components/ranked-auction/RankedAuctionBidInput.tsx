@@ -5,17 +5,13 @@ import { useCallback, useEffect } from "react";
 import { Button, SteppedInput, Text } from "@/components/primitives";
 import { CursorGrowIcon } from "../primitives/SteppedInput";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
-import { RankedAuctionSuggestedBids } from "./RankedAuctionSuggestedBids";
 
 export interface RankedAuctionBidInputProps {
   className?: string;
-  /** Hide the suggested bids buttons */
-  hideSuggestions?: boolean;
 }
 
 export function RankedAuctionBidInput({
   className,
-  hideSuggestions = false,
 }: RankedAuctionBidInputProps): React.ReactElement {
   const {
     isAuctionEnded,
@@ -113,13 +109,10 @@ export function RankedAuctionBidInput({
           onChange={setBidWei}
           min={effectiveMinBidWei}
           getTickSize={getTickSize}
-          formatValue={(val) => Number(val)}
-          parseValue={(val) => {
-            const [numStr] = val.toString().split(".");
-            return BigInt(numStr || "0");
-          }}
+          formatValue={(val) => Number(val) / 1e18}
+          parseValue={(val) => BigInt(Math.round(val * 1e18))}
           disabled={isAuctionEnded}
-          snapToTick="down"
+          snapToTick="nearest"
         >
           <SteppedInput.Group>
             <SteppedInput.Decrement />
@@ -128,15 +121,12 @@ export function RankedAuctionBidInput({
                 <CursorGrowIcon />
               </SteppedInput.ScrubAreaCursor>
               <SteppedInput.Value>
-                {({ displayValue }) =>
-                  `${formatPrice(BigInt(displayValue))} ${currencySymbol}`
-                }
+                {({ value }) => `${formatPrice(value)} ${currencySymbol}`}
               </SteppedInput.Value>
             </SteppedInput.ScrubArea>
             <SteppedInput.Increment />
           </SteppedInput.Group>
         </SteppedInput.Root>
-        {!hideSuggestions ? <RankedAuctionSuggestedBids /> : null}
         <div className="flex flex-row gap-2">
           <AnimatePresence mode="popLayout">
             {lockedBid !== null && (

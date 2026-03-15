@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { RankedList } from "@/components";
 import { Separator, Text } from "@/components/primitives";
 import { cn } from "@/lib";
@@ -468,6 +469,112 @@ export const StyledGroups: StoryObj<typeof RankedList.Root> = {
           </RankedList.GroupItem>
         </RankedList.Group>
       </RankedList.Root>
+    );
+  },
+};
+
+/**
+ * Demonstrates the Slot API for inserting custom content at a specific index.
+ * The slot is inserted at the specified `atIndex` position, shifting subsequent items.
+ * Use the slider to change where the preview slot appears in the list.
+ */
+export const WithSlot: StoryObj<typeof RankedList.Root> = {
+  render: function WithSlotStory() {
+    const [slotIndex, setSlotIndex] = useState(2);
+
+    const players: Player[] = [
+      { id: "1", name: "Alice", score: 950 },
+      { id: "2", name: "Bob", score: 880 },
+      { id: "3", name: "Charlie", score: 820 },
+      { id: "4", name: "Diana", score: 790 },
+      { id: "5", name: "Eve", score: 750 },
+    ];
+
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-3 px-4">
+          <Text size="2" color="secondary">
+            Slot index:
+          </Text>
+          <input
+            type="range"
+            min={0}
+            max={players.length}
+            value={slotIndex}
+            onChange={(e) => setSlotIndex(Number(e.target.value))}
+            className="flex-1"
+          />
+          <Text size="2" className="w-6 text-center">
+            {slotIndex}
+          </Text>
+        </div>
+        <RankedList.Root
+          items={players}
+          getKey={(player) => player.id}
+          boundaries={[3]}
+          labels={["Winners", "Runners Up"]}
+        >
+          <RankedList.Slot slotKey="preview" atIndex={slotIndex}>
+            {(context) => (
+              <>
+                <div
+                  className={cn(
+                    "flex items-center justify-between px-4 py-2",
+                    "rounded-lg border-2 border-dashed",
+                    context.groupIndex === 0
+                      ? "border-primary bg-primary/5"
+                      : "border-muted-foreground bg-muted/50",
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <Text
+                      color={context.groupIndex === 0 ? "primary" : "tertiary"}
+                      className="w-8 shrink-0"
+                    >
+                      #{context.rank}
+                    </Text>
+                    <div className="flex size-6 shrink-0 items-center justify-center rounded-full border border-dashed border-muted-foreground">
+                      <Text size="1" color="tertiary">
+                        ?
+                      </Text>
+                    </div>
+                    <Text color="secondary" className="italic">
+                      Preview slot at index {slotIndex}
+                    </Text>
+                  </div>
+                </div>
+                {!context.isLastInGroup && (
+                  <Separator orientation="horizontal" />
+                )}
+              </>
+            )}
+          </RankedList.Slot>
+          <RankedList.Empty>
+            <Text color="tertiary">No players</Text>
+          </RankedList.Empty>
+          <RankedList.Group>
+            <RankedList.GroupDivider />
+            <RankedList.GroupItem>
+              <RankedList.GroupItemValue>
+                {(player: Player, context) => (
+                  <>
+                    <div className="flex items-center justify-between px-4 py-2">
+                      <div className="flex items-center gap-3">
+                        <RankedList.GroupItemIndex />
+                        <Text>{player.name}</Text>
+                      </div>
+                      <Text color="secondary">{player.score} pts</Text>
+                    </div>
+                    {!context.isLastInGroup && (
+                      <Separator orientation="horizontal" />
+                    )}
+                  </>
+                )}
+              </RankedList.GroupItemValue>
+            </RankedList.GroupItem>
+          </RankedList.Group>
+        </RankedList.Root>
+      </div>
     );
   },
 };
