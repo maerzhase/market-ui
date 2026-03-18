@@ -1,5 +1,7 @@
+@import url("https://fonts.cdnfonts.com/css/geist");
+
 :root {
-  --font-beausite: "Beausite Classic";
+  --font-zeit: "Geist", ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Storybook canvas background - uses our semantic tokens */
