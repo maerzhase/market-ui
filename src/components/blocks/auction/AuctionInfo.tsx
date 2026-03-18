@@ -1,27 +1,25 @@
 "use client";
 
 import { Text } from "@/components/primitives";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
-import { RankedAuctionStatusTag } from "./RankedAuctionStatusTag";
+import { useAuctionContext } from "./AuctionContext";
+import { AuctionStatusTag } from "./AuctionStatusTag";
 
-export interface RankedAuctionInfoProps {
+export interface AuctionInfoProps {
   className?: string;
 }
 
-export function RankedAuctionInfo({
+export function AuctionInfo({
   className,
-}: RankedAuctionInfoProps): React.ReactElement {
-  const { auction, isAuctionEnded, maxTotalItems } = useRankedAuctionContext();
+}: AuctionInfoProps): React.ReactElement {
+  const { auction, isAuctionEnded, maxTotalItems } = useAuctionContext();
 
   const editionsLabel =
-    maxTotalItems === 1
-      ? "1 curated edition"
-      : `${maxTotalItems} curated editions`;
+    maxTotalItems === 1 ? "1 item" : `${maxTotalItems} items`;
 
   return (
     <div className={className}>
       <div className="flex flex-wrap items-center gap-2">
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={auction.opensAt}
           endsAt={auction.endsAt}
           background="transparent"

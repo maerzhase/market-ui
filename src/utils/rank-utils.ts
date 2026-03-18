@@ -1,8 +1,5 @@
-import type { RankableBid, RankedAuctionTickConfig } from "@/types";
-import {
-  getActiveTickSizeWei,
-  roundDownToValidBidWei,
-} from "./tick-validation";
+import type { AuctionTickConfig, RankableBid } from "@/types";
+import { getActiveTickSize, roundDownToValidBid } from "./tick-validation";
 
 export interface ProjectedRankResult {
   rank: number | null;
@@ -13,15 +10,15 @@ export interface ProjectedRankResult {
  * Projects where a bid at a given price would land in the current rankings.
  * Returns the 1-based rank and whether it would be in the winning range.
  */
-export function getProjectedRankForPriceWei(
-  priceWei: bigint,
+export function getProjectedRankForPrice(
+  priceValue: bigint,
   mergedForRank: RankableBid[],
   maxTotalItems: number,
 ): ProjectedRankResult {
-  if (priceWei <= 0n) return { rank: null, isWinning: false };
+  if (priceValue <= 0n) return { rank: null, isWinning: false };
   const synthetic: RankableBid = {
     id: "__synthetic__",
-    price: priceWei.toString(),
+    price: priceValue.toString(),
     created_at: new Date().toISOString(),
   };
 
@@ -49,47 +46,47 @@ export function getProjectedRankForPriceWei(
 export interface SuggestedBidsInput {
   mergedForRank: RankableBid[];
   maxTotalItems: number;
-  minBidWei: bigint;
-  reservePriceWei: bigint;
-  tickConfig: RankedAuctionTickConfig | undefined;
-  tickSizeWei?: bigint;
+  minBidValue: bigint;
+  reservePriceValue: bigint;
+  tickConfig: AuctionTickConfig | undefined;
+  tickSize?: bigint;
 }
 
 /**
  * Generates an array of suggested bid prices based on the current leaderboard state.
  * Returns 1-5 unique suggested prices in ascending order.
  */
-export function getSuggestedBidPricesWei({
+export function getSuggestedBidPrices({
   mergedForRank,
   maxTotalItems,
-  minBidWei,
-  reservePriceWei,
+  minBidValue,
+  reservePriceValue,
   tickConfig,
-  tickSizeWei: tickSizeWeiParam,
+  tickSize: tickSizeParam,
 }: SuggestedBidsInput): bigint[] {
   const suggestions: bigint[] = [];
 
-  if (minBidWei <= 0n) {
+  if (minBidValue <= 0n) {
     return suggestions;
   }
 
   const fallbackTick =
-    tickSizeWeiParam ?? (reservePriceWei > 0n ? reservePriceWei : minBidWei);
+    tickSizeParam ?? (reservePriceValue > 0n ? reservePriceValue : minBidValue);
 
-  const tickAt = (priceWei: bigint): bigint =>
-    tickConfig ? getActiveTickSizeWei(priceWei, tickConfig) : fallbackTick;
+  const tickAt = (priceValue: bigint): bigint =>
+    tickConfig ? getActiveTickSize(priceValue, tickConfig) : fallbackTick;
 
-  const ensureValid = (wei: bigint): bigint =>
-    roundDownToValidBidWei(wei, minBidWei, reservePriceWei, tickConfig);
+  const ensureValid = (value: bigint): bigint =>
+    roundDownToValidBid(value, minBidValue, reservePriceValue, tickConfig);
 
   // S1: minimum valid bid
-  suggestions.push(minBidWei);
+  suggestions.push(minBidValue);
 
   const winning = mergedForRank.slice(0, maxTotalItems);
 
   if (winning.length === 0) {
     // No bids yet: use simple ladder above minBid
-    const base = minBidWei;
+    const base = minBidValue;
     const t = tickAt(base);
     suggestions.push(ensureValid(base + t));
     suggestions.push(ensureValid(base + 3n * t));
@@ -100,16 +97,16 @@ export function getSuggestedBidPricesWei({
   const lastWinning = winning[winning.length - 1];
   const topWinning = winning[0];
 
-  const toWei = (bid: RankableBid): bigint => {
+  const toValue = (bid: RankableBid): bigint => {
     try {
       return BigInt(bid.price);
     } catch {
-      return minBidWei;
+      return minBidValue;
     }
   };
 
-  const lastWinningWei = toWei(lastWinning);
-  const topWinningWei = toWei(topWinning);
+  const lastWinningValue = toValue(lastWinning);
+  const topWinningValue = toValue(topWinning);
 
   const upperIdxRaw = Math.floor(winning.length * 0.25);
   const upperIdx = Math.min(
@@ -117,11 +114,11 @@ export function getSuggestedBidPricesWei({
     Math.max(winning.length - 1, 0),
   );
   const upperMidBid = winning[upperIdx];
-  const upperMidWei = toWei(upperMidBid);
+  const upperMidValue = toValue(upperMidBid);
 
-  suggestions.push(ensureValid(lastWinningWei + tickAt(lastWinningWei)));
-  suggestions.push(ensureValid(upperMidWei + tickAt(upperMidWei)));
-  suggestions.push(ensureValid(topWinningWei + tickAt(topWinningWei)));
+  suggestions.push(ensureValid(lastWinningValue + tickAt(lastWinningValue)));
+  suggestions.push(ensureValid(upperMidValue + tickAt(upperMidValue)));
+  suggestions.push(ensureValid(topWinningValue + tickAt(topWinningValue)));
 
   return dedupeAndSortAscending(suggestions);
 }

@@ -2,17 +2,17 @@
 
 import type { ReactNode } from "react";
 import type {
+  AuctionData,
+  AuctionFormatters,
+  AuctionUserBid,
   RankableBid,
-  RankedAuctionData,
-  RankedAuctionFormatters,
-  RankedAuctionUserBid,
 } from "@/types";
-import { RankedAuctionProvider } from "./RankedAuctionContext";
+import { AuctionProvider } from "./AuctionContext";
 
-export interface RankedAuctionProps {
-  auction: RankedAuctionData;
+export interface AuctionProps {
+  auction: AuctionData;
   bids: RankableBid[];
-  userBids: RankedAuctionUserBid[];
+  userBids: AuctionUserBid[];
   onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>;
   onTopUpBid: (
     bidId: bigint,
@@ -20,32 +20,32 @@ export interface RankedAuctionProps {
     additionalValue: bigint,
   ) => Promise<boolean>;
   onClaimEdition?: (bidId: string) => Promise<boolean>;
-  formatters?: RankedAuctionFormatters;
+  formatters?: AuctionFormatters;
   children: ReactNode;
   className?: string;
 }
 
 /**
- * Root component for a ranked auction interface.
+ * Root component for an auction interface.
  * Provides context and orchestrates the layout of child components.
  *
  * @example
  * ```tsx
- * <RankedAuction
+ * <Auction
  *   auction={auctionData}
  *   bids={bids}
  *   userBids={myBids}
  *   onPlaceBid={async (price, qty) => { /* wagmi call *\/ }}
  *   onTopUpBid={async (bidId, newPrice, value) => { /* wagmi call *\/ }}
  * >
- *   <RankedAuctionInfo />
- *   <RankedAuctionBidInput />
- *   <RankedAuctionRankings />
- *   <RankedAuctionYourBids />
- * </RankedAuction>
+ *   <AuctionInfo />
+ *   <AuctionBidInput />
+ *   <AuctionRankings />
+ *   <AuctionYourBids />
+ * </Auction>
  * ```
  */
-export function RankedAuction({
+export function Auction({
   auction,
   bids,
   userBids,
@@ -55,9 +55,9 @@ export function RankedAuction({
   formatters,
   children,
   className,
-}: RankedAuctionProps): React.ReactElement {
+}: AuctionProps): React.ReactElement {
   return (
-    <RankedAuctionProvider
+    <AuctionProvider
       auction={auction}
       bids={bids}
       userBids={userBids}
@@ -67,8 +67,8 @@ export function RankedAuction({
       formatters={formatters}
     >
       <div className={className}>{children}</div>
-    </RankedAuctionProvider>
+    </AuctionProvider>
   );
 }
 
-export { useRankedAuctionContext } from "./RankedAuctionContext";
+export { useAuctionContext } from "./AuctionContext";

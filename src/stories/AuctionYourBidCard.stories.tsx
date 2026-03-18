@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RankedAuctionYourBidCard } from "@/components/blocks/ranked-auction/RankedAuctionYourBidCard";
-import type { RankedAuctionUserBid } from "@/types";
+import { AuctionYourBidCard } from "@/components/blocks/auction/AuctionYourBidCard";
+import type { AuctionUserBid } from "@/types";
 
-const formatPrice = (priceWei: bigint) => {
-  const eth = Number(priceWei) / 1e18;
-  return eth.toLocaleString("en-US", {
+const formatPrice = (priceValue: bigint) => {
+  const val = Number(priceValue) / 1e18;
+  return val.toLocaleString("en-US", {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
   });
 };
 
-const mockWinningBid: RankedAuctionUserBid = {
+const mockWinningBid: AuctionUserBid = {
   id: "bid-1",
   price: 500000000000000000n,
   createdAt: new Date(Date.now() - 3600000),
@@ -20,7 +20,7 @@ const mockWinningBid: RankedAuctionUserBid = {
   isWinning: true,
 };
 
-const mockOutbidBid: RankedAuctionUserBid = {
+const mockOutbidBid: AuctionUserBid = {
   id: "bid-2",
   price: 100000000000000000n,
   createdAt: new Date(Date.now() - 7200000),
@@ -30,7 +30,7 @@ const mockOutbidBid: RankedAuctionUserBid = {
   isWinning: false,
 };
 
-const mockClaimedBid: RankedAuctionUserBid = {
+const mockClaimedBid: AuctionUserBid = {
   id: "bid-3",
   price: 300000000000000000n,
   createdAt: new Date(Date.now() - 86400000),
@@ -41,7 +41,7 @@ const mockClaimedBid: RankedAuctionUserBid = {
   claimedAt: new Date(Date.now() - 3600000),
 };
 
-const mockRefundedBid: RankedAuctionUserBid = {
+const mockRefundedBid: AuctionUserBid = {
   id: "bid-4",
   price: 50000000000000000n,
   createdAt: new Date(Date.now() - 172800000),
@@ -61,9 +61,9 @@ const getRankForBid = (bidId: string) => {
   return ranks[bidId] ?? null;
 };
 
-const meta: Meta<typeof RankedAuctionYourBidCard> = {
-  title: "Blocks/RankedAuction/YourBidCard",
-  component: RankedAuctionYourBidCard,
+const meta: Meta<typeof AuctionYourBidCard> = {
+  title: "Blocks/Auction/YourBidCard",
+  component: AuctionYourBidCard,
   parameters: {
     layout: "centered",
   },
@@ -78,83 +78,83 @@ const meta: Meta<typeof RankedAuctionYourBidCard> = {
 
 export default meta;
 
-export const Winning: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const Winning: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: mockWinningBid,
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: false,
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const Outbid: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const Outbid: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: mockOutbidBid,
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: false,
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const Claimed: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const Claimed: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: mockClaimedBid,
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: true,
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const Refunded: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const Refunded: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: mockRefundedBid,
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: true,
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const LockedForTopUp: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const LockedForTopUp: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: mockWinningBid,
     getRankForBid,
     lockedBidId: 1n,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: false,
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const WithClaimButton: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const WithClaimButton: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: { ...mockWinningBid, status: "active" },
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: true,
     onClaim: async (bidId) => {
@@ -162,78 +162,78 @@ export const WithClaimButton: StoryObj<typeof RankedAuctionYourBidCard> = {
       return true;
     },
     formatPrice,
-    currencySymbol: "ETH",
+    currencySymbol: "USD",
   },
 };
 
-export const AllStates: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const AllStates: StoryObj<typeof AuctionYourBidCard> = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Winning bid</p>
-        <RankedAuctionYourBidCard
+        <AuctionYourBidCard
           bid={mockWinningBid}
           getRankForBid={getRankForBid}
           lockedBidId={null}
-          onLockForTopUp={(bidId, priceWei) =>
-            console.log("Lock for top-up:", bidId, priceWei)
+          onLockForTopUp={(bidId, priceValue) =>
+            console.log("Lock for top-up:", bidId, priceValue)
           }
           onCancelTopUp={() => console.log("Cancel top-up")}
           isAuctionEnded={false}
           formatPrice={formatPrice}
-          currencySymbol="ETH"
+          currencySymbol="USD"
         />
       </div>
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Outbid</p>
-        <RankedAuctionYourBidCard
+        <AuctionYourBidCard
           bid={mockOutbidBid}
           getRankForBid={getRankForBid}
           lockedBidId={null}
-          onLockForTopUp={(bidId, priceWei) =>
-            console.log("Lock for top-up:", bidId, priceWei)
+          onLockForTopUp={(bidId, priceValue) =>
+            console.log("Lock for top-up:", bidId, priceValue)
           }
           onCancelTopUp={() => console.log("Cancel top-up")}
           isAuctionEnded={false}
           formatPrice={formatPrice}
-          currencySymbol="ETH"
+          currencySymbol="USD"
         />
       </div>
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Claimed</p>
-        <RankedAuctionYourBidCard
+        <AuctionYourBidCard
           bid={mockClaimedBid}
           getRankForBid={getRankForBid}
           lockedBidId={null}
-          onLockForTopUp={(bidId, priceWei) =>
-            console.log("Lock for top-up:", bidId, priceWei)
+          onLockForTopUp={(bidId, priceValue) =>
+            console.log("Lock for top-up:", bidId, priceValue)
           }
           onCancelTopUp={() => console.log("Cancel top-up")}
           isAuctionEnded={true}
           formatPrice={formatPrice}
-          currencySymbol="ETH"
+          currencySymbol="USD"
         />
       </div>
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Refunded</p>
-        <RankedAuctionYourBidCard
+        <AuctionYourBidCard
           bid={mockRefundedBid}
           getRankForBid={getRankForBid}
           lockedBidId={null}
-          onLockForTopUp={(bidId, priceWei) =>
-            console.log("Lock for top-up:", bidId, priceWei)
+          onLockForTopUp={(bidId, priceValue) =>
+            console.log("Lock for top-up:", bidId, priceValue)
           }
           onCancelTopUp={() => console.log("Cancel top-up")}
           isAuctionEnded={true}
           formatPrice={formatPrice}
-          currencySymbol="ETH"
+          currencySymbol="USD"
         />
       </div>
     </div>
   ),
 };
 
-export const DollarCurrency: StoryObj<typeof RankedAuctionYourBidCard> = {
+export const DollarCurrency: StoryObj<typeof AuctionYourBidCard> = {
   args: {
     bid: {
       ...mockWinningBid,
@@ -241,12 +241,12 @@ export const DollarCurrency: StoryObj<typeof RankedAuctionYourBidCard> = {
     },
     getRankForBid,
     lockedBidId: null,
-    onLockForTopUp: (bidId, priceWei) =>
-      console.log("Lock for top-up:", bidId, priceWei),
+    onLockForTopUp: (bidId, priceValue) =>
+      console.log("Lock for top-up:", bidId, priceValue),
     onCancelTopUp: () => console.log("Cancel top-up"),
     isAuctionEnded: false,
-    formatPrice: (priceWei: bigint) => {
-      const usd = Number(priceWei) / 1e6;
+    formatPrice: (priceValue: bigint) => {
+      const usd = Number(priceValue) / 1e6;
       return usd.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,

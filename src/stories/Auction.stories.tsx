@@ -1,24 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { RankedList, Separator, Text } from "@/components";
 import {
-  RankedAuction,
-  RankedAuctionArtwork,
-  RankedAuctionBiddingPanel,
-  RankedAuctionBidForm,
-  RankedAuctionDetails,
-  RankedAuctionDetailsBody,
-  RankedAuctionDetailsHeader,
-  RankedAuctionLayout,
-  RankedAuctionRankings,
-  RankedAuctionRankingsContainer,
-  RankedAuctionStatusTag,
-  useRankedAuctionContext,
-} from "@/components/blocks/ranked-auction";
-import type {
-  RankableBid,
-  RankedAuctionData,
-  RankedAuctionUserBid,
-} from "@/types";
+  Auction,
+  AuctionArtwork,
+  AuctionBiddingPanel,
+  AuctionBidForm,
+  AuctionDetails,
+  AuctionDetailsBody,
+  AuctionDetailsHeader,
+  AuctionLayout,
+  AuctionRankings,
+  AuctionRankingsContainer,
+  AuctionStatusTag,
+  useAuctionContext,
+} from "@/components/blocks/auction";
+import type { AuctionData, AuctionUserBid, RankableBid } from "@/types";
 import { formatShortRelative } from "@/utils";
 
 // ---------------------------------------------------------------------------
@@ -87,7 +83,7 @@ const dollarFormatters = {
 // ---------------------------------------------------------------------------
 
 // Dollar auction using cents as the base unit (1 dollar = 100 cents)
-const mockAuction: RankedAuctionData = {
+const mockAuction: AuctionData = {
   id: "0x1234567890abcdef1234567890abcdef12345678",
   reservePrice: 10000n, // $100 in cents
   opensAt: new Date(Date.now() - 86400000),
@@ -108,7 +104,7 @@ const mockBids: RankableBid[] = Array.from({ length: 26 }, (_, i) => ({
 }));
 
 // User bid matching bid #9 in the rankings (price $380 = 38000 cents)
-const mockUserBids: RankedAuctionUserBid[] = [
+const mockUserBids: AuctionUserBid[] = [
   {
     id: "9",
     price: 38000n, // $380 in cents
@@ -124,7 +120,7 @@ const mockUserBids: RankedAuctionUserBid[] = [
 // Single-item mock data (1-of-1 collectible card)
 // ---------------------------------------------------------------------------
 
-const mockSingleAuction: RankedAuctionData = {
+const mockSingleAuction: AuctionData = {
   id: "0xabcdef1234567890abcdef1234567890abcdef12",
   reservePrice: 50000n, // $500 in cents
   opensAt: new Date(Date.now() - 86400000 * 2),
@@ -195,7 +191,7 @@ const mockSingleBids: RankableBid[] = [
 ];
 
 // User bid at $2,200 (rank #3) for the SingleItemWithBid story
-const mockSingleUserBids: RankedAuctionUserBid[] = [
+const mockSingleUserBids: AuctionUserBid[] = [
   {
     id: "s3",
     price: 220000n, // $2,200 in cents
@@ -211,9 +207,9 @@ const mockSingleUserBids: RankedAuctionUserBid[] = [
 // Story meta
 // ---------------------------------------------------------------------------
 
-const meta: Meta<typeof RankedAuction> = {
-  title: "Blocks/RankedAuction",
-  component: RankedAuction,
+const meta: Meta<typeof Auction> = {
+  title: "Blocks/Auction",
+  component: Auction,
   parameters: {
     layout: "fullscreen",
   },
@@ -226,10 +222,10 @@ export default meta;
 // ---------------------------------------------------------------------------
 
 function AuctionStatus() {
-  const { auction } = useRankedAuctionContext();
+  const { auction } = useAuctionContext();
   return (
     <div className="text-xs">
-      <RankedAuctionStatusTag
+      <AuctionStatusTag
         opensAt={auction.opensAt}
         endsAt={auction.endsAt}
         background="transparent"
@@ -242,11 +238,11 @@ function AuctionStatus() {
 // Multi-edition stories (20 editions of an art print)
 // ---------------------------------------------------------------------------
 
-export const Default: StoryObj<typeof RankedAuction> = {
+export const Default: StoryObj<typeof Auction> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
-        <RankedAuction
+        <Auction
           auction={mockAuction}
           bids={mockBids}
           userBids={[]}
@@ -261,21 +257,21 @@ export const Default: StoryObj<typeof RankedAuction> = {
           }}
           className="size-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
         >
-          <RankedAuctionLayout>
-            <RankedAuctionDetails>
-              <RankedAuctionDetailsHeader>
+          <AuctionLayout>
+            <AuctionDetails>
+              <AuctionDetailsHeader>
                 <AuctionStatus />
                 <h2 className="mt-2 text-lg font-semibold">
                   The Great Wave off Kanagawa
                 </h2>
                 <Text color="secondary">Katsushika Hokusai</Text>
-                <RankedAuctionArtwork
+                <AuctionArtwork
                   className="mt-4"
                   src={EDITION_ARTWORK_URL}
                   alt={EDITION_ARTWORK_ALT}
                 />
-              </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <Text size="2" color="tertiary">
@@ -297,26 +293,26 @@ export const Default: StoryObj<typeof RankedAuction> = {
                     each win an edition.
                   </Text>
                 </div>
-              </RankedAuctionDetailsBody>
-            </RankedAuctionDetails>
-            <RankedAuctionRankingsContainer>
-              <RankedAuctionRankings />
-              <RankedAuctionBiddingPanel>
-                <RankedAuctionBidForm.Root />
-              </RankedAuctionBiddingPanel>
-            </RankedAuctionRankingsContainer>
-          </RankedAuctionLayout>
-        </RankedAuction>
+              </AuctionDetailsBody>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
+              <AuctionRankings />
+              <AuctionBiddingPanel>
+                <AuctionBidForm.Root />
+              </AuctionBiddingPanel>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
+        </Auction>
       </div>
     </div>
   ),
 };
 
-export const WithTopUp: StoryObj<typeof RankedAuction> = {
+export const WithTopUp: StoryObj<typeof Auction> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
-        <RankedAuction
+        <Auction
           auction={mockAuction}
           bids={mockBids}
           userBids={mockUserBids}
@@ -331,21 +327,21 @@ export const WithTopUp: StoryObj<typeof RankedAuction> = {
           }}
           className="size-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
         >
-          <RankedAuctionLayout>
-            <RankedAuctionDetails>
-              <RankedAuctionDetailsHeader>
+          <AuctionLayout>
+            <AuctionDetails>
+              <AuctionDetailsHeader>
                 <AuctionStatus />
                 <h2 className="mt-2 text-lg font-semibold">
                   The Great Wave off Kanagawa
                 </h2>
                 <Text color="secondary">Katsushika Hokusai</Text>
-                <RankedAuctionArtwork
+                <AuctionArtwork
                   className="mt-4"
                   src={EDITION_ARTWORK_URL}
                   alt={EDITION_ARTWORK_ALT}
                 />
-              </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
                 <div className="space-y-4">
                   <div className="flex justify-between">
                     <Text size="2" color="tertiary">
@@ -367,16 +363,16 @@ export const WithTopUp: StoryObj<typeof RankedAuction> = {
                     each win an edition.
                   </Text>
                 </div>
-              </RankedAuctionDetailsBody>
-            </RankedAuctionDetails>
-            <RankedAuctionRankingsContainer>
-              <RankedAuctionRankings />
-              <RankedAuctionBiddingPanel>
-                <RankedAuctionBidForm.Root />
-              </RankedAuctionBiddingPanel>
-            </RankedAuctionRankingsContainer>
-          </RankedAuctionLayout>
-        </RankedAuction>
+              </AuctionDetailsBody>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
+              <AuctionRankings />
+              <AuctionBiddingPanel>
+                <AuctionBidForm.Root />
+              </AuctionBiddingPanel>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
+        </Auction>
       </div>
     </div>
   ),
@@ -402,23 +398,24 @@ const singleItemBids: SingleItemBid[] = mockSingleBids.map((b) => ({
 
 /**
  * Renders a preview slot in the RankedList that shows where the user's
- * current bid (from the bid form) would land. Reads bidWei/showBidPreview
+ * current bid (from the bid form) would land. Reads bidValue/showBidPreview
  * from the auction context so it updates live as the user adjusts the input.
  */
 function BidPreviewSlot() {
   const {
-    bidWei,
-    minBidWei,
+    bidValue,
+    minBidValue,
     showBidPreview,
     isBiddingActive,
     formatPrice: ctxFormatPrice,
     currencySymbol,
     getProjectedRank,
-  } = useRankedAuctionContext();
+  } = useAuctionContext();
 
-  if (!isBiddingActive || !showBidPreview || bidWei < minBidWei) return null;
+  if (!isBiddingActive || !showBidPreview || bidValue < minBidValue)
+    return null;
 
-  const { rank } = getProjectedRank(bidWei);
+  const { rank } = getProjectedRank(bidValue);
   const atIndex = rank ? rank - 1 : 0;
 
   return (
@@ -438,7 +435,7 @@ function BidPreviewSlot() {
               </div>
               <div className="flex shrink-0 items-center gap-3">
                 <Text tabularNums size="3" weight="medium">
-                  {ctxFormatPrice(bidWei)} {currencySymbol}
+                  {ctxFormatPrice(bidValue)} {currencySymbol}
                 </Text>
                 <span className="min-w-9" />
               </div>
@@ -451,11 +448,11 @@ function BidPreviewSlot() {
   );
 }
 
-function SingleItemContent({ userBids }: { userBids: RankedAuctionUserBid[] }) {
+function SingleItemContent({ userBids }: { userBids: AuctionUserBid[] }) {
   return (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-3xl items-center justify-center">
-        <RankedAuction
+        <Auction
           auction={mockSingleAuction}
           bids={mockSingleBids}
           userBids={userBids}
@@ -478,7 +475,7 @@ function SingleItemContent({ userBids }: { userBids: RankedAuctionUserBid[] }) {
                 Magic: The Gathering &middot; Alpha Edition
               </Text>
             </div>
-            <RankedAuctionArtwork
+            <AuctionArtwork
               className="min-h-0 flex-1"
               src={SINGLE_ARTWORK_URL}
               alt={SINGLE_ARTWORK_ALT}
@@ -558,20 +555,20 @@ function SingleItemContent({ userBids }: { userBids: RankedAuctionUserBid[] }) {
                 </RankedList.Group>
               </RankedList.Root>
             </div>
-            <RankedAuctionBiddingPanel>
-              <RankedAuctionBidForm.Root />
-            </RankedAuctionBiddingPanel>
+            <AuctionBiddingPanel>
+              <AuctionBidForm.Root />
+            </AuctionBiddingPanel>
           </div>
-        </RankedAuction>
+        </Auction>
       </div>
     </div>
   );
 }
 
-export const SingleItem: StoryObj<typeof RankedAuction> = {
+export const SingleItem: StoryObj<typeof Auction> = {
   render: () => <SingleItemContent userBids={[]} />,
 };
 
-export const SingleItemWithBid: StoryObj<typeof RankedAuction> = {
+export const SingleItemWithBid: StoryObj<typeof Auction> = {
   render: () => <SingleItemContent userBids={mockSingleUserBids} />,
 };

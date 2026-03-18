@@ -5,15 +5,15 @@ import type { GroupItemContextValue } from "@/components";
 import { RankedList } from "@/components";
 import { Button, Separator, Skeleton, Text } from "@/components/primitives";
 import { cn } from "@/lib";
-import type { RankedAuctionBid, RankedAuctionUserBid } from "@/types";
-import { formatShortRelative, getProjectedRankForPriceWei } from "@/utils";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
+import type { AuctionBid, AuctionUserBid } from "@/types";
+import { formatShortRelative, getProjectedRankForPrice } from "@/utils";
+import { useAuctionContext } from "./AuctionContext";
 
-export interface RankedAuctionRankingsProps {
+export interface AuctionRankingsProps {
   className?: string;
   renderBidRow?: (
-    bid: RankedAuctionBid,
-    context: GroupItemContextValue<RankedAuctionBid> & { isOutbid: boolean },
+    bid: AuctionBid,
+    context: GroupItemContextValue<AuctionBid> & { isOutbid: boolean },
   ) => React.ReactNode;
 }
 
@@ -27,13 +27,13 @@ function BidRow({
   formatPrice,
   currencySymbol,
 }: {
-  bid: RankedAuctionBid;
+  bid: AuctionBid;
   rank: number;
   isOutbid: boolean;
   isUserBid: boolean;
   onTopUp?: () => void;
   isAuctionEnded: boolean;
-  formatPrice: (priceWei: bigint) => string;
+  formatPrice: (priceValue: bigint) => string;
   currencySymbol: string;
 }): React.ReactElement {
   const timeShort = formatShortRelative(bid.createdAt);
@@ -52,7 +52,6 @@ function BidRow({
         </Text>
         <span className="flex min-w-0 items-center gap-3">
           {bid.bidder.avatarUrl && (
-            /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={bid.bidder.avatarUrl}
               alt=""
@@ -98,7 +97,7 @@ function BidPreviewRow({
   price: bigint;
   rank: number;
   onCancel: () => void;
-  formatPrice: (priceWei: bigint) => string;
+  formatPrice: (priceValue: bigint) => string;
   currencySymbol: string;
   previewRef?: React.RefObject<HTMLDivElement | null>;
 }): React.ReactElement {
@@ -138,7 +137,7 @@ function TopUpPreviewRow({
   price: bigint;
   rank: number;
   onCancel: () => void;
-  formatPrice: (priceWei: bigint) => string;
+  formatPrice: (priceValue: bigint) => string;
   currencySymbol: string;
 }): React.ReactElement {
   return (
@@ -175,7 +174,7 @@ function RankingsSkeleton(): React.ReactElement {
           <Skeleton>username</Skeleton>
         </Text>
         <Text render={<p />} size="3">
-          <Skeleton>0.00420 ETH 11m</Skeleton>
+          <Skeleton>0.00420 USD 11m</Skeleton>
         </Text>
       </div>
       <Separator orientation="horizontal" />
@@ -185,18 +184,18 @@ function RankingsSkeleton(): React.ReactElement {
 
 export { RankingsSkeleton };
 
-export function RankedAuctionRankings({
+export function AuctionRankings({
   className,
   renderBidRow,
-}: RankedAuctionRankingsProps): React.ReactElement {
+}: AuctionRankingsProps): React.ReactElement {
   const {
     mergedForRank,
     maxTotalItems,
     formatPrice,
     currencySymbol,
-    bidWei,
-    setBidWei,
-    minBidWei,
+    bidValue,
+    setBidValue,
+    minBidValue,
     userBids,
     lockedBid,
     setLockedBid,
@@ -204,11 +203,10 @@ export function RankedAuctionRankings({
     isAuctionEnded,
     cancelBidding,
     isBiddingActive,
-  } = useRankedAuctionContext();
+  } = useAuctionContext();
 
-  // Create a map of user bid IDs for O(1) lookup
   const userBidMap = useMemo(() => {
-    const map = new Map<string, RankedAuctionUserBid>();
+    const map = new Map<string, AuctionUserBid>();
     for (const ub of userBids) {
       map.set(ub.id, ub);
     }
@@ -218,29 +216,24 @@ export function RankedAuctionRankings({
   const previewRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Determine if we should show the new bid preview (not during top-up)
   const showPreview = useMemo(() => {
-    if (!showBidPreview) return false; // Hidden until user interacts
-    if (lockedBid !== null) return false; // Hide during top-up
-    return bidWei >= minBidWei;
-  }, [showBidPreview, bidWei, minBidWei, lockedBid]);
+    if (!showBidPreview) return false;
+    if (lockedBid !== null) return false;
+    return bidValue >= minBidValue;
+  }, [showBidPreview, bidValue, minBidValue, lockedBid]);
 
-  // Calculate the index where the preview slot should be inserted
   const previewIndex = useMemo(() => {
     if (!showPreview) return 0;
-    const result = getProjectedRankForPriceWei(
-      bidWei,
+    const result = getProjectedRankForPrice(
+      bidValue,
       mergedForRank,
       maxTotalItems,
     );
-    // Convert 1-based rank to 0-based index, default to 0 if null
     return result.rank ? result.rank - 1 : 0;
-  }, [showPreview, bidWei, mergedForRank, maxTotalItems]);
+  }, [showPreview, bidValue, mergedForRank, maxTotalItems]);
 
-  // Track previous isBiddingActive to detect when bidding starts
   const prevBiddingActiveRef = useRef(false);
 
-  // Scroll preview into view when bidding starts or preview moves
   useEffect(() => {
     const justStartedBidding = isBiddingActive && !prevBiddingActiveRef.current;
     prevBiddingActiveRef.current = isBiddingActive;
@@ -255,11 +248,9 @@ export function RankedAuctionRankings({
         const containerRect = container.getBoundingClientRect();
         const previewRect = preview.getBoundingClientRect();
 
-        // Check if preview is outside visible area
         const isAbove = previewRect.top < containerRect.top;
         const isBelow = previewRect.bottom > containerRect.bottom;
 
-        // Always scroll when bidding starts, otherwise only if out of view
         if (justStartedBidding || isAbove || isBelow) {
           preview.scrollIntoView({
             behavior: "instant",
@@ -269,7 +260,6 @@ export function RankedAuctionRankings({
       }
     };
 
-    // Use double rAF to ensure DOM has fully updated after React render
     const frameId = requestAnimationFrame(() => {
       requestAnimationFrame(scrollToPreview);
     });
@@ -277,7 +267,6 @@ export function RankedAuctionRankings({
     return () => cancelAnimationFrame(frameId);
   }, [showPreview, isBiddingActive]);
 
-  // Find the locked bid's ID and original index if in top-up mode
   const { lockedBidId, lockedBidOriginalIndex } = useMemo(() => {
     if (lockedBid === null)
       return { lockedBidId: null, lockedBidOriginalIndex: null };
@@ -285,14 +274,12 @@ export function RankedAuctionRankings({
       (ub) => ub.globalBidId === lockedBid.bidId,
     );
     const bidId = lockedUserBid?.id ?? null;
-    // Find the original index of the locked bid in mergedForRank
     const originalIndex =
       bidId !== null ? mergedForRank.findIndex((b) => b.id === bidId) : null;
     return { lockedBidId: bidId, lockedBidOriginalIndex: originalIndex };
   }, [lockedBid, userBids, mergedForRank]);
 
-  // Transform merged bids for the list, excluding locked bid during top-up
-  const allBids: RankedAuctionBid[] = useMemo(
+  const allBids: AuctionBid[] = useMemo(
     () =>
       mergedForRank
         .filter((b) => b.id !== lockedBidId)
@@ -305,20 +292,18 @@ export function RankedAuctionRankings({
     [mergedForRank, lockedBidId],
   );
 
-  // Calculate top-up preview index (where the topped-up bid will land)
   const topUpPreviewIndex = useMemo(() => {
     if (lockedBid === null || lockedBidId === null) return null;
 
-    // Filter out the locked bid for accurate projection
     const bidsWithoutLocked = mergedForRank.filter((b) => b.id !== lockedBidId);
 
-    const result = getProjectedRankForPriceWei(
-      bidWei,
+    const result = getProjectedRankForPrice(
+      bidValue,
       bidsWithoutLocked,
       maxTotalItems,
     );
     return result.rank ? result.rank - 1 : 0;
-  }, [lockedBid, lockedBidId, bidWei, mergedForRank, maxTotalItems]);
+  }, [lockedBid, lockedBidId, bidValue, mergedForRank, maxTotalItems]);
 
   return (
     <div
@@ -336,7 +321,7 @@ export function RankedAuctionRankings({
             {(context) => (
               <>
                 <BidPreviewRow
-                  price={bidWei}
+                  price={bidValue}
                   rank={context.rank}
                   onCancel={cancelBidding}
                   formatPrice={formatPrice}
@@ -355,7 +340,7 @@ export function RankedAuctionRankings({
             {(context) => (
               <>
                 <TopUpPreviewRow
-                  price={bidWei}
+                  price={bidValue}
                   rank={context.rank}
                   onCancel={cancelBidding}
                   formatPrice={formatPrice}
@@ -375,11 +360,8 @@ export function RankedAuctionRankings({
           <RankedList.GroupDivider />
           <RankedList.GroupItem>
             <RankedList.GroupItemValue>
-              {(bid: RankedAuctionBid, context) => {
+              {(bid: AuctionBid, context) => {
                 const isOutbid = context.groupIndex === 1;
-                // During top-up mode, fade bids that were originally below the locked bid
-                // Since the locked bid is removed, a bid now at index N was originally at N+1 if N >= originalIndex
-                // So we fade bids where globalIndex >= lockedBidOriginalIndex (these were originally below)
                 const isBelowLockedBid =
                   lockedBid !== null &&
                   lockedBidOriginalIndex !== null &&
@@ -387,7 +369,6 @@ export function RankedAuctionRankings({
                   context.globalIndex >= lockedBidOriginalIndex;
                 const extendedContext = { ...context, isOutbid };
 
-                // Check if this is a user bid
                 const userBid = userBidMap.get(bid.id);
                 const isUserBid = !!userBid;
 
@@ -395,9 +376,9 @@ export function RankedAuctionRankings({
                   if (userBid) {
                     setLockedBid({
                       bidId: userBid.globalBidId,
-                      priceWei: userBid.price,
+                      priceValue: userBid.price,
                     });
-                    setBidWei(userBid.price);
+                    setBidValue(userBid.price);
                   }
                 };
 

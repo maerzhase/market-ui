@@ -3,19 +3,19 @@
 import type { ReactNode } from "react";
 import { Button } from "@/components/primitives";
 import { cn } from "@/lib";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { useAuctionContext } from "./AuctionContext";
 
-export interface RankedAuctionLayoutProps {
+export interface AuctionLayoutProps {
   children: ReactNode;
   className?: string;
   height?: string | number;
 }
 
-export function RankedAuctionLayout({
+export function AuctionLayout({
   children,
   className,
   height = "calc(100vh - 4rem)",
-}: RankedAuctionLayoutProps): React.ReactElement {
+}: AuctionLayoutProps): React.ReactElement {
   const heightStyle = typeof height === "number" ? `${height}px` : height;
 
   return (
@@ -28,15 +28,15 @@ export function RankedAuctionLayout({
   );
 }
 
-export interface RankedAuctionDetailsProps {
+export interface AuctionDetailsProps {
   children: ReactNode;
   className?: string;
 }
 
-export function RankedAuctionDetails({
+export function AuctionDetails({
   children,
   className,
-}: RankedAuctionDetailsProps): React.ReactElement {
+}: AuctionDetailsProps): React.ReactElement {
   return (
     <div
       className={cn(
@@ -51,29 +51,29 @@ export function RankedAuctionDetails({
   );
 }
 
-export interface RankedAuctionDetailsHeaderProps {
+export interface AuctionDetailsHeaderProps {
   children: ReactNode;
   className?: string;
 }
 
-export function RankedAuctionDetailsHeader({
+export function AuctionDetailsHeader({
   children,
   className,
-}: RankedAuctionDetailsHeaderProps): React.ReactElement {
+}: AuctionDetailsHeaderProps): React.ReactElement {
   return (
     <div className={cn("flex grow flex-col p-6", className)}>{children}</div>
   );
 }
 
-export interface RankedAuctionDetailsBodyProps {
+export interface AuctionDetailsBodyProps {
   children: ReactNode;
   className?: string;
 }
 
-export function RankedAuctionDetailsBody({
+export function AuctionDetailsBody({
   children,
   className,
-}: RankedAuctionDetailsBodyProps): React.ReactElement {
+}: AuctionDetailsBodyProps): React.ReactElement {
   return (
     <div className={cn("min-h-0 flex-1 overflow-y-auto p-6", className)}>
       {children}
@@ -81,15 +81,15 @@ export function RankedAuctionDetailsBody({
   );
 }
 
-export interface RankedAuctionDetailsFooterProps {
+export interface AuctionDetailsFooterProps {
   children: ReactNode;
   className?: string;
 }
 
-export function RankedAuctionDetailsFooter({
+export function AuctionDetailsFooter({
   children,
   className,
-}: RankedAuctionDetailsFooterProps): React.ReactElement {
+}: AuctionDetailsFooterProps): React.ReactElement {
   return (
     <div
       className={cn("mt-auto shrink-0 border-t border-border p-6", className)}
@@ -99,15 +99,15 @@ export function RankedAuctionDetailsFooter({
   );
 }
 
-export interface RankedAuctionRankingsContainerProps {
+export interface AuctionRankingsContainerProps {
   children: ReactNode;
   className?: string;
 }
 
-export function RankedAuctionRankingsContainer({
+export function AuctionRankingsContainer({
   children,
   className,
-}: RankedAuctionRankingsContainerProps): React.ReactElement {
+}: AuctionRankingsContainerProps): React.ReactElement {
   return (
     <div
       className={cn("flex h-full min-h-0 flex-col justify-between", className)}
@@ -117,23 +117,17 @@ export function RankedAuctionRankingsContainer({
   );
 }
 
-// ----- Bidding Panel Components -----
-
-export interface RankedAuctionBiddingPanelProps {
+export interface AuctionBiddingPanelProps {
   children: ReactNode;
   className?: string;
 }
 
-/**
- * Container that shows the "Start Bidding" button or the bidding form
- * based on the isBiddingActive state.
- */
-export function RankedAuctionBiddingPanel({
+export function AuctionBiddingPanel({
   children,
   className,
-}: RankedAuctionBiddingPanelProps): React.ReactElement {
+}: AuctionBiddingPanelProps): React.ReactElement {
   const { isBiddingActive, startBidding, isAuctionEnded, setShowBidPreview } =
-    useRankedAuctionContext();
+    useAuctionContext();
 
   const handleStartBidding = () => {
     startBidding();

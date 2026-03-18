@@ -8,94 +8,83 @@ import {
   useState,
 } from "react";
 import type {
+  AuctionData,
+  AuctionFormatters,
+  AuctionTickConfig,
+  AuctionUserBid,
   OperationState,
   RankableBid,
-  RankedAuctionData,
-  RankedAuctionFormatters,
-  RankedAuctionTickConfig,
-  RankedAuctionUserBid,
 } from "@/types";
-import { getProjectedRankForPriceWei, getSuggestedBidPricesWei } from "@/utils";
+import { getProjectedRankForPrice, getSuggestedBidPrices } from "@/utils";
 
-export interface RankedAuctionContextValue {
-  // Auction data
-  auction: RankedAuctionData;
+export interface AuctionContextValue {
+  auction: AuctionData;
   isAuctionEnded: boolean;
 
-  // Bid state
   bids: RankableBid[];
-  userBids: RankedAuctionUserBid[];
+  userBids: AuctionUserBid[];
   maxTotalItems: number;
 
-  // Current bid input value (for bid input + suggestions sync)
-  bidWei: bigint;
-  setBidWei: (value: bigint | ((prev: bigint) => bigint)) => void;
+  bidValue: bigint;
+  setBidValue: (value: bigint | ((prev: bigint) => bigint)) => void;
 
-  // Tick/pricing
-  minBidWei: bigint;
-  reservePriceWei: bigint;
-  tickReferencePriceWei: bigint;
-  tickConfig: RankedAuctionTickConfig | undefined;
-  tickSizeWei: bigint;
+  minBidValue: bigint;
+  reservePriceValue: bigint;
+  tickReferencePrice: bigint;
+  tickConfig: AuctionTickConfig | undefined;
+  tickSize: bigint;
 
-  // Operations
   placeBidOperation: OperationState;
   topUpOperation: OperationState;
 
-  // Locked bid (for top-up flow)
-  lockedBid: { bidId: bigint; priceWei: bigint } | null;
+  lockedBid: { bidId: bigint; priceValue: bigint } | null;
 
-  // Rank utilities
   mergedForRank: RankableBid[];
   getRankForBid: (bidId: string) => number | null;
-  getProjectedRank: (priceWei: bigint) => {
+  getProjectedRank: (priceValue: bigint) => {
     rank: number | null;
     isWinning: boolean;
   };
   getSuggestedBids: () => bigint[];
 
-  // Bid preview visibility
   showBidPreview: boolean;
   setShowBidPreview: (show: boolean) => void;
 
-  // Bidding mode (for "Start Bidding" flow)
   isBiddingActive: boolean;
   setIsBiddingActive: (active: boolean) => void;
   startBidding: () => void;
   cancelBidding: () => void;
 
-  // Actions
-  setLockedBid: (bid: { bidId: bigint; priceWei: bigint } | null) => void;
+  setLockedBid: (bid: { bidId: bigint; priceValue: bigint } | null) => void;
   handlePlaceBid: (price: string) => Promise<boolean>;
   handleTopUp: (newPrice: string) => Promise<boolean>;
   handleClaimEdition?: (bidId: string) => Promise<boolean>;
   resetOperations: () => void;
 
-  // Formatters
-  formatPrice: (priceWei: bigint) => string;
+  formatPrice: (priceValue: bigint) => string;
   formatTime: (date: Date) => string;
   currencySymbol: string;
   formatInputValue: (value: bigint) => number;
   parseInputValue: (value: number) => bigint;
 }
 
-export const RankedAuctionContext: React.Context<RankedAuctionContextValue | null> =
-  createContext<RankedAuctionContextValue | null>(null);
+export const AuctionContext: React.Context<AuctionContextValue | null> =
+  createContext<AuctionContextValue | null>(null);
 
-export function useRankedAuctionContext(): RankedAuctionContextValue {
-  const ctx = useContext(RankedAuctionContext);
+export function useAuctionContext(): AuctionContextValue {
+  const ctx = useContext(AuctionContext);
   if (!ctx) {
     throw new Error(
-      "useRankedAuctionContext must be used within a RankedAuction provider",
+      "useAuctionContext must be used within an Auction provider",
     );
   }
   return ctx;
 }
 
-export interface RankedAuctionProviderProps {
-  auction: RankedAuctionData;
+export interface AuctionProviderProps {
+  auction: AuctionData;
   bids: RankableBid[];
-  userBids: RankedAuctionUserBid[];
+  userBids: AuctionUserBid[];
   onPlaceBid: (price: bigint, quantity: bigint) => Promise<boolean>;
   onTopUpBid: (
     bidId: bigint,
@@ -103,11 +92,11 @@ export interface RankedAuctionProviderProps {
     additionalValue: bigint,
   ) => Promise<boolean>;
   onClaimEdition?: (bidId: string) => Promise<boolean>;
-  formatters?: RankedAuctionFormatters;
+  formatters?: AuctionFormatters;
   children: React.ReactNode;
 }
 
-export function RankedAuctionProvider({
+export function AuctionProvider({
   auction,
   bids,
   userBids,
@@ -116,11 +105,10 @@ export function RankedAuctionProvider({
   onClaimEdition,
   formatters,
   children,
-}: RankedAuctionProviderProps): React.ReactElement {
-  // Default formatters
-  const defaultFormatPrice = (priceWei: bigint) => {
-    const eth = Number(priceWei) / 1e18;
-    return eth.toLocaleString("en-US", {
+}: AuctionProviderProps): React.ReactElement {
+  const defaultFormatPrice = (priceValue: bigint) => {
+    const val = Number(priceValue) / 1e18;
+    return val.toLocaleString("en-US", {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3,
     });
@@ -144,7 +132,7 @@ export function RankedAuctionProvider({
 
   const formatPrice = formatters?.formatPrice ?? defaultFormatPrice;
   const formatTime = formatters?.formatTime ?? defaultFormatTime;
-  const currencySymbol = formatters?.currencySymbol ?? "ETH";
+  const currencySymbol = formatters?.currencySymbol ?? "USD";
   const formatInputValue =
     formatters?.formatInputValue ?? ((v: bigint) => Number(v) / 1e18);
   const parseInputValue =
@@ -155,13 +143,9 @@ export function RankedAuctionProvider({
     ? Date.now() > auction.endsAt.getTime()
     : false;
 
-  console.log(isAuctionEnded);
-
-  // Compute pricing values
-  const reservePriceWei = auction.reservePrice;
+  const reservePriceValue = auction.reservePrice;
   const tickConfig = auction.tickConfig;
 
-  // Get total active quantity from bids (for cutoff calculation)
   const activeBids = bids.filter((b) => {
     const bid = userBids.find((ub) => ub.id === b.id);
     return !bid || bid.status === "active";
@@ -169,8 +153,6 @@ export function RankedAuctionProvider({
 
   const totalActiveQty = BigInt(activeBids.length);
 
-  // Build merged bid list for ranking (active bids + user bids not in list)
-  // This must come before minBidWei calculation
   const mergedForRank = useMemo(() => {
     const cutoffIds = new Set(bids.map((b) => b.id));
 
@@ -196,11 +178,8 @@ export function RankedAuctionProvider({
     });
   }, [bids, userBids]);
 
-  // Compute min bid: max(reserve, highest active bid if not full)
-  // Use mergedForRank to be consistent with getProjectedRank
-  const minBidWei = useMemo(() => {
+  const minBidValue = useMemo(() => {
     if (totalActiveQty >= BigInt(auction.maxTotalItems)) {
-      // Auction is full - use cutoff (lowest winning bid)
       const winningBids = mergedForRank.slice(0, auction.maxTotalItems);
 
       if (winningBids.length > 0) {
@@ -213,27 +192,24 @@ export function RankedAuctionProvider({
         return BigInt(lastWinning.price) + tickSize;
       }
     }
-    return reservePriceWei;
+    return reservePriceValue;
   }, [
-    reservePriceWei,
+    reservePriceValue,
     totalActiveQty,
     auction.maxTotalItems,
     mergedForRank,
     tickConfig,
   ]);
 
-  // Tick reference price: minBidWei (for tick grid calculation)
-  const tickReferencePriceWei = minBidWei;
+  const tickReferencePrice = minBidValue;
 
-  // Current tick size at reference price
-  const tickSizeWei = useMemo(() => {
-    if (!tickConfig) return minBidWei;
-    return BigInt(minBidWei) > tickConfig.threshold
+  const tickSize = useMemo(() => {
+    if (!tickConfig) return minBidValue;
+    return BigInt(minBidValue) > tickConfig.threshold
       ? tickConfig.largeTickSize
       : tickConfig.smallTickSize;
-  }, [tickConfig, minBidWei]);
+  }, [tickConfig, minBidValue]);
 
-  // Get rank for a bid ID
   const getRankForBid = useCallback(
     (bidId: string) => {
       const idx = mergedForRank.findIndex((b) => b.id === bidId);
@@ -242,11 +218,10 @@ export function RankedAuctionProvider({
     [mergedForRank],
   );
 
-  // Get projected rank for a price
   const getProjectedRank = useCallback(
-    (priceWei: bigint) => {
-      return getProjectedRankForPriceWei(
-        priceWei,
+    (priceValue: bigint) => {
+      return getProjectedRankForPrice(
+        priceValue,
         mergedForRank,
         auction.maxTotalItems,
       );
@@ -254,26 +229,24 @@ export function RankedAuctionProvider({
     [mergedForRank, auction.maxTotalItems],
   );
 
-  // Get suggested bid prices
   const getSuggestedBids = useCallback(() => {
-    return getSuggestedBidPricesWei({
+    return getSuggestedBidPrices({
       mergedForRank,
       maxTotalItems: auction.maxTotalItems,
-      minBidWei,
-      reservePriceWei,
+      minBidValue,
+      reservePriceValue,
       tickConfig,
-      tickSizeWei,
+      tickSize,
     });
   }, [
     mergedForRank,
     auction.maxTotalItems,
-    minBidWei,
-    reservePriceWei,
+    minBidValue,
+    reservePriceValue,
     tickConfig,
-    tickSizeWei,
+    tickSize,
   ]);
 
-  // Operation states
   const [placeBidOperation, setPlaceBidOperation] = useState<OperationState>({
     status: "idle",
   });
@@ -281,16 +254,13 @@ export function RankedAuctionProvider({
     status: "idle",
   });
 
-  // Locked bid for top-up
   const [lockedBid, setLockedBid] = useState<{
     bidId: bigint;
-    priceWei: bigint;
+    priceValue: bigint;
   } | null>(null);
 
-  // Bid preview visibility (hidden by default, shown on focus/interaction)
   const [showBidPreview, setShowBidPreview] = useState(false);
 
-  // Bidding mode state (for "Start Bidding" flow)
   const [isBiddingActive, setIsBiddingActive] = useState(false);
 
   const startBidding = useCallback(() => {
@@ -304,9 +274,8 @@ export function RankedAuctionProvider({
     setLockedBid(null);
   }, []);
 
-  // Wrapper for setLockedBid that also activates bidding mode when locking a bid
   const setLockedBidAndActivate = useCallback(
-    (bid: { bidId: bigint; priceWei: bigint } | null) => {
+    (bid: { bidId: bigint; priceValue: bigint } | null) => {
       setLockedBid(bid);
       if (bid !== null) {
         setIsBiddingActive(true);
@@ -316,23 +285,20 @@ export function RankedAuctionProvider({
     [],
   );
 
-  // Current bid input value
-  const [bidWei, setBidWei] = useState<bigint>(minBidWei);
+  const [bidValue, setBidValue] = useState<bigint>(minBidValue);
 
-  // Reset operations
   const resetOperations = useCallback(() => {
     setPlaceBidOperation({ status: "idle" });
     setTopUpOperation({ status: "idle" });
   }, []);
 
-  // Handle place bid
   const handlePlaceBid = useCallback(
     async (price: string) => {
-      const priceWei = BigInt(price);
+      const priceValue = BigInt(price);
       setPlaceBidOperation({ status: "pending" });
 
       try {
-        const success = await onPlaceBid(priceWei, 1n);
+        const success = await onPlaceBid(priceValue, 1n);
         if (success) {
           setPlaceBidOperation({ status: "success" });
           setShowBidPreview(false);
@@ -355,20 +321,19 @@ export function RankedAuctionProvider({
     [onPlaceBid],
   );
 
-  // Handle top-up
   const handleTopUp = useCallback(
     async (newPrice: string) => {
       if (!lockedBid) return false;
 
-      const newPriceWei = BigInt(newPrice);
-      const additionalValue = newPriceWei - lockedBid.priceWei;
+      const newPriceValue = BigInt(newPrice);
+      const additionalValue = newPriceValue - lockedBid.priceValue;
 
       setTopUpOperation({ status: "pending" });
 
       try {
         const success = await onTopUpBid(
           lockedBid.bidId,
-          newPriceWei,
+          newPriceValue,
           additionalValue,
         );
         if (success) {
@@ -390,7 +355,6 @@ export function RankedAuctionProvider({
     [lockedBid, onTopUpBid],
   );
 
-  // Handle claim edition
   const handleClaimEdition = useCallback(
     async (bidId: string) => {
       if (!onClaimEdition) return false;
@@ -399,19 +363,19 @@ export function RankedAuctionProvider({
     [onClaimEdition],
   );
 
-  const value: RankedAuctionContextValue = {
+  const value: AuctionContextValue = {
     auction,
     isAuctionEnded,
     bids,
     userBids,
     maxTotalItems: auction.maxTotalItems,
-    bidWei,
-    setBidWei,
-    minBidWei,
-    reservePriceWei,
-    tickReferencePriceWei,
+    bidValue,
+    setBidValue,
+    minBidValue,
+    reservePriceValue,
+    tickReferencePrice,
     tickConfig,
-    tickSizeWei,
+    tickSize,
     placeBidOperation,
     topUpOperation,
     lockedBid,
@@ -438,8 +402,6 @@ export function RankedAuctionProvider({
   };
 
   return (
-    <RankedAuctionContext.Provider value={value}>
-      {children}
-    </RankedAuctionContext.Provider>
+    <AuctionContext.Provider value={value}>{children}</AuctionContext.Provider>
   );
 }

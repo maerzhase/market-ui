@@ -1,16 +1,16 @@
 "use client";
 
 import { Text } from "@/components/primitives";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
-import { RankedAuctionYourBidCard } from "./RankedAuctionYourBidCard";
+import { useAuctionContext } from "./AuctionContext";
+import { AuctionYourBidCard } from "./AuctionYourBidCard";
 
-export interface RankedAuctionYourBidsProps {
+export interface AuctionYourBidsProps {
   className?: string;
 }
 
-export function RankedAuctionYourBids({
+export function AuctionYourBids({
   className,
-}: RankedAuctionYourBidsProps): React.ReactElement | null {
+}: AuctionYourBidsProps): React.ReactElement | null {
   const {
     userBids,
     getRankForBid,
@@ -20,25 +20,30 @@ export function RankedAuctionYourBids({
     handleClaimEdition,
     formatPrice,
     currencySymbol,
-  } = useRankedAuctionContext();
+  } = useAuctionContext();
 
   if (userBids.length === 0) return null;
 
-  const onLockForTopUp = (bidId: bigint, priceWei: bigint) => {
-    setLockedBid({ bidId, priceWei });
+  const onLockForTopUp = (bidId: bigint, priceValue: bigint) => {
+    setLockedBid({ bidId, priceValue });
   };
 
   const onCancelTopUp = () => setLockedBid(null);
 
   return (
     <div className={className}>
-      <Text render={<h3 />} color="tertiary" className="mb-3 shrink-0">
+      <Text
+        render={<h3 />}
+        color="tertiary"
+        className="mb-3 shrink-0"
+        aria-label={`Your Bids (${userBids.length})`}
+      >
         Your Bids ({userBids.length})
       </Text>
       <div className="-mr-1 min-h-0 flex-1 space-y-3 overflow-y-auto py-1 pr-1">
-        {userBids.map((bid, index) => (
-          <RankedAuctionYourBidCard
-            key={index}
+        {userBids.map((bid) => (
+          <AuctionYourBidCard
+            key={bid.id}
             bid={bid}
             getRankForBid={getRankForBid}
             lockedBidId={lockedBid?.bidId ?? null}

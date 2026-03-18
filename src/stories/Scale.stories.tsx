@@ -33,9 +33,9 @@ const formatDollars = (cents: bigint) => {
   });
 };
 
-const formatEth = (wei: bigint) => {
-  const eth = Number(wei) / 1e18;
-  return `${eth.toFixed(4)} ETH`;
+const formatValue = (value: bigint) => {
+  const val = Number(value) / 1e18;
+  return `${val.toFixed(4)}`;
 };
 
 const formatPercent = (value: number) => `${value.toFixed(0)}%`;
@@ -368,29 +368,29 @@ export const SnapModes: StoryObj<typeof Scale.Linear> = {
   },
 };
 
-export const EthereumBidSuggestions: StoryObj<typeof Scale.Linear> = {
+export const BidSuggestions: StoryObj<typeof Scale.Linear> = {
   render: () => {
     const [selected, setSelected] = React.useState<bigint | null>(null);
-    const WEI_PER_ETH = BigInt(10 ** 18);
+    const UNIT = BigInt(10 ** 18);
 
-    // Min: 0.01 ETH, Max: 1 ETH
-    const min = WEI_PER_ETH / 100n;
-    const max = WEI_PER_ETH;
+    // Min: 0.01, Max: 1
+    const min = UNIT / 100n;
+    const max = UNIT;
 
-    // Tick: 0.01 ETH below 0.1 ETH, 0.1 ETH above
+    // Tick: 0.01 below 0.1, 0.1 above
     const getTickSize = (value: bigint) => {
-      return value > WEI_PER_ETH / 10n
-        ? WEI_PER_ETH / 10n // 0.1 ETH
-        : WEI_PER_ETH / 100n; // 0.01 ETH
+      return value > UNIT / 10n
+        ? UNIT / 10n // 0.1
+        : UNIT / 100n; // 0.01
     };
 
     return (
       <div className="w-96">
         <Text size="3" weight="medium" className="mb-2">
-          ETH Bid Suggestions
+          Bid Suggestions
         </Text>
         <Text size="2" color="secondary" className="mb-4">
-          Reserve: 0.01 ETH, Max suggestion: 1 ETH
+          Reserve: 0.01, Max suggestion: 1
         </Text>
         <Scale.Linear
           domain={[min, max]}
@@ -407,7 +407,7 @@ export const EthereumBidSuggestions: StoryObj<typeof Scale.Linear> = {
                   onClick={() => setSelected(v)}
                   className="w-full justify-between"
                 >
-                  <span className="font-mono">{formatEth(v)}</span>
+                  <span className="font-mono">{formatValue(v)}</span>
                   <span className="text-xs opacity-60">
                     {(position * 100).toFixed(0)}% of range
                   </span>
@@ -422,7 +422,7 @@ export const EthereumBidSuggestions: StoryObj<typeof Scale.Linear> = {
               Selected bid:
             </Text>
             <Text size="3" weight="medium" className="font-mono">
-              {formatEth(selected)}
+              {formatValue(selected)}
             </Text>
           </div>
         )}

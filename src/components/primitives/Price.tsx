@@ -183,9 +183,9 @@ function usePriceContext(): PriceContextValue {
 // ---------------------------------------------------------------------------
 
 export interface PriceProps extends React.ComponentProps<"span"> {
-  /** The raw integer price value in the smallest unit. */
+  /** The raw integer price value. */
   value: bigint | number | string;
-  /** Number of decimal digits the smallest unit represents. */
+  /** Number of decimal places for the value. */
   decimals: number;
   /** Enable K / M / B abbreviation for large values. */
   abbreviate?: boolean;
@@ -205,7 +205,7 @@ export interface PriceProps extends React.ComponentProps<"span"> {
  * @example Composed
  * ```tsx
  * <Price value={500000000000000000n} decimals={18} maxDecimals={4}>
- *   <Price.Symbol>ETH</Price.Symbol>
+ *   <Price.Symbol>USD</Price.Symbol>
  *   <Price.Value />
  * </Price>
  * ```
@@ -321,7 +321,7 @@ export interface PriceSymbolProps extends React.ComponentProps<"span"> {}
  * @example Suffix (default pattern)
  * ```tsx
  * <Price value={1000000n} decimals={6}>
- *   <Price.Value /> <Price.Symbol>USDC</Price.Symbol>
+ *   <Price.Value /> <Price.Symbol>USD</Price.Symbol>
  * </Price>
  * ```
  *

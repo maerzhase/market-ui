@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RankedAuctionStatusTag } from "@/components/blocks/ranked-auction/RankedAuctionStatusTag";
+import { AuctionStatusTag } from "@/components/blocks/auction/AuctionStatusTag";
 
-const meta: Meta<typeof RankedAuctionStatusTag> = {
-  title: "Blocks/RankedAuction/StatusTag",
-  component: RankedAuctionStatusTag,
+const meta: Meta<typeof AuctionStatusTag> = {
+  title: "Blocks/Auction/StatusTag",
+  component: AuctionStatusTag,
   parameters: {
     layout: "centered",
   },
@@ -20,7 +20,7 @@ const meta: Meta<typeof RankedAuctionStatusTag> = {
 
 export default meta;
 
-export const Live: StoryObj<typeof RankedAuctionStatusTag> = {
+export const Live: StoryObj<typeof AuctionStatusTag> = {
   args: {
     opensAt: new Date(Date.now() - 86400000),
     endsAt: new Date(Date.now() + 86400000 * 2),
@@ -29,7 +29,7 @@ export const Live: StoryObj<typeof RankedAuctionStatusTag> = {
   },
 };
 
-export const LiveWithCountdown: StoryObj<typeof RankedAuctionStatusTag> = {
+export const LiveWithCountdown: StoryObj<typeof AuctionStatusTag> = {
   args: {
     opensAt: new Date(Date.now() - 86400000),
     endsAt: new Date(Date.now() + 3600000),
@@ -38,7 +38,7 @@ export const LiveWithCountdown: StoryObj<typeof RankedAuctionStatusTag> = {
   },
 };
 
-export const Upcoming: StoryObj<typeof RankedAuctionStatusTag> = {
+export const Upcoming: StoryObj<typeof AuctionStatusTag> = {
   args: {
     opensAt: new Date(Date.now() + 86400000),
     endsAt: new Date(Date.now() + 86400000 * 3),
@@ -47,7 +47,7 @@ export const Upcoming: StoryObj<typeof RankedAuctionStatusTag> = {
   },
 };
 
-export const UpcomingWithCountdown: StoryObj<typeof RankedAuctionStatusTag> = {
+export const UpcomingWithCountdown: StoryObj<typeof AuctionStatusTag> = {
   args: {
     opensAt: new Date(Date.now() + 3600000 * 2),
     endsAt: new Date(Date.now() + 86400000 * 3),
@@ -56,7 +56,7 @@ export const UpcomingWithCountdown: StoryObj<typeof RankedAuctionStatusTag> = {
   },
 };
 
-export const Closed: StoryObj<typeof RankedAuctionStatusTag> = {
+export const Closed: StoryObj<typeof AuctionStatusTag> = {
   args: {
     opensAt: new Date(Date.now() - 86400000 * 5),
     endsAt: new Date(Date.now() - 86400000),
@@ -65,12 +65,12 @@ export const Closed: StoryObj<typeof RankedAuctionStatusTag> = {
   },
 };
 
-export const TransparentBackground: StoryObj<typeof RankedAuctionStatusTag> = {
+export const TransparentBackground: StoryObj<typeof AuctionStatusTag> = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Live (transparent)</p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000)}
           endsAt={new Date(Date.now() + 86400000 * 2)}
           background="transparent"
@@ -80,7 +80,7 @@ export const TransparentBackground: StoryObj<typeof RankedAuctionStatusTag> = {
         <p className="mb-2 text-sm text-muted-foreground">
           Upcoming (transparent)
         </p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() + 86400000)}
           endsAt={new Date(Date.now() + 86400000 * 3)}
           background="transparent"
@@ -90,7 +90,7 @@ export const TransparentBackground: StoryObj<typeof RankedAuctionStatusTag> = {
         <p className="mb-2 text-sm text-muted-foreground">
           Closed (transparent)
         </p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000 * 5)}
           endsAt={new Date(Date.now() - 86400000)}
           background="transparent"
@@ -100,12 +100,12 @@ export const TransparentBackground: StoryObj<typeof RankedAuctionStatusTag> = {
   ),
 };
 
-export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
+export const AllStates: StoryObj<typeof AuctionStatusTag> = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Live auction</p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000)}
           endsAt={new Date(Date.now() + 86400000 * 2)}
         />
@@ -114,7 +114,7 @@ export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
         <p className="mb-2 text-sm text-muted-foreground">
           Live auction with countdown
         </p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000)}
           endsAt={new Date(Date.now() + 3600000)}
           showCountdown
@@ -122,7 +122,7 @@ export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
       </div>
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Upcoming auction</p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() + 86400000)}
           endsAt={new Date(Date.now() + 86400000 * 3)}
         />
@@ -131,7 +131,7 @@ export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
         <p className="mb-2 text-sm text-muted-foreground">
           Upcoming auction with countdown
         </p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() + 3600000 * 2)}
           endsAt={new Date(Date.now() + 86400000 * 3)}
           showCountdown
@@ -139,7 +139,7 @@ export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
       </div>
       <div>
         <p className="mb-2 text-sm text-muted-foreground">Closed auction</p>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000 * 5)}
           endsAt={new Date(Date.now() - 86400000)}
         />
@@ -148,12 +148,12 @@ export const AllStates: StoryObj<typeof RankedAuctionStatusTag> = {
   ),
 };
 
-export const InCard: StoryObj<typeof RankedAuctionStatusTag> = {
+export const InCard: StoryObj<typeof AuctionStatusTag> = {
   render: () => (
     <div className="w-80 rounded-lg border border-border bg-background p-4">
       <div className="flex items-center justify-between">
         <span className="font-medium text-foreground">Auction #1234</span>
-        <RankedAuctionStatusTag
+        <AuctionStatusTag
           opensAt={new Date(Date.now() - 86400000)}
           endsAt={new Date(Date.now() + 86400000 * 2)}
         />

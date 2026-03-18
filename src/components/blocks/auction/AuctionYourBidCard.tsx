@@ -2,25 +2,23 @@
 
 import { Button, Text } from "@/components/primitives";
 import { cn } from "@/lib";
-import type { RankedAuctionUserBid } from "@/types";
+import type { AuctionUserBid } from "@/types";
 import { formatDateTime } from "@/utils";
 
-export interface RankedAuctionYourBidCardProps {
-  bid: RankedAuctionUserBid;
+export interface AuctionYourBidCardProps {
+  bid: AuctionUserBid;
   getRankForBid: (bidId: string) => number | null;
   lockedBidId: bigint | null;
-  onLockForTopUp: (bidId: bigint, priceWei: bigint) => void;
+  onLockForTopUp: (bidId: bigint, priceValue: bigint) => void;
   onCancelTopUp: () => void;
   isAuctionEnded: boolean;
   onClaim?: (bidId: string) => Promise<boolean>;
-  /** Format price for display */
-  formatPrice?: (priceWei: bigint) => string;
-  /** Currency symbol */
+  formatPrice?: (priceValue: bigint) => string;
   currencySymbol?: string;
 }
 
 function getBidStatusLabel(
-  status: RankedAuctionUserBid["status"],
+  status: AuctionUserBid["status"],
   isWinning: boolean,
 ): string {
   if (status === "claimed") return "Won & Claimed";
@@ -29,7 +27,7 @@ function getBidStatusLabel(
   return "Outbid";
 }
 
-export function RankedAuctionYourBidCard({
+export function AuctionYourBidCard({
   bid,
   getRankForBid,
   lockedBidId,
@@ -37,13 +35,13 @@ export function RankedAuctionYourBidCard({
   onCancelTopUp,
   isAuctionEnded,
   onClaim,
-  formatPrice = (w) =>
-    (Number(w) / 1e18).toLocaleString("en-US", {
+  formatPrice = (v) =>
+    (Number(v) / 1e18).toLocaleString("en-US", {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3,
     }),
-  currencySymbol = "ETH",
-}: RankedAuctionYourBidCardProps): React.ReactElement {
+  currencySymbol = "USD",
+}: AuctionYourBidCardProps): React.ReactElement {
   const rank = getRankForBid(bid.id);
   const isLocked = lockedBidId !== null && bid.globalBidId === lockedBidId;
 
@@ -94,7 +92,7 @@ export function RankedAuctionYourBidCard({
           className="mt-3 w-full"
           onClick={() => onClaim(bid.id)}
         >
-          Claim Edition
+          Claim
         </Button>
       ) : null}
       {bid.isWinning && !isAuctionEnded ? (

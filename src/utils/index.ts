@@ -8,12 +8,9 @@ export {
   parseEthToWei,
 } from "./format";
 export type { ProjectedRankResult, SuggestedBidsInput } from "./rank-utils";
+export { getProjectedRankForPrice, getSuggestedBidPrices } from "./rank-utils";
 export {
-  getProjectedRankForPriceWei,
-  getSuggestedBidPricesWei,
-} from "./rank-utils";
-export {
-  getActiveTickSizeWei,
+  getActiveTickSize,
   isValidTickPrice,
-  roundDownToValidBidWei,
+  roundDownToValidBid,
 } from "./tick-validation";

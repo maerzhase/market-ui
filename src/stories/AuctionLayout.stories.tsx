@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
-  RankedAuctionDetails,
-  RankedAuctionDetailsBody,
-  RankedAuctionDetailsFooter,
-  RankedAuctionDetailsHeader,
-  RankedAuctionLayout,
-  RankedAuctionRankingsContainer,
-} from "@/components/blocks/ranked-auction/RankedAuctionLayout";
+  AuctionDetails,
+  AuctionDetailsBody,
+  AuctionDetailsFooter,
+  AuctionDetailsHeader,
+  AuctionLayout,
+  AuctionRankingsContainer,
+} from "@/components/blocks/auction/AuctionLayout";
 import { Separator } from "@/components/primitives/Separator";
 import { Text } from "@/components/primitives/Text";
 
@@ -35,9 +35,9 @@ const leaderboardRows = Array.from({ length: 25 }, (_, i) => ({
   isLast: i === 24,
 }));
 
-const meta: Meta<typeof RankedAuctionLayout> = {
-  title: "Blocks/RankedAuction/Layout",
-  component: RankedAuctionLayout,
+const meta: Meta<typeof AuctionLayout> = {
+  title: "Blocks/Auction/Layout",
+  component: AuctionLayout,
   parameters: {
     layout: "fullscreen",
   },
@@ -45,32 +45,32 @@ const meta: Meta<typeof RankedAuctionLayout> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof RankedAuctionLayout> = {
+export const Default: StoryObj<typeof AuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
         <div className="size-full rounded-lg border border-border bg-background shadow-lg">
-          <RankedAuctionLayout>
-            <RankedAuctionDetails>
-              <RankedAuctionDetailsHeader>
+          <AuctionLayout>
+            <AuctionDetails>
+              <AuctionDetailsHeader>
                 <Text size="4" weight="medium">
                   Auction Details Header
                 </Text>
                 <Text size="2" color="secondary" className="mt-1">
                   This is the header section with auction info
                 </Text>
-              </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
                 <Text size="2" color="tertiary">
                   Body content goes here. This area is scrollable when content
                   overflows.
                 </Text>
-              </RankedAuctionDetailsBody>
-              <RankedAuctionDetailsFooter>
+              </AuctionDetailsBody>
+              <AuctionDetailsFooter>
                 <Text size="2">Footer with bid form</Text>
-              </RankedAuctionDetailsFooter>
-            </RankedAuctionDetails>
-            <RankedAuctionRankingsContainer>
+              </AuctionDetailsFooter>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
               <div className="p-6">
                 <Text size="3" weight="medium">
                   Rankings
@@ -79,27 +79,27 @@ export const Default: StoryObj<typeof RankedAuctionLayout> = {
                   Bid rankings appear here
                 </Text>
               </div>
-            </RankedAuctionRankingsContainer>
-          </RankedAuctionLayout>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
         </div>
       </div>
     </div>
   ),
 };
 
-export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
+export const WithScrollableBody: StoryObj<typeof AuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
         <div className="size-full rounded-lg border border-border bg-background shadow-lg">
-          <RankedAuctionLayout height="600px">
-            <RankedAuctionDetails>
-              <RankedAuctionDetailsHeader>
+          <AuctionLayout height="600px">
+            <AuctionDetails>
+              <AuctionDetailsHeader>
                 <Text size="4" weight="medium">
                   Your Bids
                 </Text>
-              </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
                 <div className="space-y-4">
                   {detailBids.map((bid) => (
                     <div
@@ -115,19 +115,19 @@ export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
                         </Text>
                       </div>
                       <Text size="2" className="mt-2" tabularNums>
-                        {bid.price} ETH
+                        {bid.price}
                       </Text>
                     </div>
                   ))}
                 </div>
-              </RankedAuctionDetailsBody>
-              <RankedAuctionDetailsFooter>
+              </AuctionDetailsBody>
+              <AuctionDetailsFooter>
                 <div className="rounded-lg border border-border p-4">
                   <Text size="2">Bid Form Placeholder</Text>
                 </div>
-              </RankedAuctionDetailsFooter>
-            </RankedAuctionDetails>
-            <RankedAuctionRankingsContainer>
+              </AuctionDetailsFooter>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
               <div className="flex h-full flex-col">
                 <div className="shrink-0 border-b border-border p-4">
                   <Text size="3" weight="medium">
@@ -146,7 +146,7 @@ export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
                           <Text size="2">{row.label}</Text>
                         </div>
                         <Text size="2" tabularNums>
-                          {row.price} ETH
+                          {row.price}
                         </Text>
                       </div>
                       {!row.isLast && <Separator />}
@@ -154,73 +154,73 @@ export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
                   ))}
                 </div>
               </div>
-            </RankedAuctionRankingsContainer>
-          </RankedAuctionLayout>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
         </div>
       </div>
     </div>
   ),
 };
 
-export const CustomHeight: StoryObj<typeof RankedAuctionLayout> = {
+export const CustomHeight: StoryObj<typeof AuctionLayout> = {
   render: () => (
     <div className="w-full bg-muted p-8">
       <div className="mx-auto max-w-7xl">
         <div className="rounded-lg border border-border bg-background shadow-lg">
-          <RankedAuctionLayout height={400}>
-            <RankedAuctionDetails>
-              <RankedAuctionDetailsHeader>
+          <AuctionLayout height={400}>
+            <AuctionDetails>
+              <AuctionDetailsHeader>
                 <Text size="3" weight="medium">
                   Compact Layout
                 </Text>
-              </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsBody>
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
                 <Text size="2" color="secondary">
                   This layout has a fixed height of 400px
                 </Text>
-              </RankedAuctionDetailsBody>
-              <RankedAuctionDetailsFooter>
+              </AuctionDetailsBody>
+              <AuctionDetailsFooter>
                 <Text size="1" color="tertiary">
                   Footer
                 </Text>
-              </RankedAuctionDetailsFooter>
-            </RankedAuctionDetails>
-            <RankedAuctionRankingsContainer>
+              </AuctionDetailsFooter>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
               <div className="flex h-full items-center justify-center">
                 <Text size="2" color="tertiary">
                   Rankings Panel
                 </Text>
               </div>
-            </RankedAuctionRankingsContainer>
-          </RankedAuctionLayout>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
         </div>
       </div>
     </div>
   ),
 };
 
-export const DetailsOnly: StoryObj<typeof RankedAuctionLayout> = {
+export const DetailsOnly: StoryObj<typeof AuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-md items-center justify-center">
         <div className="size-full max-h-150 rounded-lg border border-border bg-background shadow-lg">
-          <RankedAuctionDetails className="h-full">
-            <RankedAuctionDetailsHeader>
+          <AuctionDetails className="h-full">
+            <AuctionDetailsHeader>
               <Text size="4" weight="medium">
                 Auction #1234
               </Text>
               <Text size="2" color="secondary" className="mt-1">
                 Live - 2h 30m remaining
               </Text>
-            </RankedAuctionDetailsHeader>
-            <RankedAuctionDetailsBody>
+            </AuctionDetailsHeader>
+            <AuctionDetailsBody>
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <Text size="2" color="tertiary">
                     Reserve Price
                   </Text>
                   <Text size="2" tabularNums>
-                    0.01 ETH
+                    0.01
                   </Text>
                 </div>
                 <div className="flex justify-between">
@@ -234,7 +234,7 @@ export const DetailsOnly: StoryObj<typeof RankedAuctionLayout> = {
                     Current Floor
                   </Text>
                   <Text size="2" tabularNums>
-                    0.05 ETH
+                    0.05
                   </Text>
                 </div>
                 <Separator />
@@ -243,28 +243,28 @@ export const DetailsOnly: StoryObj<typeof RankedAuctionLayout> = {
                   the lowest winning bid.
                 </Text>
               </div>
-            </RankedAuctionDetailsBody>
-            <RankedAuctionDetailsFooter>
+            </AuctionDetailsBody>
+            <AuctionDetailsFooter>
               <button
                 type="button"
                 className="w-full rounded-lg bg-foreground px-4 py-3 text-background"
               >
                 Place Bid
               </button>
-            </RankedAuctionDetailsFooter>
-          </RankedAuctionDetails>
+            </AuctionDetailsFooter>
+          </AuctionDetails>
         </div>
       </div>
     </div>
   ),
 };
 
-export const RankingsOnly: StoryObj<typeof RankedAuctionLayout> = {
+export const RankingsOnly: StoryObj<typeof AuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-lg items-center justify-center">
         <div className="size-full max-h-125 rounded-lg border border-border bg-background shadow-lg">
-          <RankedAuctionRankingsContainer className="h-full">
+          <AuctionRankingsContainer className="h-full">
             <div className="flex h-full flex-col">
               <div className="shrink-0 border-b border-border p-4">
                 <Text size="3" weight="medium">
@@ -289,7 +289,7 @@ export const RankingsOnly: StoryObj<typeof RankedAuctionLayout> = {
                       </div>
                       <div className="flex items-center gap-3">
                         <Text size="2" tabularNums>
-                          {row.price} ETH
+                          {row.price}
                         </Text>
                         <Text
                           size="1"
@@ -305,7 +305,7 @@ export const RankingsOnly: StoryObj<typeof RankedAuctionLayout> = {
                 ))}
               </div>
             </div>
-          </RankedAuctionRankingsContainer>
+          </AuctionRankingsContainer>
         </div>
       </div>
     </div>

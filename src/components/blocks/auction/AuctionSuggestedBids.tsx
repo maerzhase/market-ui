@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Button, Scale, Text } from "@/components/primitives";
 import { cn } from "@/lib";
-import { getProjectedRankForPriceWei } from "@/utils";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { getProjectedRankForPrice } from "@/utils";
+import { useAuctionContext } from "./AuctionContext";
 
 export interface SuggestedBidContextValue {
   value: bigint;
@@ -25,30 +25,30 @@ function useSuggestedBid(): SuggestedBidContextValue {
   const context = React.useContext(SuggestedBidContext);
   if (!context) {
     throw new Error(
-      "useSuggestedBid must be used within RankedAuctionSuggestedBids.Item",
+      "useSuggestedBid must be used within AuctionSuggestedBids.Item",
     );
   }
   return context;
 }
 
-export interface RankedAuctionSuggestedBidsProps {
+export interface AuctionSuggestedBidsProps {
   className?: string;
   count?: number;
   children: (context: SuggestedBidContextValue) => React.ReactNode;
 }
 
-function RankedAuctionSuggestedBidsRoot({
+function AuctionSuggestedBidsRoot({
   className,
   count = 4,
   children,
-}: RankedAuctionSuggestedBidsProps): React.ReactElement | null {
+}: AuctionSuggestedBidsProps): React.ReactElement | null {
   const {
-    minBidWei,
+    minBidValue,
     tickConfig,
-    tickSizeWei,
+    tickSize,
     isAuctionEnded,
-    bidWei,
-    setBidWei,
+    bidValue,
+    setBidValue,
     formatPrice,
     currencySymbol,
     bids,
@@ -57,9 +57,8 @@ function RankedAuctionSuggestedBidsRoot({
     userBids,
     mergedForRank,
     maxTotalItems,
-  } = useRankedAuctionContext();
+  } = useAuctionContext();
 
-  // Find the locked bid's ID if in top-up mode
   const lockedBidId = React.useMemo(() => {
     if (lockedBid === null) return null;
     const lockedUserBid = userBids.find(
@@ -68,17 +67,15 @@ function RankedAuctionSuggestedBidsRoot({
     return lockedUserBid?.id ?? null;
   }, [lockedBid, userBids]);
 
-  // Filter out the locked bid for accurate rank projection during top-up
   const bidsForRankProjection = React.useMemo(() => {
     if (lockedBidId === null) return mergedForRank;
     return mergedForRank.filter((b) => b.id !== lockedBidId);
   }, [mergedForRank, lockedBidId]);
 
-  // Calculate projected rank using the filtered bid list
   const getProjectedRank = React.useCallback(
-    (priceWei: bigint) => {
-      return getProjectedRankForPriceWei(
-        priceWei,
+    (priceValue: bigint) => {
+      return getProjectedRankForPrice(
+        priceValue,
         bidsForRankProjection,
         maxTotalItems,
       );
@@ -91,34 +88,30 @@ function RankedAuctionSuggestedBidsRoot({
   }
 
   const getTickSize = (value: bigint): bigint => {
-    if (!tickConfig) return tickSizeWei;
+    if (!tickConfig) return tickSize;
     return value > tickConfig.threshold
       ? tickConfig.largeTickSize
       : tickConfig.smallTickSize;
   };
 
-  // When topping up a bid, the effective minimum should be the locked bid's price
-  const effectiveMinBidWei =
-    lockedBid !== null && lockedBid.priceWei > minBidWei
-      ? lockedBid.priceWei
-      : minBidWei;
+  const effectiveMinBid =
+    lockedBid !== null && lockedBid.priceValue > minBidValue
+      ? lockedBid.priceValue
+      : minBidValue;
 
-  const highestBidWei =
-    bids.length > 0 ? BigInt(bids[0].price) : effectiveMinBidWei * 3n;
+  const highestBid =
+    bids.length > 0 ? BigInt(bids[0].price) : effectiveMinBid * 3n;
 
-  // Add a tick size to highest bid so the max suggestion is a leading bid
-  const leadingBidWei = highestBidWei + getTickSize(highestBidWei);
-  const maxBidWei =
-    leadingBidWei > effectiveMinBidWei
-      ? leadingBidWei
-      : effectiveMinBidWei * 3n;
+  const leadingBid = highestBid + getTickSize(highestBid);
+  const maxBid =
+    leadingBid > effectiveMinBid ? leadingBid : effectiveMinBid * 3n;
 
-  const selectedWei = bidWei;
+  const selectedValue = bidValue;
   const disabled = isAuctionEnded;
 
   return (
     <Scale.Linear
-      domain={[effectiveMinBidWei, maxBidWei]}
+      domain={[effectiveMinBid, maxBid]}
       getTickSize={getTickSize}
       snapMode="up"
       className={cn("grid grid-cols-2 gap-2", className)}
@@ -130,7 +123,7 @@ function RankedAuctionSuggestedBidsRoot({
         ) => {
           const v = value;
           const display = `${formatPrice(v)} ${currencySymbol}`;
-          const isSelected = v === selectedWei;
+          const isSelected = v === selectedValue;
           const { rank: projectedRank, isWinning } = getProjectedRank(v);
 
           const contextValue: SuggestedBidContextValue = {
@@ -140,7 +133,7 @@ function RankedAuctionSuggestedBidsRoot({
             index,
             isSelected,
             onSelect: () => {
-              setBidWei(v);
+              setBidValue(v);
               setShowBidPreview(true);
             },
             disabled,
@@ -159,13 +152,13 @@ function RankedAuctionSuggestedBidsRoot({
   );
 }
 
-interface RankedAuctionSuggestedBidsItemProps {
+interface AuctionSuggestedBidsItemProps {
   labels?: string[];
 }
 
-function RankedAuctionSuggestedBidsItem({
+function AuctionSuggestedBidsItem({
   labels = ["Minimum", "Safe Entry", "Competitive", "Leading"],
-}: RankedAuctionSuggestedBidsItemProps): React.ReactElement {
+}: AuctionSuggestedBidsItemProps): React.ReactElement {
   const context = useSuggestedBid();
   const label = labels[context.index] ?? labels[labels.length - 1] ?? "Bid";
 
@@ -197,14 +190,14 @@ function RankedAuctionSuggestedBidsItem({
   );
 }
 
-interface RankedAuctionSuggestedBidsComponent {
-  Root: typeof RankedAuctionSuggestedBidsRoot;
-  Item: typeof RankedAuctionSuggestedBidsItem;
+interface AuctionSuggestedBidsComponent {
+  Root: typeof AuctionSuggestedBidsRoot;
+  Item: typeof AuctionSuggestedBidsItem;
 }
 
-export const RankedAuctionSuggestedBids: RankedAuctionSuggestedBidsComponent = {
-  Root: RankedAuctionSuggestedBidsRoot,
-  Item: RankedAuctionSuggestedBidsItem,
+export const AuctionSuggestedBids: AuctionSuggestedBidsComponent = {
+  Root: AuctionSuggestedBidsRoot,
+  Item: AuctionSuggestedBidsItem,
 };
 
 export { useSuggestedBid };

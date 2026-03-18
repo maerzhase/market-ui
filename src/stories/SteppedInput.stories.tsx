@@ -152,7 +152,9 @@ export const EthereumPrice: StoryObj<typeof SteppedInput.Root> = {
 
     return (
       <div className="flex flex-col gap-2">
-        <span className="text-text-tertiary text-1">ETH Amount (in wei)</span>
+        <span className="text-text-tertiary text-1">
+          Amount (in base units)
+        </span>
         <SteppedInput.Root
           value={value}
           onChange={setValue}
@@ -163,7 +165,7 @@ export const EthereumPrice: StoryObj<typeof SteppedInput.Root> = {
           parseValue={(v) => BigInt(Math.round(v * Number(WEI_PER_ETH)))}
           format={{
             style: "currency",
-            currency: "ETH",
+            currency: "USD",
             minimumFractionDigits: 4,
             maximumFractionDigits: 4,
           }}
@@ -216,7 +218,7 @@ export const CustomValueDisplay: StoryObj<typeof SteppedInput.Root> = {
             <SteppedInput.Value>
               {({ displayValue }) => (
                 <span className="font-mono text-success">
-                  {displayValue.toFixed(4)} ETH
+                  {displayValue.toFixed(4)}
                 </span>
               )}
             </SteppedInput.Value>

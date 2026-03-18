@@ -3,39 +3,39 @@
 import { Button, SteppedInput, Text } from "@/components/primitives";
 import { cn } from "@/lib";
 import { CursorGrowIcon } from "../../primitives/SteppedInput";
-import { useRankedAuctionContext } from "./RankedAuctionContext";
+import { useAuctionContext } from "./AuctionContext";
 
-export function RankedAuctionBidFormRoot({
+export function AuctionBidFormRoot({
   className,
 }: {
   className?: string;
 }): React.ReactElement {
   const {
     isAuctionEnded,
-    minBidWei,
+    minBidValue,
     tickConfig,
-    tickSizeWei,
+    tickSize,
     lockedBid,
     placeBidOperation,
     topUpOperation,
     handlePlaceBid,
     handleTopUp,
-    bidWei,
-    setBidWei,
+    bidValue,
+    setBidValue,
     formatPrice,
     currencySymbol,
     formatInputValue,
     parseInputValue,
     cancelBidding,
-  } = useRankedAuctionContext();
+  } = useAuctionContext();
 
-  const effectiveMinBidWei =
-    lockedBid !== null && lockedBid.priceWei > minBidWei
-      ? lockedBid.priceWei
-      : minBidWei;
+  const effectiveMinBid =
+    lockedBid !== null && lockedBid.priceValue > minBidValue
+      ? lockedBid.priceValue
+      : minBidValue;
 
   const getTickSize = (currentValue: bigint) => {
-    if (!tickConfig) return tickSizeWei;
+    if (!tickConfig) return tickSize;
     return currentValue > tickConfig.threshold
       ? tickConfig.largeTickSize
       : tickConfig.smallTickSize;
@@ -49,9 +49,9 @@ export function RankedAuctionBidFormRoot({
   const handleSubmit = async () => {
     const success =
       lockedBid !== null
-        ? await handleTopUp(bidWei.toString())
-        : await handlePlaceBid(bidWei.toString());
-    if (success) setBidWei(effectiveMinBidWei);
+        ? await handleTopUp(bidValue.toString())
+        : await handlePlaceBid(bidValue.toString());
+    if (success) setBidValue(effectiveMinBid);
   };
 
   const isLoading =
@@ -77,9 +77,9 @@ export function RankedAuctionBidFormRoot({
           <Text size="1">Place a new bid to participate in the auction.</Text>
         )}
         <SteppedInput.Root
-          value={bidWei}
-          onChange={setBidWei}
-          min={effectiveMinBidWei}
+          value={bidValue}
+          onChange={setBidValue}
+          min={effectiveMinBid}
           getTickSize={getTickSize}
           formatValue={formatInputValue}
           parseValue={parseInputValue}
@@ -114,14 +114,14 @@ export function RankedAuctionBidFormRoot({
             loading={isLoading}
             disabled={
               isAuctionEnded ||
-              (!!lockedBid && bidWei - lockedBid.priceWei === 0n)
+              (!!lockedBid && bidValue - lockedBid.priceValue === 0n)
             }
             onClick={handleSubmit}
           >
             {lockedBid !== null ? (
               <span>
-                Update bid (+
-                {formatPrice(bidWei - lockedBid.priceWei)} {currencySymbol})
+                Update bid (+{formatPrice(bidValue - lockedBid.priceValue)}{" "}
+                {currencySymbol})
               </span>
             ) : (
               <span>Place bid</span>
@@ -133,8 +133,8 @@ export function RankedAuctionBidFormRoot({
   );
 }
 
-export const RankedAuctionBidForm: {
-  Root: typeof RankedAuctionBidFormRoot;
+export const AuctionBidForm: {
+  Root: typeof AuctionBidFormRoot;
 } = {
-  Root: RankedAuctionBidFormRoot,
+  Root: AuctionBidFormRoot,
 };

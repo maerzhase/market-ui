@@ -22,19 +22,19 @@ function getAuctionState(
 
 const transparentTagClassName = "bg-transparent border-transparent p-0";
 
-export interface RankedAuctionStatusTagProps {
+export interface AuctionStatusTagProps {
   opensAt: Date | null;
   endsAt: Date | null;
   background?: "filled" | "transparent";
   showCountdown?: boolean;
 }
 
-export function RankedAuctionStatusTag({
+export function AuctionStatusTag({
   opensAt,
   endsAt,
   background = "filled",
   showCountdown = false,
-}: RankedAuctionStatusTagProps): React.ReactElement | null {
+}: AuctionStatusTagProps): React.ReactElement | null {
   const state = getAuctionState(opensAt, endsAt);
   const countdownTo =
     state === "live" ? endsAt : state === "upcoming" ? opensAt : null;
