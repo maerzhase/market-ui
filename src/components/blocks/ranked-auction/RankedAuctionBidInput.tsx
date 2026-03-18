@@ -3,7 +3,8 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect } from "react";
 import { Button, SteppedInput, Text } from "@/components/primitives";
-import { CursorGrowIcon } from "../primitives/SteppedInput";
+import { transitions } from "@/lib";
+import { CursorGrowIcon } from "../../primitives/SteppedInput";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionBidInputProps {
@@ -29,6 +30,8 @@ export function RankedAuctionBidInput({
     setBidWei,
     formatPrice,
     currencySymbol,
+    formatInputValue,
+    parseInputValue,
   } = useRankedAuctionContext();
 
   const effectiveMinBidWei =
@@ -109,8 +112,8 @@ export function RankedAuctionBidInput({
           onChange={setBidWei}
           min={effectiveMinBidWei}
           getTickSize={getTickSize}
-          formatValue={(val) => Number(val) / 1e18}
-          parseValue={(val) => BigInt(Math.round(val * 1e18))}
+          formatValue={formatInputValue}
+          parseValue={parseInputValue}
           disabled={isAuctionEnded}
           snapToTick="nearest"
         >
@@ -135,7 +138,7 @@ export function RankedAuctionBidInput({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
+                transition={transitions.fade}
                 className="flex-1"
               >
                 <Button

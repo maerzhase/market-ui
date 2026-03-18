@@ -3,7 +3,7 @@
 import { Tag, Text } from "@/components/primitives";
 import { cn } from "@/lib";
 import { formatDateTime } from "@/utils";
-import { Countdown } from "../countdown/Countdown";
+import { Countdown } from "../../primitives/countdown/Countdown";
 
 type AuctionState = "upcoming" | "live" | "closed";
 
@@ -51,7 +51,7 @@ export function RankedAuctionStatusTag({
           <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
           <span className="relative inline-flex size-2 rounded-full bg-success" />
         </span>
-        <Text>
+        <Text size="1">
           {showCountdown && countdownTo ? (
             <>
               Live - <Countdown to={countdownTo} />
@@ -67,7 +67,7 @@ export function RankedAuctionStatusTag({
   if (state === "upcoming" && opensAt) {
     return (
       <Tag className={tagClassName}>
-        <Text>
+        <Text size="1">
           {showCountdown && countdownTo ? (
             <>
               Opens in <Countdown to={countdownTo} />

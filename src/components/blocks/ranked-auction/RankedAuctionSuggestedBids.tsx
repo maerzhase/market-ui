@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Button, Scale, Text } from "@/components/primitives";
 import { cn } from "@/lib";
+import { getProjectedRankForPriceWei } from "@/utils";
 import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface SuggestedBidContextValue {
@@ -51,8 +52,39 @@ function RankedAuctionSuggestedBidsRoot({
     formatPrice,
     currencySymbol,
     bids,
-    getProjectedRank,
+    setShowBidPreview,
+    lockedBid,
+    userBids,
+    mergedForRank,
+    maxTotalItems,
   } = useRankedAuctionContext();
+
+  // Find the locked bid's ID if in top-up mode
+  const lockedBidId = React.useMemo(() => {
+    if (lockedBid === null) return null;
+    const lockedUserBid = userBids.find(
+      (ub) => ub.globalBidId === lockedBid.bidId,
+    );
+    return lockedUserBid?.id ?? null;
+  }, [lockedBid, userBids]);
+
+  // Filter out the locked bid for accurate rank projection during top-up
+  const bidsForRankProjection = React.useMemo(() => {
+    if (lockedBidId === null) return mergedForRank;
+    return mergedForRank.filter((b) => b.id !== lockedBidId);
+  }, [mergedForRank, lockedBidId]);
+
+  // Calculate projected rank using the filtered bid list
+  const getProjectedRank = React.useCallback(
+    (priceWei: bigint) => {
+      return getProjectedRankForPriceWei(
+        priceWei,
+        bidsForRankProjection,
+        maxTotalItems,
+      );
+    },
+    [bidsForRankProjection, maxTotalItems],
+  );
 
   if (isAuctionEnded) {
     return null;
@@ -65,19 +97,28 @@ function RankedAuctionSuggestedBidsRoot({
       : tickConfig.smallTickSize;
   };
 
+  // When topping up a bid, the effective minimum should be the locked bid's price
+  const effectiveMinBidWei =
+    lockedBid !== null && lockedBid.priceWei > minBidWei
+      ? lockedBid.priceWei
+      : minBidWei;
+
   const highestBidWei =
-    bids.length > 0 ? BigInt(bids[0].price) : minBidWei * 3n;
+    bids.length > 0 ? BigInt(bids[0].price) : effectiveMinBidWei * 3n;
 
   // Add a tick size to highest bid so the max suggestion is a leading bid
   const leadingBidWei = highestBidWei + getTickSize(highestBidWei);
-  const maxBidWei = leadingBidWei > minBidWei ? leadingBidWei : minBidWei * 3n;
+  const maxBidWei =
+    leadingBidWei > effectiveMinBidWei
+      ? leadingBidWei
+      : effectiveMinBidWei * 3n;
 
   const selectedWei = bidWei;
   const disabled = isAuctionEnded;
 
   return (
     <Scale.Linear
-      domain={[minBidWei, maxBidWei]}
+      domain={[effectiveMinBidWei, maxBidWei]}
       getTickSize={getTickSize}
       snapMode="up"
       className={cn("grid grid-cols-2 gap-2", className)}
@@ -98,7 +139,10 @@ function RankedAuctionSuggestedBidsRoot({
             position,
             index,
             isSelected,
-            onSelect: () => setBidWei(v),
+            onSelect: () => {
+              setBidWei(v);
+              setShowBidPreview(true);
+            },
             disabled,
             projectedRank,
             isWinning,

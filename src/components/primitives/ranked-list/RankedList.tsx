@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/cn";
-import { Separator, Text } from "./primitives";
+import { Separator, Text } from "..";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

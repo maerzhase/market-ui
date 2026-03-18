@@ -1,7 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { Button } from "@/components/primitives";
 import { cn } from "@/lib";
+import { useRankedAuctionContext } from "./RankedAuctionContext";
 
 export interface RankedAuctionLayoutProps {
   children: ReactNode;
@@ -59,9 +61,7 @@ export function RankedAuctionDetailsHeader({
   className,
 }: RankedAuctionDetailsHeaderProps): React.ReactElement {
   return (
-    <div className={cn("shrink-0 border-b border-border p-6", className)}>
-      {children}
-    </div>
+    <div className={cn("flex grow flex-col p-6", className)}>{children}</div>
   );
 }
 
@@ -91,7 +91,9 @@ export function RankedAuctionDetailsFooter({
   className,
 }: RankedAuctionDetailsFooterProps): React.ReactElement {
   return (
-    <div className={cn("shrink-0 border-t border-border p-6", className)}>
+    <div
+      className={cn("mt-auto shrink-0 border-t border-border p-6", className)}
+    >
       {children}
     </div>
   );
@@ -108,9 +110,55 @@ export function RankedAuctionRankingsContainer({
 }: RankedAuctionRankingsContainerProps): React.ReactElement {
   return (
     <div
-      className={cn("flex h-full min-h-0 flex-col overflow-hidden", className)}
+      className={cn("flex h-full min-h-0 flex-col justify-between", className)}
     >
       {children}
+    </div>
+  );
+}
+
+// ----- Bidding Panel Components -----
+
+export interface RankedAuctionBiddingPanelProps {
+  children: ReactNode;
+  className?: string;
+}
+
+/**
+ * Container that shows the "Start Bidding" button or the bidding form
+ * based on the isBiddingActive state.
+ */
+export function RankedAuctionBiddingPanel({
+  children,
+  className,
+}: RankedAuctionBiddingPanelProps): React.ReactElement {
+  const { isBiddingActive, startBidding, isAuctionEnded, setShowBidPreview } =
+    useRankedAuctionContext();
+
+  const handleStartBidding = () => {
+    startBidding();
+    setShowBidPreview(true);
+  };
+
+  return (
+    <div
+      className={cn(
+        "shrink-0 border-t border-border bg-background p-6",
+        className,
+      )}
+    >
+      {!isBiddingActive ? (
+        <Button
+          className="w-full"
+          size="lg"
+          disabled={isAuctionEnded}
+          onClick={handleStartBidding}
+        >
+          {isAuctionEnded ? "Auction Ended" : "Start Bidding"}
+        </Button>
+      ) : (
+        children
+      )}
     </div>
   );
 }

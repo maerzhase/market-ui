@@ -42,9 +42,8 @@ const buttonVariants = cva(
     "outline-none",
     "focus-visible:ring-2 focus-visible:ring-offset-2",
     "focus-visible:ring-ring focus-visible:ring-offset-background",
-    // Disabled - muted colors with proper contrast
-    "disabled:pointer-events-none",
-    "disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
+    // Disabled - prevent interaction
+    "disabled:pointer-events-none disabled:cursor-not-allowed aria-disabled:pointer-events-none aria-disabled:cursor-not-allowed",
     // aria-invalid
     "aria-invalid:border-destructive aria-invalid:ring-2 aria-invalid:ring-destructive/30",
   ].join(" "),
@@ -57,6 +56,7 @@ const buttonVariants = cva(
           "hover:border-primary-hover hover:bg-primary-hover",
           "active:opacity-90",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
+          "disabled:opacity-50 aria-disabled:opacity-50",
         ].join(" "),
 
         secondary: [
@@ -66,6 +66,7 @@ const buttonVariants = cva(
           "active:border-input active:bg-accent-active",
           "data-[state=active]:border-input data-[state=active]:bg-accent-active",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.04)]",
+          "disabled:opacity-50 aria-disabled:opacity-50",
         ].join(" "),
 
         tertiary: [
@@ -74,6 +75,7 @@ const buttonVariants = cva(
           "hover:border-input hover:bg-accent-hover hover:text-foreground",
           "active:bg-accent-active active:text-foreground",
           "data-[state=active]:bg-accent-active data-[state=active]:text-foreground",
+          "disabled:opacity-50 aria-disabled:opacity-50",
         ].join(" "),
 
         ghost: [
@@ -82,7 +84,8 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-foreground",
           "active:bg-accent-active active:text-foreground",
           "data-[state=active]:bg-accent-active data-[state=active]:text-foreground",
-          "disabled:border-transparent disabled:bg-transparent",
+          "disabled:text-disabled-foreground",
+          "aria-disabled:text-disabled-foreground",
         ].join(" "),
 
         destructive: [
@@ -91,6 +94,7 @@ const buttonVariants = cva(
           "hover:border-destructive-hover hover:bg-destructive-hover",
           "active:opacity-90",
           "shadow-[0_1px_2px_0_rgb(0,0,0,0.08)]",
+          "disabled:opacity-50 aria-disabled:opacity-50",
         ].join(" "),
 
         link: [
@@ -98,6 +102,8 @@ const buttonVariants = cva(
           "text-foreground underline-offset-4",
           "hover:underline",
           "h-auto px-0 py-0",
+          "disabled:text-disabled-foreground disabled:no-underline",
+          "aria-disabled:text-disabled-foreground aria-disabled:no-underline",
         ].join(" "),
       },
 

@@ -54,6 +54,16 @@ export interface RankedAuctionContextValue {
   };
   getSuggestedBids: () => bigint[];
 
+  // Bid preview visibility
+  showBidPreview: boolean;
+  setShowBidPreview: (show: boolean) => void;
+
+  // Bidding mode (for "Start Bidding" flow)
+  isBiddingActive: boolean;
+  setIsBiddingActive: (active: boolean) => void;
+  startBidding: () => void;
+  cancelBidding: () => void;
+
   // Actions
   setLockedBid: (bid: { bidId: bigint; priceWei: bigint } | null) => void;
   handlePlaceBid: (price: string) => Promise<boolean>;
@@ -65,6 +75,8 @@ export interface RankedAuctionContextValue {
   formatPrice: (priceWei: bigint) => string;
   formatTime: (date: Date) => string;
   currencySymbol: string;
+  formatInputValue: (value: bigint) => number;
+  parseInputValue: (value: number) => bigint;
 }
 
 export const RankedAuctionContext: React.Context<RankedAuctionContextValue | null> =
@@ -133,6 +145,11 @@ export function RankedAuctionProvider({
   const formatPrice = formatters?.formatPrice ?? defaultFormatPrice;
   const formatTime = formatters?.formatTime ?? defaultFormatTime;
   const currencySymbol = formatters?.currencySymbol ?? "ETH";
+  const formatInputValue =
+    formatters?.formatInputValue ?? ((v: bigint) => Number(v) / 1e18);
+  const parseInputValue =
+    formatters?.parseInputValue ??
+    ((v: number) => BigInt(Math.round(v * 1e18)));
 
   const isAuctionEnded = auction.endsAt
     ? Date.now() > auction.endsAt.getTime()
@@ -270,6 +287,35 @@ export function RankedAuctionProvider({
     priceWei: bigint;
   } | null>(null);
 
+  // Bid preview visibility (hidden by default, shown on focus/interaction)
+  const [showBidPreview, setShowBidPreview] = useState(false);
+
+  // Bidding mode state (for "Start Bidding" flow)
+  const [isBiddingActive, setIsBiddingActive] = useState(false);
+
+  const startBidding = useCallback(() => {
+    setIsBiddingActive(true);
+    setShowBidPreview(true);
+  }, []);
+
+  const cancelBidding = useCallback(() => {
+    setIsBiddingActive(false);
+    setShowBidPreview(false);
+    setLockedBid(null);
+  }, []);
+
+  // Wrapper for setLockedBid that also activates bidding mode when locking a bid
+  const setLockedBidAndActivate = useCallback(
+    (bid: { bidId: bigint; priceWei: bigint } | null) => {
+      setLockedBid(bid);
+      if (bid !== null) {
+        setIsBiddingActive(true);
+        setShowBidPreview(true);
+      }
+    },
+    [],
+  );
+
   // Current bid input value
   const [bidWei, setBidWei] = useState<bigint>(minBidWei);
 
@@ -289,6 +335,7 @@ export function RankedAuctionProvider({
         const success = await onPlaceBid(priceWei, 1n);
         if (success) {
           setPlaceBidOperation({ status: "success" });
+          setShowBidPreview(false);
           return true;
         } else {
           setPlaceBidOperation({
@@ -372,7 +419,13 @@ export function RankedAuctionProvider({
     getRankForBid,
     getProjectedRank,
     getSuggestedBids,
-    setLockedBid,
+    showBidPreview,
+    setShowBidPreview,
+    isBiddingActive,
+    setIsBiddingActive,
+    startBidding,
+    cancelBidding,
+    setLockedBid: setLockedBidAndActivate,
     handlePlaceBid,
     handleTopUp,
     handleClaimEdition,
@@ -380,6 +433,8 @@ export function RankedAuctionProvider({
     formatPrice,
     formatTime,
     currencySymbol,
+    formatInputValue,
+    parseInputValue,
   };
 
   return (
