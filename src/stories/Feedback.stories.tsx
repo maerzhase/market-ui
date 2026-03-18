@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Feedback } from "@/components/primitives";
 
 const meta: Meta<typeof Button> = {
-  title: "Trading UI/Feedback",
+  title: "Primitives/Feedback",
   component: Button,
   parameters: {
     layout: "centered",
@@ -43,7 +43,7 @@ export const Primary: StoryObj<typeof Button> = {
       <Feedback.Root show={!!feedback}>
         <Button onClick={handleClick}>Test</Button>
         <Feedback.Content className="w-full">
-          <div className="mt-0.5 rounded-md bg-solid px-2 py-1 text-sm whitespace-nowrap text-background-primary">
+          <div className="bg-solid text-background-primary mt-0.5 rounded-md px-2 py-1 text-sm whitespace-nowrap">
             {feedback}
           </div>
         </Feedback.Content>
@@ -70,7 +70,7 @@ export const ChainedFeedback: StoryObj<typeof Button> = {
           Submit Transaction
         </Button>
         <Feedback.Content className="w-full">
-          <div className="mt-0.5 rounded-md bg-solid px-2 py-1 text-sm whitespace-nowrap text-background-primary">
+          <div className="bg-solid text-background-primary mt-0.5 rounded-md px-2 py-1 text-sm whitespace-nowrap">
             {message}
           </div>
         </Feedback.Content>

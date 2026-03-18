@@ -22,5 +22,5 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-beausite), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-zeit), ui-sans-serif, system-ui, sans-serif;
 }

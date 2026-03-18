@@ -12,7 +12,7 @@ interface Player {
 }
 
 const meta: Meta<typeof RankedList.Root> = {
-  title: "Trading UI/RankedList",
+  title: "Primitives/RankedList",
   component: RankedList.Root,
   parameters: {
     layout: "centered",

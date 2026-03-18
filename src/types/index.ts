@@ -131,6 +131,10 @@ export interface RankedAuctionFormatters {
   formatTime?: (date: Date) => string;
   /** Currency symbol to display alongside prices. Default: "ETH" */
   currencySymbol?: string;
+  /** Convert internal bigint value to display number for input. Default: divide by 1e18 (wei to ETH) */
+  formatInputValue?: (value: bigint) => number;
+  /** Convert display number back to internal bigint value. Default: multiply by 1e18 (ETH to wei) */
+  parseInputValue?: (value: number) => bigint;
 }
 
 // ─── Internal Rankable Bid ──────────────────────────────────────────────────
@@ -143,4 +147,5 @@ export interface RankableBid {
   id: string;
   price: string;
   created_at: string;
+  bidder?: RankedAuctionBidder;
 }

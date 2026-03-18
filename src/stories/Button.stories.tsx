@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "@/components/primitives";
 
 const meta: Meta<typeof Button> = {
-  title: "Trading UI/Button",
+  title: "Primitives/Button",
   component: Button,
   parameters: {
     layout: "centered",
@@ -204,10 +204,28 @@ export const Loading: StoryObj<typeof Button> = {
 };
 
 export const Disabled: StoryObj<typeof Button> = {
-  args: {
-    children: "Disabled",
-    disabled: true,
-  },
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <Button color="primary" disabled>
+        Primary
+      </Button>
+      <Button color="secondary" disabled>
+        Secondary
+      </Button>
+      <Button color="tertiary" disabled>
+        Tertiary
+      </Button>
+      <Button color="ghost" disabled>
+        Ghost
+      </Button>
+      <Button color="destructive" disabled>
+        Destructive
+      </Button>
+      <Button color="link" disabled>
+        Link
+      </Button>
+    </div>
+  ),
 };
 
 export const Active: StoryObj<typeof Button> = {

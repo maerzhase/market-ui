@@ -3,7 +3,7 @@ import React from "react";
 import { Tab, Tabs, TabsList, TabsPanel } from "@/components/primitives/Tabs";
 
 const meta: Meta<typeof Tabs> = {
-  title: "Trading UI/Tabs",
+  title: "Primitives/Tabs",
   component: Tabs,
   parameters: {
     layout: "centered",

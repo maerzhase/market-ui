@@ -1,187 +1,218 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { RankedList, Separator, Text } from "@/components";
 import {
   RankedAuction,
   RankedAuctionArtwork,
+  RankedAuctionBiddingPanel,
   RankedAuctionBidForm,
   RankedAuctionDetails,
-  RankedAuctionDetailsFooter,
+  RankedAuctionDetailsBody,
   RankedAuctionDetailsHeader,
-  RankedAuctionInfo,
   RankedAuctionLayout,
   RankedAuctionRankings,
   RankedAuctionRankingsContainer,
-} from "@/components/ranked-auction";
+  RankedAuctionStatusTag,
+  useRankedAuctionContext,
+} from "@/components/blocks/ranked-auction";
 import type {
   RankableBid,
   RankedAuctionData,
   RankedAuctionUserBid,
 } from "@/types";
+import { formatShortRelative } from "@/utils";
 
-// Classical painting from Wikimedia Commons (public domain)
-const ARTWORK_URL =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/1920px-1665_Girl_with_a_Pearl_Earring.jpg";
-const ARTWORK_ALT = "Girl with a Pearl Earring by Johannes Vermeer";
+// ---------------------------------------------------------------------------
+// Artwork constants
+// ---------------------------------------------------------------------------
 
+// Multi-edition: Hokusai's "The Great Wave" – a natural fit for a limited edition art print
+const EDITION_ARTWORK_URL =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1280px-Tsunami_by_hokusai_19th_century.jpg";
+const EDITION_ARTWORK_ALT = "The Great Wave off Kanagawa";
+
+// Single item: MTG Alpha "Time Walk" – a 1-of-1 collectible
+const SINGLE_ARTWORK_URL = "/lea-83-time-walk.png";
+const SINGLE_ARTWORK_ALT = "LEA-83 Time Walk";
+
+// ---------------------------------------------------------------------------
+// Shared helpers
+// ---------------------------------------------------------------------------
+
+const mockBidders = [
+  { id: "0xalice", name: "Alice" },
+  { id: "0xbob", name: "Bob" },
+  { id: "0xcharlie", name: "Charlie" },
+  { id: "0xdiana", name: "Diana" },
+  { id: "0xeve", name: "Eve" },
+  { id: "0xfrank", name: "Frank" },
+  { id: "0xgrace", name: "Grace" },
+  { id: "0xhenry", name: "Henry" },
+  { id: "0xivy", name: "Ivy" },
+  { id: "0xjack", name: "Jack" },
+  { id: "0xkate", name: "Kate" },
+  { id: "0xleo", name: "Leo" },
+  { id: "0xmia", name: "Mia" },
+  { id: "0xnathan", name: "Nathan" },
+  { id: "0xolivia", name: "Olivia" },
+  { id: "0xpeter", name: "Peter" },
+  { id: "0xquinn", name: "Quinn" },
+  { id: "0xrachel", name: "Rachel" },
+  { id: "0xsam", name: "Sam" },
+  { id: "0xtina", name: "Tina" },
+  { id: "0xuma", name: "Uma" },
+  { id: "0xvictor", name: "Victor" },
+  { id: "0xwendy", name: "Wendy" },
+  { id: "0xxavier", name: "Xavier" },
+  { id: "0xyara", name: "Yara" },
+  { id: "0xzack", name: "Zack" },
+];
+
+function formatPrice(price: bigint) {
+  const dollars = Number(price) / 100;
+  return dollars.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+const dollarFormatters = {
+  formatPrice,
+  currencySymbol: "$",
+  formatInputValue: (value: bigint) => Number(value) / 100,
+  parseInputValue: (value: number) => BigInt(Math.round(value * 100)),
+};
+
+// ---------------------------------------------------------------------------
+// Multi-edition mock data (20 editions of an art print)
+// ---------------------------------------------------------------------------
+
+// Dollar auction using cents as the base unit (1 dollar = 100 cents)
 const mockAuction: RankedAuctionData = {
   id: "0x1234567890abcdef1234567890abcdef12345678",
-  reservePrice: 10000000000000000n,
+  reservePrice: 10000n, // $100 in cents
   opensAt: new Date(Date.now() - 86400000),
   endsAt: new Date(Date.now() + 86400000 * 3),
   maxTotalItems: 20,
   tickConfig: {
-    threshold: 100000000000000000n,
-    smallTickSize: 1000000000000000n,
-    largeTickSize: 10000000000000000n,
+    threshold: 100000n, // $1000 in cents
+    smallTickSize: 1000n, // $10 in cents
+    largeTickSize: 10000n, // $100 in cents
   },
 };
 
-const mockBids: RankableBid[] = [
-  {
-    id: "1",
-    price: "500000000000000000",
-    created_at: new Date(Date.now() - 3600000).toISOString(),
-  },
-  {
-    id: "2",
-    price: "450000000000000000",
-    created_at: new Date(Date.now() - 4000000).toISOString(),
-  },
-  {
-    id: "3",
-    price: "400000000000000000",
-    created_at: new Date(Date.now() - 7200000).toISOString(),
-  },
-  {
-    id: "4",
-    price: "350000000000000000",
-    created_at: new Date(Date.now() - 8000000).toISOString(),
-  },
-  {
-    id: "5",
-    price: "300000000000000000",
-    created_at: new Date(Date.now() - 10800000).toISOString(),
-  },
-  {
-    id: "6",
-    price: "280000000000000000",
-    created_at: new Date(Date.now() - 12000000).toISOString(),
-  },
-  {
-    id: "7",
-    price: "250000000000000000",
-    created_at: new Date(Date.now() - 14400000).toISOString(),
-  },
-  {
-    id: "8",
-    price: "230000000000000000",
-    created_at: new Date(Date.now() - 15000000).toISOString(),
-  },
-  {
-    id: "9",
-    price: "200000000000000000",
-    created_at: new Date(Date.now() - 18000000).toISOString(),
-  },
-  {
-    id: "10",
-    price: "180000000000000000",
-    created_at: new Date(Date.now() - 19000000).toISOString(),
-  },
-  {
-    id: "11",
-    price: "150000000000000000",
-    created_at: new Date(Date.now() - 21600000).toISOString(),
-  },
-  {
-    id: "12",
-    price: "130000000000000000",
-    created_at: new Date(Date.now() - 23000000).toISOString(),
-  },
-  {
-    id: "13",
-    price: "100000000000000000",
-    created_at: new Date(Date.now() - 25200000).toISOString(),
-  },
-  {
-    id: "14",
-    price: "90000000000000000",
-    created_at: new Date(Date.now() - 26000000).toISOString(),
-  },
-  {
-    id: "15",
-    price: "80000000000000000",
-    created_at: new Date(Date.now() - 27000000).toISOString(),
-  },
-  {
-    id: "16",
-    price: "70000000000000000",
-    created_at: new Date(Date.now() - 28000000).toISOString(),
-  },
-  {
-    id: "17",
-    price: "60000000000000000",
-    created_at: new Date(Date.now() - 29000000).toISOString(),
-  },
-  {
-    id: "18",
-    price: "50000000000000000",
-    created_at: new Date(Date.now() - 30000000).toISOString(),
-  },
-  {
-    id: "19",
-    price: "40000000000000000",
-    created_at: new Date(Date.now() - 31000000).toISOString(),
-  },
-  {
-    id: "20",
-    price: "30000000000000000",
-    created_at: new Date(Date.now() - 32000000).toISOString(),
-  },
-  {
-    id: "21",
-    price: "25000000000000000",
-    created_at: new Date(Date.now() - 33000000).toISOString(),
-  },
-  {
-    id: "22",
-    price: "20000000000000000",
-    created_at: new Date(Date.now() - 34000000).toISOString(),
-  },
-  {
-    id: "23",
-    price: "15000000000000000",
-    created_at: new Date(Date.now() - 35000000).toISOString(),
-  },
-  {
-    id: "24",
-    price: "12000000000000000",
-    created_at: new Date(Date.now() - 36000000).toISOString(),
-  },
-  {
-    id: "25",
-    price: "12000000000000000",
-    created_at: new Date(Date.now() - 36000000).toISOString(),
-  },
-  {
-    id: "26",
-    price: "12000000000000000",
-    created_at: new Date(Date.now() - 36000000).toISOString(),
-  },
-];
+const mockBids: RankableBid[] = Array.from({ length: 26 }, (_, i) => ({
+  id: String(i + 1),
+  price: (50000n - BigInt(i) * 1500n).toString(),
+  created_at: new Date(Date.now() - (3600000 + i * 1200000)).toISOString(),
+  bidder: mockBidders[i],
+}));
 
+// User bid matching bid #9 in the rankings (price $380 = 38000 cents)
 const mockUserBids: RankedAuctionUserBid[] = [
   {
-    id: "user-1",
-    price: 200000000000000000n,
+    id: "9",
+    price: 38000n, // $380 in cents
     createdAt: new Date(Date.now() - 18000000),
-    bidder: { id: "0xuser1", name: "You" },
-    globalBidId: 1n,
+    bidder: { id: "0xivy", name: "You" },
+    globalBidId: 9n,
     status: "active",
     isWinning: true,
   },
 ];
 
+// ---------------------------------------------------------------------------
+// Single-item mock data (1-of-1 collectible card)
+// ---------------------------------------------------------------------------
+
+const mockSingleAuction: RankedAuctionData = {
+  id: "0xabcdef1234567890abcdef1234567890abcdef12",
+  reservePrice: 50000n, // $500 in cents
+  opensAt: new Date(Date.now() - 86400000 * 2),
+  endsAt: new Date(Date.now() + 86400000),
+  maxTotalItems: 1,
+  tickConfig: {
+    threshold: 500000n, // $5000 in cents
+    smallTickSize: 5000n, // $50 in cents
+    largeTickSize: 50000n, // $500 in cents
+  },
+};
+
+const mockSingleBids: RankableBid[] = [
+  {
+    id: "s1",
+    price: "280000", // $2,800
+    created_at: new Date(Date.now() - 1800000).toISOString(),
+    bidder: { id: "0xalice", name: "Alice" },
+  },
+  {
+    id: "s2",
+    price: "250000", // $2,500
+    created_at: new Date(Date.now() - 3600000).toISOString(),
+    bidder: { id: "0xbob", name: "Bob" },
+  },
+  {
+    id: "s3",
+    price: "220000", // $2,200
+    created_at: new Date(Date.now() - 7200000).toISOString(),
+    bidder: { id: "0xcharlie", name: "Charlie" },
+  },
+  {
+    id: "s4",
+    price: "180000", // $1,800
+    created_at: new Date(Date.now() - 14400000).toISOString(),
+    bidder: { id: "0xdiana", name: "Diana" },
+  },
+  {
+    id: "s5",
+    price: "150000", // $1,500
+    created_at: new Date(Date.now() - 21600000).toISOString(),
+    bidder: { id: "0xeve", name: "Eve" },
+  },
+  {
+    id: "s6",
+    price: "120000", // $1,200
+    created_at: new Date(Date.now() - 36000000).toISOString(),
+    bidder: { id: "0xfrank", name: "Frank" },
+  },
+  {
+    id: "s7",
+    price: "100000", // $1,000
+    created_at: new Date(Date.now() - 50400000).toISOString(),
+    bidder: { id: "0xgrace", name: "Grace" },
+  },
+  {
+    id: "s8",
+    price: "75000", // $750
+    created_at: new Date(Date.now() - 64800000).toISOString(),
+    bidder: { id: "0xhenry", name: "Henry" },
+  },
+  {
+    id: "s9",
+    price: "50000", // $500 (reserve price)
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+    bidder: { id: "0xivy", name: "Ivy" },
+  },
+];
+
+// User bid at $2,200 (rank #3) for the SingleItemWithBid story
+const mockSingleUserBids: RankedAuctionUserBid[] = [
+  {
+    id: "s3",
+    price: 220000n, // $2,200 in cents
+    createdAt: new Date(Date.now() - 7200000),
+    bidder: { id: "0xcharlie", name: "You" },
+    globalBidId: 3n,
+    status: "active",
+    isWinning: false,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Story meta
+// ---------------------------------------------------------------------------
+
 const meta: Meta<typeof RankedAuction> = {
-  title: "Trading UI/RankedAuction",
+  title: "Blocks/RankedAuction",
   component: RankedAuction,
   parameters: {
     layout: "fullscreen",
@@ -190,41 +221,89 @@ const meta: Meta<typeof RankedAuction> = {
 
 export default meta;
 
-export const FullAuction: StoryObj<typeof RankedAuction> = {
+// ---------------------------------------------------------------------------
+// Shared sub-components
+// ---------------------------------------------------------------------------
+
+function AuctionStatus() {
+  const { auction } = useRankedAuctionContext();
+  return (
+    <div className="text-xs">
+      <RankedAuctionStatusTag
+        opensAt={auction.opensAt}
+        endsAt={auction.endsAt}
+        background="transparent"
+      />
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Multi-edition stories (20 editions of an art print)
+// ---------------------------------------------------------------------------
+
+export const Default: StoryObj<typeof RankedAuction> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
         <RankedAuction
           auction={mockAuction}
           bids={mockBids}
-          userBids={mockUserBids}
+          userBids={[]}
+          formatters={dollarFormatters}
           onPlaceBid={async (price, qty) => {
-            console.log("Place bid:", price, qty);
+            console.log("Place bid:", price, "cents", qty);
             return true;
           }}
           onTopUpBid={async (bidId, newPrice, value) => {
-            console.log("Top up:", bidId, newPrice, value);
+            console.log("Top up:", bidId, newPrice, "cents", value);
             return true;
           }}
-          onClaimEdition={async (bidId) => {
-            console.log("Claim:", bidId);
-            return true;
-          }}
-          className="size-full rounded-lg border border-border bg-background shadow-lg"
+          className="size-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
         >
           <RankedAuctionLayout>
             <RankedAuctionDetails>
               <RankedAuctionDetailsHeader>
-                <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
-                <RankedAuctionInfo className="mt-4" />
+                <AuctionStatus />
+                <h2 className="mt-2 text-lg font-semibold">
+                  The Great Wave off Kanagawa
+                </h2>
+                <Text color="secondary">Katsushika Hokusai</Text>
+                <RankedAuctionArtwork
+                  className="mt-4"
+                  src={EDITION_ARTWORK_URL}
+                  alt={EDITION_ARTWORK_ALT}
+                />
               </RankedAuctionDetailsHeader>
-              <RankedAuctionDetailsFooter>
-                <RankedAuctionBidForm.Suggestions />
-                <RankedAuctionBidForm.Root />
-              </RankedAuctionDetailsFooter>
+              <RankedAuctionDetailsBody>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Editions
+                    </Text>
+                    <Text size="2">20</Text>
+                  </div>
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Reserve Price
+                    </Text>
+                    <Text size="2" tabularNums>
+                      $100.00
+                    </Text>
+                  </div>
+                  <Separator />
+                  <Text size="2" color="secondary">
+                    Bid on one of 20 limited edition prints. The top 20 bidders
+                    each win an edition.
+                  </Text>
+                </div>
+              </RankedAuctionDetailsBody>
             </RankedAuctionDetails>
             <RankedAuctionRankingsContainer>
               <RankedAuctionRankings />
+              <RankedAuctionBiddingPanel>
+                <RankedAuctionBidForm.Root />
+              </RankedAuctionBiddingPanel>
             </RankedAuctionRankingsContainer>
           </RankedAuctionLayout>
         </RankedAuction>
@@ -233,161 +312,266 @@ export const FullAuction: StoryObj<typeof RankedAuction> = {
   ),
 };
 
-export const LiveAuction: StoryObj<typeof RankedAuction> = {
-  render: () => {
-    const liveAuction: RankedAuctionData = {
-      ...mockAuction,
-      endsAt: new Date(Date.now() + 3600000),
-    };
-    return (
-      <div className="h-screen w-full bg-muted p-8">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
-          <RankedAuction
-            auction={liveAuction}
-            bids={mockBids}
-            userBids={[]}
-            onPlaceBid={async (price, qty) => {
-              console.log("Place bid:", price, qty);
-              return true;
-            }}
-            onTopUpBid={async (bidId, newPrice, value) => {
-              console.log("Top up:", bidId, newPrice, value);
-              return true;
-            }}
-            className="size-full rounded-lg border border-border bg-background shadow-lg"
-          >
-            <RankedAuctionLayout>
-              <RankedAuctionDetails>
-                <RankedAuctionDetailsHeader>
-                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
-                  <RankedAuctionInfo className="mt-4" />
-                </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsFooter>
-                  <RankedAuctionBidForm.Suggestions />
-                  <RankedAuctionBidForm.Root />
-                </RankedAuctionDetailsFooter>
-              </RankedAuctionDetails>
-              <RankedAuctionRankingsContainer>
-                <RankedAuctionRankings />
-              </RankedAuctionRankingsContainer>
-            </RankedAuctionLayout>
-          </RankedAuction>
-        </div>
+export const WithTopUp: StoryObj<typeof RankedAuction> = {
+  render: () => (
+    <div className="h-screen w-full bg-muted p-8">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
+        <RankedAuction
+          auction={mockAuction}
+          bids={mockBids}
+          userBids={mockUserBids}
+          formatters={dollarFormatters}
+          onPlaceBid={async (price, qty) => {
+            console.log("Place bid:", price, "cents", qty);
+            return true;
+          }}
+          onTopUpBid={async (bidId, newPrice, value) => {
+            console.log("Top up:", bidId, newPrice, "cents", value);
+            return true;
+          }}
+          className="size-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
+        >
+          <RankedAuctionLayout>
+            <RankedAuctionDetails>
+              <RankedAuctionDetailsHeader>
+                <AuctionStatus />
+                <h2 className="mt-2 text-lg font-semibold">
+                  The Great Wave off Kanagawa
+                </h2>
+                <Text color="secondary">Katsushika Hokusai</Text>
+                <RankedAuctionArtwork
+                  className="mt-4"
+                  src={EDITION_ARTWORK_URL}
+                  alt={EDITION_ARTWORK_ALT}
+                />
+              </RankedAuctionDetailsHeader>
+              <RankedAuctionDetailsBody>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Editions
+                    </Text>
+                    <Text size="2">20</Text>
+                  </div>
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Reserve Price
+                    </Text>
+                    <Text size="2" tabularNums>
+                      $100.00
+                    </Text>
+                  </div>
+                  <Separator />
+                  <Text size="2" color="secondary">
+                    Bid on one of 20 limited edition prints. The top 20 bidders
+                    each win an edition.
+                  </Text>
+                </div>
+              </RankedAuctionDetailsBody>
+            </RankedAuctionDetails>
+            <RankedAuctionRankingsContainer>
+              <RankedAuctionRankings />
+              <RankedAuctionBiddingPanel>
+                <RankedAuctionBidForm.Root />
+              </RankedAuctionBiddingPanel>
+            </RankedAuctionRankingsContainer>
+          </RankedAuctionLayout>
+        </RankedAuction>
       </div>
-    );
-  },
+    </div>
+  ),
 };
 
-export const ClosedAuction: StoryObj<typeof RankedAuction> = {
-  render: () => {
-    const closedAuction: RankedAuctionData = {
-      ...mockAuction,
-      opensAt: new Date(Date.now() - 86400000 * 5),
-      endsAt: new Date(Date.now() - 86400000),
-      clearingPrice: 100000000000000000n,
-    };
-    return (
-      <div className="h-screen w-full bg-muted p-8">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
-          <RankedAuction
-            auction={closedAuction}
-            bids={mockBids}
-            userBids={[]}
-            onPlaceBid={async () => false}
-            onTopUpBid={async () => false}
-            className="size-full rounded-lg border border-border bg-background shadow-lg"
-          >
-            <RankedAuctionLayout>
-              <RankedAuctionDetails>
-                <RankedAuctionDetailsHeader>
-                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
-                  <RankedAuctionInfo className="mt-4" />
-                </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsFooter>
-                  <RankedAuctionBidForm.Suggestions />
-                  <RankedAuctionBidForm.Root />
-                </RankedAuctionDetailsFooter>
-              </RankedAuctionDetails>
-              <RankedAuctionRankingsContainer>
-                <RankedAuctionRankings />
-              </RankedAuctionRankingsContainer>
-            </RankedAuctionLayout>
-          </RankedAuction>
-        </div>
+// ---------------------------------------------------------------------------
+// Single-item stories (1-of-1 collectible)
+// ---------------------------------------------------------------------------
+
+interface SingleItemBid {
+  id: string;
+  name: string;
+  price: string;
+  time: string;
+}
+
+const singleItemBids: SingleItemBid[] = mockSingleBids.map((b) => ({
+  id: b.id,
+  name: b.bidder?.name || `${b.bidder?.id.slice(0, 6)}...`,
+  price: formatPrice(BigInt(b.price)),
+  time: formatShortRelative(new Date(b.created_at)),
+}));
+
+/**
+ * Renders a preview slot in the RankedList that shows where the user's
+ * current bid (from the bid form) would land. Reads bidWei/showBidPreview
+ * from the auction context so it updates live as the user adjusts the input.
+ */
+function BidPreviewSlot() {
+  const {
+    bidWei,
+    minBidWei,
+    showBidPreview,
+    isBiddingActive,
+    formatPrice: ctxFormatPrice,
+    currencySymbol,
+    getProjectedRank,
+  } = useRankedAuctionContext();
+
+  if (!isBiddingActive || !showBidPreview || bidWei < minBidWei) return null;
+
+  const { rank } = getProjectedRank(bidWei);
+  const atIndex = rank ? rank - 1 : 0;
+
+  return (
+    <RankedList.Slot slotKey="bid-preview" atIndex={atIndex}>
+      {(ctx) => (
+        <>
+          <div className="relative">
+            <div className="absolute inset-0 animate-[pulse_2s_ease-in-out_infinite] bg-success/10" />
+            <div className="relative flex items-center justify-between gap-2 px-6 py-4">
+              <div className="flex min-w-0 items-center gap-3">
+                <Text color="tertiary" className="w-8 shrink-0" size="2">
+                  #{ctx.rank}
+                </Text>
+                <Text color="secondary" size="3" weight="medium">
+                  Your bid
+                </Text>
+              </div>
+              <div className="flex shrink-0 items-center gap-3">
+                <Text tabularNums size="3" weight="medium">
+                  {ctxFormatPrice(bidWei)} {currencySymbol}
+                </Text>
+                <span className="min-w-9" />
+              </div>
+            </div>
+          </div>
+          {!ctx.isLastInGroup && <Separator />}
+        </>
+      )}
+    </RankedList.Slot>
+  );
+}
+
+function SingleItemContent({ userBids }: { userBids: RankedAuctionUserBid[] }) {
+  return (
+    <div className="h-screen w-full bg-muted p-8">
+      <div className="mx-auto flex h-full max-w-3xl items-center justify-center">
+        <RankedAuction
+          auction={mockSingleAuction}
+          bids={mockSingleBids}
+          userBids={userBids}
+          formatters={dollarFormatters}
+          onPlaceBid={async (price, qty) => {
+            console.log("Place bid:", price, "cents", qty);
+            return true;
+          }}
+          onTopUpBid={async (bidId, newPrice, value) => {
+            console.log("Top up:", bidId, newPrice, "cents", value);
+            return true;
+          }}
+          className="flex h-full max-h-180 w-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
+        >
+          <div className="hidden min-w-0 flex-1 flex-col gap-6 p-6 lg:flex">
+            <div className="shrink-0">
+              <AuctionStatus />
+              <h2 className="mt-2 text-lg font-semibold">Time Walk</h2>
+              <Text color="secondary">
+                Magic: The Gathering &middot; Alpha Edition
+              </Text>
+            </div>
+            <RankedAuctionArtwork
+              className="min-h-0 flex-1"
+              src={SINGLE_ARTWORK_URL}
+              alt={SINGLE_ARTWORK_ALT}
+            />
+            <div className="shrink-0 space-y-2 border-t border-border pt-6">
+              <div className="flex justify-between">
+                <Text size="2" color="tertiary">
+                  Edition
+                </Text>
+                <Text size="2">1 of 1</Text>
+              </div>
+              <div className="flex justify-between">
+                <Text size="2" color="tertiary">
+                  Reserve Price
+                </Text>
+                <Text size="2" tabularNums>
+                  $500.00
+                </Text>
+              </div>
+            </div>
+          </div>
+          <div className="flex min-w-0 flex-1 flex-col lg:border-l lg:border-border">
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <RankedList.Root items={singleItemBids} getKey={(bid) => bid.id}>
+                <BidPreviewSlot />
+                <RankedList.Group>
+                  <RankedList.GroupItem>
+                    <RankedList.GroupItemValue>
+                      {(bid: SingleItemBid, ctx) => {
+                        const isHighest = ctx.globalIndex === 0;
+                        return (
+                          <>
+                            <div
+                              className={`flex items-center justify-between gap-2 px-6 ${
+                                isHighest ? "py-4" : "py-2 opacity-50"
+                              }`}
+                            >
+                              <div className="flex min-w-0 items-center gap-3">
+                                <Text
+                                  color="tertiary"
+                                  className="w-8 shrink-0"
+                                  size={isHighest ? "2" : "1"}
+                                >
+                                  #{ctx.globalIndex + 1}
+                                </Text>
+                                <Text
+                                  className="truncate"
+                                  size={isHighest ? "3" : undefined}
+                                  weight={isHighest ? "medium" : undefined}
+                                >
+                                  {bid.name}
+                                </Text>
+                              </div>
+                              <div className="flex shrink-0 items-center gap-3">
+                                <Text
+                                  tabularNums
+                                  size={isHighest ? "3" : undefined}
+                                  weight={isHighest ? "medium" : undefined}
+                                >
+                                  {bid.price} $
+                                </Text>
+                                <Text
+                                  size="1"
+                                  color="tertiary"
+                                  className="min-w-9 text-right"
+                                >
+                                  {bid.time}
+                                </Text>
+                              </div>
+                            </div>
+                            {!ctx.isLastInGroup && <Separator />}
+                          </>
+                        );
+                      }}
+                    </RankedList.GroupItemValue>
+                  </RankedList.GroupItem>
+                </RankedList.Group>
+              </RankedList.Root>
+            </div>
+            <RankedAuctionBiddingPanel>
+              <RankedAuctionBidForm.Root />
+            </RankedAuctionBiddingPanel>
+          </div>
+        </RankedAuction>
       </div>
-    );
-  },
+    </div>
+  );
+}
+
+export const SingleItem: StoryObj<typeof RankedAuction> = {
+  render: () => <SingleItemContent userBids={[]} />,
 };
 
-export const DollarAuction: StoryObj<typeof RankedAuction> = {
-  render: () => {
-    // Dollar auction using cents as the base unit (1 dollar = 100 cents)
-    // - reservePrice: 10000 cents = $100 minimum bid
-    // - threshold: 100000 cents = $1000 (tick size changes above this)
-    // - smallTickSize: 1000 cents = $10 increments below $1000
-    // - largeTickSize: 10000 cents = $100 increments above $1000
-    const dollarAuction: RankedAuctionData = {
-      ...mockAuction,
-      reservePrice: 10000n, // $100 in cents
-      tickConfig: {
-        threshold: 100000n, // $1000 in cents
-        smallTickSize: 1000n, // $10 in cents
-        largeTickSize: 10000n, // $100 in cents
-      },
-    };
-    // Convert ETH bids to dollar amounts (scale down for realistic values)
-    const dollarBids: RankableBid[] = mockBids.map((b, i) => ({
-      ...b,
-      // Generate bids from ~$500 down to ~$100
-      price: (50000n - BigInt(i) * 1500n).toString(),
-    }));
-    // Format cents as dollars
-    const formatPrice = (price: bigint) => {
-      const dollars = Number(price) / 100;
-      return dollars.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    };
-    return (
-      <div className="h-screen w-full bg-muted p-8">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-center">
-          <RankedAuction
-            auction={dollarAuction}
-            bids={dollarBids}
-            userBids={[]}
-            formatters={{
-              formatPrice: formatPrice,
-              currencySymbol: "$",
-            }}
-            onPlaceBid={async (price, qty) => {
-              console.log("Place bid:", price, "cents", qty);
-              return true;
-            }}
-            onTopUpBid={async (bidId, newPrice, value) => {
-              console.log("Top up:", bidId, newPrice, "cents", value);
-              return true;
-            }}
-            className="size-full rounded-lg border border-border bg-background shadow-lg"
-          >
-            <RankedAuctionLayout>
-              <RankedAuctionDetails>
-                <RankedAuctionDetailsHeader>
-                  <RankedAuctionArtwork src={ARTWORK_URL} alt={ARTWORK_ALT} />
-                  <RankedAuctionInfo className="mt-4" />
-                </RankedAuctionDetailsHeader>
-                <RankedAuctionDetailsFooter>
-                  <RankedAuctionBidForm.Suggestions />
-                  <RankedAuctionBidForm.Root />
-                </RankedAuctionDetailsFooter>
-              </RankedAuctionDetails>
-              <RankedAuctionRankingsContainer>
-                <RankedAuctionRankings />
-              </RankedAuctionRankingsContainer>
-            </RankedAuctionLayout>
-          </RankedAuction>
-        </div>
-      </div>
-    );
-  },
+export const SingleItemWithBid: StoryObj<typeof RankedAuction> = {
+  render: () => <SingleItemContent userBids={mockSingleUserBids} />,
 };

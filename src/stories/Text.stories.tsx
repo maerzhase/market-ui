@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Text } from "@/components/primitives/Text";
 
 const meta: Meta<typeof Text> = {
-  title: "Trading UI/Text",
+  title: "Primitives/Text",
   component: Text,
   parameters: {
     layout: "centered",

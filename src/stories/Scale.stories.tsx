@@ -5,7 +5,7 @@ import { Scale } from "@/components/primitives/Scale";
 import { Text } from "@/components/primitives/Text";
 
 const meta: Meta<typeof Scale.Linear> = {
-  title: "Trading UI/Scale",
+  title: "Primitives/Scale",
   component: Scale.Linear,
   parameters: {
     layout: "centered",

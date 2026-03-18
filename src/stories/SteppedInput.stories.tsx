@@ -6,7 +6,7 @@ import {
 } from "@/components/primitives/SteppedInput";
 
 const meta: Meta<typeof SteppedInput.Root> = {
-  title: "Trading UI/SteppedInput",
+  title: "Primitives/SteppedInput",
   component: SteppedInput.Root,
   parameters: {
     layout: "centered",

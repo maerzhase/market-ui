@@ -30,9 +30,9 @@ export function getProjectedRankForPriceWei(
     const priceB = BigInt(b.price);
     if (priceA !== priceB) return priceB > priceA ? 1 : -1;
 
-    // Tie-breaker: synthetic bid wins (like slots in RankedList)
-    if (a.id === synthetic.id) return -1;
-    if (b.id === synthetic.id) return 1;
+    // Tie-breaker: synthetic bid sorts below same-priced bids
+    if (a.id === synthetic.id) return 1;
+    if (b.id === synthetic.id) return -1;
 
     // Regular tie-breaker: earlier bids rank higher
     return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();

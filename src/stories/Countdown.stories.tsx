@@ -1,11 +1,11 @@
 import { Meter } from "@base-ui/react/meter";
 import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
-import { Countdown } from "@/components/countdown";
+import { Countdown } from "@/components/primitives/countdown";
 import { cn } from "@/lib";
 
 const meta: Meta<typeof Countdown> = {
-  title: "Trading UI/Countdown",
+  title: "Primitives/Countdown",
   component: Countdown,
   parameters: {
     layout: "centered",

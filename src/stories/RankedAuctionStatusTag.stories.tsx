@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RankedAuctionStatusTag } from "@/components/ranked-auction/RankedAuctionStatusTag";
+import { RankedAuctionStatusTag } from "@/components/blocks/ranked-auction/RankedAuctionStatusTag";
 
 const meta: Meta<typeof RankedAuctionStatusTag> = {
-  title: "Trading UI/RankedAuction/StatusTag",
+  title: "Blocks/RankedAuction/StatusTag",
   component: RankedAuctionStatusTag,
   parameters: {
     layout: "centered",

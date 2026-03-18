@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RankedAuctionYourBidCard } from "@/components/ranked-auction/RankedAuctionYourBidCard";
+import { RankedAuctionYourBidCard } from "@/components/blocks/ranked-auction/RankedAuctionYourBidCard";
 import type { RankedAuctionUserBid } from "@/types";
 
 const formatPrice = (priceWei: bigint) => {
@@ -62,7 +62,7 @@ const getRankForBid = (bidId: string) => {
 };
 
 const meta: Meta<typeof RankedAuctionYourBidCard> = {
-  title: "Trading UI/RankedAuction/YourBidCard",
+  title: "Blocks/RankedAuction/YourBidCard",
   component: RankedAuctionYourBidCard,
   parameters: {
     layout: "centered",

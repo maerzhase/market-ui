@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Separator } from "@/components/primitives/Separator";
-import { Text } from "@/components/primitives/Text";
 import {
   RankedAuctionDetails,
   RankedAuctionDetailsBody,
@@ -8,10 +6,37 @@ import {
   RankedAuctionDetailsHeader,
   RankedAuctionLayout,
   RankedAuctionRankingsContainer,
-} from "@/components/ranked-auction/RankedAuctionLayout";
+} from "@/components/blocks/ranked-auction/RankedAuctionLayout";
+import { Separator } from "@/components/primitives/Separator";
+import { Text } from "@/components/primitives/Text";
+
+const detailBids = Array.from({ length: 10 }, (_, i) => ({
+  id: `detail-bid-${i + 1}`,
+  rank: i + 1,
+  time: new Date(Date.now() - i * 3600000).toLocaleTimeString(),
+  price: (0.5 - i * 0.02).toFixed(3),
+}));
+
+const rankingRows = Array.from({ length: 25 }, (_, i) => ({
+  id: `ranking-${i + 1}`,
+  rank: i + 1,
+  label: `Bidder ${i + 1}`,
+  price: (0.5 - i * 0.015).toFixed(3),
+  isLast: i === 24,
+}));
+
+const leaderboardRows = Array.from({ length: 25 }, (_, i) => ({
+  id: `leaderboard-${i + 1}`,
+  rank: i + 1,
+  address: `0x${(i + 1).toString(16).padStart(4, "0")}...`,
+  price: (0.5 - i * 0.015).toFixed(3),
+  timeLabel: `${i + 1}h`,
+  isOutbid: i >= 20,
+  isLast: i === 24,
+}));
 
 const meta: Meta<typeof RankedAuctionLayout> = {
-  title: "Trading UI/RankedAuction/Layout",
+  title: "Blocks/RankedAuction/Layout",
   component: RankedAuctionLayout,
   parameters: {
     layout: "fullscreen",
@@ -76,23 +101,21 @@ export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
               </RankedAuctionDetailsHeader>
               <RankedAuctionDetailsBody>
                 <div className="space-y-4">
-                  {Array.from({ length: 10 }, (_, i) => (
+                  {detailBids.map((bid) => (
                     <div
-                      key={i}
+                      key={bid.id}
                       className="rounded-lg border border-border bg-muted p-4"
                     >
                       <div className="flex justify-between">
                         <Text size="1" color="tertiary">
-                          Rank #{i + 1}
+                          Rank #{bid.rank}
                         </Text>
                         <Text size="1" color="tertiary" tabularNums>
-                          {new Date(
-                            Date.now() - i * 3600000,
-                          ).toLocaleTimeString()}
+                          {bid.time}
                         </Text>
                       </div>
                       <Text size="2" className="mt-2" tabularNums>
-                        {(0.5 - i * 0.02).toFixed(3)} ETH
+                        {bid.price} ETH
                       </Text>
                     </div>
                   ))}
@@ -112,21 +135,21 @@ export const WithScrollableBody: StoryObj<typeof RankedAuctionLayout> = {
                   </Text>
                 </div>
                 <div className="min-h-0 flex-1 overflow-y-auto">
-                  {Array.from({ length: 25 }, (_, i) => (
-                    <div key={i}>
+                  {rankingRows.map((row) => (
+                    <div key={row.id}>
                       <div className="flex items-center justify-between px-6 py-3">
                         <div className="flex items-center gap-3">
                           <Text size="1" color="tertiary" className="w-6">
-                            #{i + 1}
+                            #{row.rank}
                           </Text>
                           <div className="size-6 rounded-full bg-muted" />
-                          <Text size="2">Bidder {i + 1}</Text>
+                          <Text size="2">{row.label}</Text>
                         </div>
                         <Text size="2" tabularNums>
-                          {(0.5 - i * 0.015).toFixed(3)} ETH
+                          {row.price} ETH
                         </Text>
                       </div>
-                      {i < 24 && <Separator />}
+                      {!row.isLast && <Separator />}
                     </div>
                   ))}
                 </div>
@@ -180,7 +203,7 @@ export const DetailsOnly: StoryObj<typeof RankedAuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-md items-center justify-center">
-        <div className="size-full max-h-[600px] rounded-lg border border-border bg-background shadow-lg">
+        <div className="size-full max-h-150 rounded-lg border border-border bg-background shadow-lg">
           <RankedAuctionDetails className="h-full">
             <RankedAuctionDetailsHeader>
               <Text size="4" weight="medium">
@@ -240,7 +263,7 @@ export const RankingsOnly: StoryObj<typeof RankedAuctionLayout> = {
   render: () => (
     <div className="h-screen w-full bg-muted p-8">
       <div className="mx-auto flex h-full max-w-lg items-center justify-center">
-        <div className="size-full max-h-[500px] rounded-lg border border-border bg-background shadow-lg">
+        <div className="size-full max-h-125 rounded-lg border border-border bg-background shadow-lg">
           <RankedAuctionRankingsContainer className="h-full">
             <div className="flex h-full flex-col">
               <div className="shrink-0 border-b border-border p-4">
@@ -252,34 +275,32 @@ export const RankingsOnly: StoryObj<typeof RankedAuctionLayout> = {
                 </Text>
               </div>
               <div className="min-h-0 flex-1 overflow-y-auto">
-                {Array.from({ length: 25 }, (_, i) => (
-                  <div key={i}>
+                {leaderboardRows.map((row) => (
+                  <div key={row.id}>
                     <div
-                      className={`flex items-center justify-between px-6 py-3 ${i >= 20 ? "opacity-50" : ""}`}
+                      className={`flex items-center justify-between px-6 py-3 ${row.isOutbid ? "opacity-50" : ""}`}
                     >
                       <div className="flex items-center gap-3">
                         <Text size="1" color="tertiary" className="w-6">
-                          #{i + 1}
+                          #{row.rank}
                         </Text>
                         <div className="size-6 rounded-full bg-muted" />
-                        <Text size="2">
-                          0x{(i + 1).toString(16).padStart(4, "0")}...
-                        </Text>
+                        <Text size="2">{row.address}</Text>
                       </div>
                       <div className="flex items-center gap-3">
                         <Text size="2" tabularNums>
-                          {(0.5 - i * 0.015).toFixed(3)} ETH
+                          {row.price} ETH
                         </Text>
                         <Text
                           size="1"
                           color="tertiary"
                           className="w-8 text-right"
                         >
-                          {i + 1}h
+                          {row.timeLabel}
                         </Text>
                       </div>
                     </div>
-                    {i < 24 && <Separator />}
+                    {!row.isLast && <Separator />}
                   </div>
                 ))}
               </div>

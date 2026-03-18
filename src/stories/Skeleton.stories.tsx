@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/primitives/Skeleton";
 import { Text } from "@/components/primitives/Text";
 
 const meta: Meta<typeof Skeleton> = {
-  title: "Trading UI/Skeleton",
+  title: "Primitives/Skeleton",
   component: Skeleton,
   parameters: {
     layout: "centered",
