@@ -1,0 +1,80 @@
+{
+  "name": "@m3000/market",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles/index.css",
+    "./stories/*": "./src/stories/*"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
+    "build:storybook": "storybook build",
+    "dev": "tsdown --watch",
+    "storybook": "storybook dev -p 6007",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "format:check": "biome check . --formatter-enabled=true --write=false",
+    "typecheck": "tsc --noEmit",
+    "quality": "pnpm run lint && pnpm run format:check && pnpm run typecheck"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@base-ui/react": "1.2.0",
+    "@biomejs/biome": "2.2.0",
+    "@storybook/addon-a11y": "10.1.2",
+    "@storybook/addon-docs": "10.1.2",
+    "@storybook/addon-themes": "10.1.2",
+    "@storybook/react": "10.1.2",
+    "@storybook/react-vite": "10.1.2",
+    "@tailwindcss/postcss": "4.1.11",
+    "@tsconfig/vite-react": "7.0.2",
+    "@types/node": "22.14.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.3",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "motion": "12.35.2",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "react": "^19.0.0",
+    "react-docgen-typescript": "2.4.0",
+    "react-dom": "^19.0.0",
+    "storybook": "10.1.2",
+    "tailwind-merge": "3.3.1",
+    "tailwindcss": "^4.1.0",
+    "tsdown": "0.20.3",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.46.4",
+    "vite-tsconfig-paths": "5.1.4"
+  }
+}

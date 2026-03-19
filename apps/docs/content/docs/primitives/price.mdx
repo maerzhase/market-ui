@@ -1,0 +1,74 @@
+---
+title: Price
+description: Format cryptocurrency and fiat prices with customizable precision, symbols, and localization.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Installation
+
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="price/basic" />
+
+## Examples
+
+### Basic Usage
+
+Display a simple price with a dollar symbol.
+
+<ComponentExample name="price/basic" />
+
+### With Abbreviation
+
+Large numbers are automatically abbreviated (K, M, B).
+
+<ComponentExample name="price/abbreviated" />
+
+### Cryptocurrency
+
+Display ETH with 18 decimals, showing up to 4 decimal places.
+
+<ComponentExample name="price/crypto" />
+
+## API Reference
+
+### Price
+
+The root component that provides context for price formatting.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `number \| bigint` | required | The raw value to format |
+| `decimals` | `number` | required | Number of decimal places in the raw value |
+| `maxDecimals` | `number` | `decimals` | Maximum decimal places to display |
+| `abbreviate` | `boolean` | `false` | Abbreviate large numbers (K, M, B) |
+
+### Price.Value
+
+Renders the formatted price value.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `locale` | `string` | `"en-US"` | Locale for number formatting |
+
+### Price.Symbol
+
+Renders the currency symbol.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | required | The symbol to display |

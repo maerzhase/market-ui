@@ -1,0 +1,13 @@
+{
+	"title": "Documentation",
+	"pages": [
+		"index",
+		"---Primitives---",
+		"primitives/price",
+		"primitives/ranked-list",
+		"primitives/countdown",
+		"primitives/receipt",
+		"---Blocks---",
+		"blocks/auction"
+	]
+}

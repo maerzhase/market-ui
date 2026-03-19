@@ -1,0 +1,177 @@
+# @m3000/market - Trading UI Components
+
+> A collection of beautifully crafted React components for trading interfaces.
+
+## Overview
+
+@m3000/market is a React component library designed specifically for trading and financial interfaces. It provides primitives for displaying prices, ranked lists, countdowns, receipts, and complex UI blocks like auction interfaces.
+
+## Installation
+
+```bash
+pnpm add @m3000/market
+```
+
+Import the styles:
+
+```tsx
+import "@m3000/market/styles.css";
+```
+
+## Components
+
+### Primitives
+
+#### Price
+Format cryptocurrency and fiat prices with customizable precision, symbols, and localization.
+
+```tsx
+import { Price } from "@m3000/market";
+
+<Price value={12345} decimals={2}>
+  <Price.Symbol>$</Price.Symbol>
+  <Price.Value />
+</Price>
+```
+
+Key features:
+- BigInt support for precision-safe arithmetic
+- Abbreviation (K, M, B) for large values
+- Locale-aware formatting
+- Compound component pattern
+
+#### Countdown
+Countdown timer with semantic labels and custom rendering.
+
+```tsx
+import { Countdown } from "@m3000/market";
+
+<Countdown to={new Date(Date.now() + 86400000)}>
+  {({ timeString, isExpired }) => (
+    <span>{isExpired ? "Expired" : timeString}</span>
+  )}
+</Countdown>
+```
+
+Key features:
+- Render prop pattern for full control
+- Days, hours, minutes, seconds breakdown
+- Show time since expiration option
+
+#### RankedList
+Display ranked items with group boundaries and custom dividers.
+
+```tsx
+import { RankedList, Text } from "@m3000/market";
+
+<RankedList.Root
+  items={players}
+  getKey={(p) => p.id}
+  boundaries={[3]}
+  labels={["Top 3", "Others"]}
+>
+  <RankedList.Group>
+    <RankedList.GroupDivider />
+    <RankedList.GroupItem>
+      <RankedList.GroupItemValue>
+        {(player, ctx) => (
+          <div>
+            <RankedList.GroupItemIndex />
+            <Text>{player.name}</Text>
+          </div>
+        )}
+      </RankedList.GroupItemValue>
+    </RankedList.GroupItem>
+  </RankedList.Group>
+</RankedList.Root>
+```
+
+Key features:
+- Multiple group boundaries
+- Custom group labels
+- Preview slots for auction-style rankings
+- Compound component pattern
+
+#### Receipt
+Build order summaries with items, taxes, fees, and dynamic totals.
+
+```tsx
+import { Receipt, Price } from "@m3000/market";
+
+<Receipt decimals={2}>
+  <Receipt.Price maxDecimals={2}>
+    <Price.Symbol>$</Price.Symbol>
+    <Price.Value />
+  </Receipt.Price>
+  <Receipt.Header>Order Summary</Receipt.Header>
+  <Receipt.Item label="Item 1" value={1500n} />
+  <Receipt.Subtotal />
+  <Receipt.Tax rate={0.1} />
+  <Receipt.Total />
+</Receipt>
+```
+
+Key features:
+- BigInt values for precision
+- Automatic calculations (subtotal, tax, total)
+- Discount and fee support
+- Compound component pattern
+
+### Blocks
+
+#### Auction
+Complete auction interface with bid rankings, live previews, and stepped bidding.
+
+```tsx
+import { Auction } from "@m3000/market";
+
+<Auction.Provider auction={auctionData} currentUser={user}>
+  <Auction.Layout>
+    <Auction.Artwork />
+    <Auction.Info>
+      <Auction.StatusTag />
+      <Auction.Rankings />
+      <Auction.BidForm />
+    </Auction.Info>
+  </Auction.Layout>
+</Auction.Provider>
+```
+
+Sub-components:
+- Auction.Layout - Responsive layout container
+- Auction.Rankings - RankedList-based bid display
+- Auction.BidForm - Stepped input with validation
+- Auction.StatusTag - Semantic status indicator
+- Auction.YourBids - Current user's bid display
+- Auction.SuggestedBids - Quick bid buttons
+
+## Copy-Paste Installation (shadcn-style)
+
+Components can also be added via the shadcn CLI:
+
+```bash
+pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+```
+
+This copies the component source code directly into your project.
+
+## Design Tokens
+
+The library uses a semantic color system compatible with Tailwind CSS:
+- Primary, secondary, accent colors
+- Destructive, success, warning states
+- Muted and disabled variations
+- Full dark mode support
+
+## Tech Stack
+
+- React 19
+- Tailwind CSS v4
+- Motion (Framer Motion successor)
+- TypeScript
+
+## Links
+
+- Documentation: https://m3000.market/docs
+- GitHub: https://github.com/m3000/market
+- npm: https://npmjs.com/package/@m3000/market

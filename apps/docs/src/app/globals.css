@@ -1,0 +1,351 @@
+@import "tailwindcss";
+@import "@m3000/market/styles.css";
+@import "fumadocs-ui/style.css";
+
+/*
+ * Override Fumadocs theme variables to match @m3000/market theme
+ * Fumadocs uses --color-fd-* variables, we map them to our semantic tokens
+ */
+:root {
+  /* Map Fumadocs variables to our theme */
+  --color-fd-background: var(--color-background);
+  --color-fd-foreground: var(--color-foreground);
+  --color-fd-muted: var(--color-muted);
+  --color-fd-muted-foreground: var(--color-muted-foreground);
+  --color-fd-popover: var(--color-popover);
+  --color-fd-popover-foreground: var(--color-popover-foreground);
+  --color-fd-card: var(--color-card);
+  --color-fd-card-foreground: var(--color-card-foreground);
+  --color-fd-border: var(--color-border);
+  --color-fd-primary: var(--color-primary);
+  --color-fd-primary-foreground: var(--color-primary-foreground);
+  --color-fd-secondary: var(--color-secondary);
+  --color-fd-secondary-foreground: var(--color-secondary-foreground);
+  --color-fd-accent: var(--color-accent);
+  --color-fd-accent-foreground: var(--color-accent-foreground);
+  --color-fd-ring: var(--color-ring);
+  
+  /* Fumadocs specific */
+  --color-fd-overlay: rgba(0, 0, 0, 0.5);
+  --color-fd-info: var(--color-primary);
+  --color-fd-warning: var(--color-warning);
+  --color-fd-error: var(--color-destructive);
+  --color-fd-success: var(--color-success);
+}
+
+.dark {
+  --color-fd-overlay: rgba(0, 0, 0, 0.7);
+}
+
+/* Ensure Fumadocs uses our font */
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Override Fumadocs default border color (which defaults to white/light) */
+.border {
+  border-color: var(--color-border) !important;
+}
+
+/* Fix Fumadocs specific border utilities */
+.border-e,
+.border-s,
+.border-ie,
+.border-is {
+  border-inline-end-color: var(--color-border) !important;
+  border-inline-start-color: var(--color-border) !important;
+}
+
+.border-b,
+.border-t,
+.border-be,
+.border-bs {
+  border-block-end-color: var(--color-border) !important;
+  border-block-start-color: var(--color-border) !important;
+}
+
+.border-s {
+  border-start-start-radius: var(--radius) !important;
+  border-start-end-radius: var(--radius) !important;
+  border-end-start-radius: var(--radius) !important;
+  border-end-end-radius: var(--radius) !important;
+}
+
+/* Override all Fumadocs border color utilities */
+[class*="border-fd-"] {
+  border-color: var(--color-border) !important;
+}
+
+.border-fd-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.border-fd-border {
+  border-color: var(--color-border) !important;
+}
+
+.border-fd-accent {
+  border-color: var(--color-accent) !important;
+}
+
+.border-fd-muted {
+  border-color: var(--color-muted) !important;
+}
+
+/* Override border-right with specific color */
+.border-r {
+  border-right-color: var(--color-border) !important;
+}
+
+.border-l {
+  border-left-color: var(--color-border) !important;
+}
+
+/* 
+ * ============================================================
+ * HEADER / NAVIGATION STYLING
+ * Consistent header across all pages
+ * ============================================================
+ */
+
+/* Fumadocs nav - glassmorphism effect */
+[data-fumadocs-nav] {
+  backdrop-filter: blur(8px);
+  background-color: color-mix(in srgb, var(--color-background) 80%, transparent);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Nav link styling */
+[data-fumadocs-nav] a {
+  color: var(--color-muted-foreground);
+  font-size: 14px;
+  transition: color 150ms ease;
+}
+
+[data-fumadocs-nav] a:hover {
+  color: var(--color-foreground);
+}
+
+/* Active nav link */
+[data-fumadocs-nav] a[data-active="true"] {
+  color: var(--color-foreground);
+}
+
+/* 
+ * ============================================================
+ * SIDEBAR STYLING
+ * ============================================================
+ */
+
+[data-fumadocs-sidebar] {
+  background-color: var(--color-background);
+}
+
+#nd-sidebar > div:first-child {
+  display: none;
+}
+
+/* Sidebar link hover states */
+[data-fumadocs-sidebar] a:hover {
+  background-color: var(--color-accent);
+}
+
+[data-fumadocs-sidebar] a[data-active="true"] {
+  background-color: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+[data-fumadocs-sidebar] p {
+  margin-top: 1.5rem;
+  padding-inline: 1rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-muted-foreground) 80%, transparent);
+}
+
+[data-fumadocs-sidebar] p:first-child {
+  margin-top: 0;
+}
+
+/* 
+ * ============================================================
+ * CONTENT STYLING
+ * ============================================================
+ */
+
+/* Ensure all docs code blocks use one shared surface */
+[data-docs-code-surface] {
+  margin: 0;
+  background-color: color-mix(in srgb, var(--color-muted) 30%, transparent) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+[data-docs-code-surface][data-embedded="true"] {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+[data-installation-tabs] [data-docs-code-surface] {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+[data-docs-code-viewport] {
+  overflow: auto;
+  padding: 0.875rem 1rem;
+  background: transparent;
+}
+
+[data-docs-code-surface] pre {
+  min-width: max-content;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+[data-docs-code-surface] pre > * {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-docs-code-surface] code {
+  background: transparent;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-docs-code-surface] code * {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0;
+}
+
+[data-rehype-pretty-code-figure],
+figure.shiki {
+  margin: 0;
+}
+
+[data-rehype-pretty-code-figure] > div[role="region"],
+figure.shiki > div[role="region"] {
+  padding: 0.875rem 1rem !important;
+  background: transparent !important;
+}
+
+[data-rehype-pretty-code-figure] pre,
+[data-rehype-pretty-code-figure] > div[role="region"] pre,
+figure.shiki pre {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0;
+  box-shadow: none;
+  overflow-x: auto;
+}
+
+[data-rehype-pretty-code-figure] code,
+[data-rehype-pretty-code-figure] pre code,
+figure.shiki code {
+  background: transparent;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-rehype-pretty-code-figure] code *,
+[data-rehype-pretty-code-figure] pre code *,
+figure.shiki code * {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0;
+}
+
+/* Inline code styling */
+:not(pre) > code {
+  background-color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.875em;
+}
+
+/* 
+ * ============================================================
+ * SEARCH DIALOG STYLING
+ * ============================================================
+ */
+
+[data-fumadocs-search] {
+  --color-fd-background: var(--color-popover);
+  --color-fd-foreground: var(--color-popover-foreground);
+}
+
+[data-example-code] [data-rehype-pretty-code-figure] {
+  margin: 0;
+}
+
+[data-example-code] [data-docs-code-surface] {
+  margin: 0;
+}
+
+[data-example-code] pre {
+  margin: 0;
+  box-shadow: none;
+}
+
+[data-example-code] code {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* 
+ * ============================================================
+ * TOC (TABLE OF CONTENTS) STYLING
+ * ============================================================
+ */
+
+[data-fumadocs-toc] a {
+  color: var(--color-muted-foreground);
+  transition: color 150ms ease;
+}
+
+[data-fumadocs-toc] a:hover {
+  color: var(--color-foreground);
+}
+
+[data-fumadocs-toc] a[data-active="true"] {
+  color: var(--color-foreground);
+}
+
+/* 
+ * ============================================================
+ * BREADCRUMB STYLING
+ * ============================================================
+ */
+
+[data-fumadocs-breadcrumb] {
+  color: var(--color-muted-foreground);
+}
+
+[data-fumadocs-breadcrumb] a:hover {
+  color: var(--color-foreground);
+}
+
+#nd-subnav {
+  justify-content: flex-end;
+}
+
+#nd-subnav > div:empty {
+  display: none;
+}

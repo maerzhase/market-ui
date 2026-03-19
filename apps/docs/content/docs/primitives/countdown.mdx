@@ -1,0 +1,69 @@
+---
+title: Countdown
+description: Countdown timer with semantic labels, progress bars, and custom rendering.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Installation
+
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/countdown.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="countdown/usage" />
+
+## Examples
+
+### Basic Usage
+
+Display remaining time until a target date.
+
+<ComponentExample name="countdown/basic" />
+
+### Semantic Labels
+
+Show different text based on expired state.
+
+<ComponentExample name="countdown/semantic" />
+
+### Show When Expired
+
+Display time since expiration with `showWhenExpired`.
+
+<ComponentExample name="countdown/expired" />
+
+## API Reference
+
+### Countdown
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `to` | `Date` | required | Target date for the countdown |
+| `showWhenExpired` | `boolean` | `false` | Continue showing time after expiration |
+| `children` | `(state: CountdownState) => ReactNode` | required | Render function |
+
+### CountdownState
+
+The state object passed to the render function.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `timeString` | `string` | Formatted time remaining (e.g., "2d 5h 30m") |
+| `isExpired` | `boolean` | Whether the countdown has expired |
+| `days` | `number` | Days remaining |
+| `hours` | `number` | Hours remaining |
+| `minutes` | `number` | Minutes remaining |
+| `seconds` | `number` | Seconds remaining |
+| `totalSeconds` | `number` | Total seconds remaining |

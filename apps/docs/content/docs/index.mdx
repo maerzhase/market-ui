@@ -1,0 +1,85 @@
+---
+title: Getting Started
+description: A collection of beautifully crafted React components for trading interfaces.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Introduction
+
+**@m3000/market** is a collection of React components designed specifically for trading interfaces. It includes primitives for displaying prices, ranked lists, countdowns, receipts, and complex UI blocks like auction interfaces.
+
+## Installation
+
+<Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="npm">
+    ```bash
+    npm install @m3000/market
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add @m3000/market
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add @m3000/market
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+Import the styles in your app's entry point:
+
+```tsx title="app/layout.tsx"
+import "@m3000/market/styles.css";
+```
+
+Then import and use the components:
+
+```tsx
+import { Price, Countdown, RankedList, Receipt } from "@m3000/market";
+
+function MyComponent() {
+  return (
+    <Price value={12345} decimals={2}>
+      <Price.Symbol>$</Price.Symbol>
+      <Price.Value />
+    </Price>
+  );
+}
+```
+
+## Copy-Paste with shadcn CLI
+
+You can also add individual components to your project using the shadcn CLI:
+
+```bash
+pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+```
+
+This will copy the component source code directly into your project, giving you full control over customization.
+
+## Components
+
+### Primitives
+
+Building blocks for trading UIs:
+
+- [**Price**](/docs/primitives/price) - Format cryptocurrency and fiat prices with customizable precision
+- [**RankedList**](/docs/primitives/ranked-list) - Display ranked items with group boundaries
+- [**Countdown**](/docs/primitives/countdown) - Countdown timer with semantic labels
+- [**Receipt**](/docs/primitives/receipt) - Build order summaries with items, taxes, and totals
+
+### Blocks
+
+Complex, composed UI patterns:
+
+- [**Auction**](/docs/blocks/auction) - Complete auction interface with bid rankings and forms

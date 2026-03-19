@@ -1,0 +1,113 @@
+---
+title: Receipt
+description: Build order summaries with items, taxes, fees, and dynamic totals.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Installation
+
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/receipt.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="receipt/usage" />
+
+## Examples
+
+### Basic Receipt
+
+Simple order summary with tax calculation.
+
+<ComponentExample name="receipt/basic" />
+
+### Full Receipt
+
+Complete receipt with discounts, fees, header styling, and footer.
+
+<ComponentExample name="receipt/full" />
+
+## API Reference
+
+### Receipt
+
+The root component that provides context for price calculations.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `decimals` | `number` | required | Number of decimal places in values |
+
+### Receipt.Price
+
+Defines how prices are formatted throughout the receipt.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `maxDecimals` | `number` | `decimals` | Maximum decimal places to display |
+| `children` | `ReactNode` | required | Price formatting (Symbol + Value) |
+
+### Receipt.Header
+
+Renders the receipt header section.
+
+### Receipt.Item
+
+Adds an item to the receipt.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Item description |
+| `value` | `bigint` | required | Item price |
+
+### Receipt.Separator
+
+Visual separator between sections.
+
+### Receipt.Subtotal
+
+Displays the subtotal of all items.
+
+### Receipt.Discount
+
+Applies a discount (subtracted from total).
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Discount description |
+| `value` | `bigint` | required | Discount amount |
+
+### Receipt.Fee
+
+Adds a fee (added to total).
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | required | Fee description |
+| `value` | `bigint` | required | Fee amount |
+
+### Receipt.Tax
+
+Calculates and displays tax.
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `rate` | `number` | required | Tax rate (e.g., 0.1 for 10%) |
+
+### Receipt.Total
+
+Displays the final total including all items, fees, discounts, and tax.
+
+### Receipt.Footer
+
+Renders the receipt footer section.

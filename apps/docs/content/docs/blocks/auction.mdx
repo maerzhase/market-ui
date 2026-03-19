@@ -1,0 +1,119 @@
+---
+title: Auction
+description: A complete auction interface built from primitives with bid rankings, live previews, and stepped bidding.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Overview
+
+The **Auction** component is a complex UI block that combines multiple primitives to create a full-featured auction experience. It includes:
+
+- **Bid Rankings** - RankedList-based display with preview slots
+- **Live Countdown** - Real-time countdown to auction end
+- **Stepped Bidding** - Tick-aware bid increments
+- **Responsive Layout** - Adapts to different screen sizes
+- **Keyboard Accessibility** - Full keyboard navigation support
+
+## Installation
+
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/auction.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="auction/usage" />
+
+## Sub-components
+
+### Auction.Layout
+
+Responsive layout container with sidebar and details panel.
+
+<ComponentExample name="auction/layout" />
+
+### Auction.Rankings
+
+RankedList-based bid display with preview slots showing winning positions.
+
+<ComponentExample name="auction/rankings" />
+
+### Auction.BidForm
+
+Stepped input with validation and tick-aware increments.
+
+<ComponentExample name="auction/bid-form" />
+
+### Auction.StatusTag
+
+Semantic status indicator showing auction state.
+
+| Status | Description |
+|--------|-------------|
+| `upcoming` | Auction hasn't started yet |
+| `live` | Auction is currently active |
+| `closed` | Auction has ended |
+
+### Auction.YourBids
+
+Displays the current user's bids with their rankings.
+
+<ComponentExample name="auction/your-bids" />
+
+### Auction.SuggestedBids
+
+Quick bid buttons with pre-calculated amounts.
+
+<ComponentExample name="auction/suggested-bids" />
+
+## API Reference
+
+### Auction.Provider
+
+The root provider that supplies auction context to all sub-components.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `auction` | `AuctionData` | The auction data object |
+| `currentUser` | `User \| null` | Current authenticated user |
+| `onBid` | `(amount: bigint) => Promise<void>` | Bid submission handler |
+
+### AuctionData
+
+```tsx
+interface AuctionData {
+  id: string;
+  title: string;
+  description?: string;
+  imageUrl: string;
+  startTime: Date;
+  endTime: Date;
+  editions: number;
+  minBid: bigint;
+  tickSize: bigint;
+  decimals: number;
+  bids: Bid[];
+}
+```
+
+### Bid
+
+```tsx
+interface Bid {
+  id: string;
+  userId: string;
+  userName: string;
+  amount: bigint;
+  timestamp: Date;
+}
+```
