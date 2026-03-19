@@ -94,7 +94,7 @@ function CountdownDemo() {
 
 function ReceiptDemo() {
 	return (
-		<div className="w-full max-w-64 rounded-lg border border-border bg-surface p-3">
+		<div className="w-full max-w-64 rounded-lg border border-border bg-card p-3">
 			<Receipt decimals={2}>
 				<Receipt.Price maxDecimals={2}>
 					<Price.Symbol>$</Price.Symbol>

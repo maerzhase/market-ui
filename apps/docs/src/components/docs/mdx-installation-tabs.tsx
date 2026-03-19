@@ -51,7 +51,7 @@ export function Tabs({
       onValueChange={setActive}
       variant="segmented"
       className={cn(
-        "my-6 overflow-hidden rounded-xl border border-border bg-background",
+        "my-6 gap-3",
         className,
       )}
       data-installation-tabs
@@ -59,9 +59,10 @@ export function Tabs({
       {label ? (
         <div className="px-4 pt-4 text-sm font-medium text-foreground">{label}</div>
       ) : null}
-      <div className="border-b border-border bg-background px-4 py-3">
+      <div>
         <TabsList
           aria-label="Installation options"
+          className="border-transparent bg-transparent p-0"
         >
           {labels.map((tabLabel) => (
             <DsTab key={tabLabel} value={escapeValue(tabLabel)}>
@@ -73,7 +74,7 @@ export function Tabs({
       {tabs.map((tab, index) => {
         const value = tab.props.value ?? labels[index] ?? "";
         return (
-          <TabsPanel className="bg-muted/30" key={value || index} value={escapeValue(value)}>
+          <TabsPanel key={value || index} value={escapeValue(value)}>
             {tab.props.children}
           </TabsPanel>
         );

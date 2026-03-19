@@ -3,6 +3,7 @@
 import { Button, cn } from "@m3000/market";
 import { useRef, useState } from "react";
 import type { HTMLAttributes, ReactNode } from "react";
+import styles from "./docs-code-block.module.css";
 
 export interface DocsCodeBlockProps {
   children: ReactNode;
@@ -33,7 +34,11 @@ export function DocsCodeBlock({
     <div
       data-docs-code-surface
       data-embedded={embedded ? "true" : undefined}
-      className={cn("relative bg-muted/30", className)}
+      className={cn(
+        styles.surface,
+        embedded && styles.embedded,
+        className,
+      )}
     >
       <Button
         type="button"
@@ -44,8 +49,11 @@ export function DocsCodeBlock({
       >
         {copied ? "Copied" : "Copy"}
       </Button>
-      <div data-docs-code-viewport>
-        <pre ref={preRef} className={cn("text-sm text-foreground", preClassName)}>
+      <div data-docs-code-viewport className={styles.viewport}>
+        <pre
+          ref={preRef}
+          className={cn(styles.pre, "text-sm text-foreground", preClassName)}
+        >
           {children}
         </pre>
       </div>
@@ -58,5 +66,18 @@ export function DocsMdxPre(props: HTMLAttributes<HTMLPreElement>) {
     <DocsCodeBlock copyText={undefined} preClassName={props.className}>
       {props.children}
     </DocsCodeBlock>
+  );
+}
+
+export function DocsInlineCode(props: HTMLAttributes<HTMLElement>) {
+  if (props.className || typeof props.children !== "string") {
+    return <code {...props} />;
+  }
+
+  return (
+    <code
+      {...props}
+      className="rounded-md border border-border bg-muted px-[0.3rem] py-[0.2rem] text-[0.875em]"
+    />
   );
 }

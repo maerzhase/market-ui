@@ -14,11 +14,11 @@ export function Preview({ children, className }: PreviewProps) {
   return (
     <div
       className={cn(
-        "my-6 overflow-hidden rounded-xl border border-border bg-surface",
+        "my-6 overflow-hidden rounded-xl border border-border bg-muted/30",
         className,
       )}
     >
-      <div className="flex items-center justify-center bg-muted/30 p-6 min-h-32">
+      <div className="flex min-h-32 items-center justify-center p-6">
         <div className="w-full max-w-md pointer-events-none select-none [&>*]:pointer-events-auto [&>*]:select-auto">
           {children}
         </div>
@@ -62,23 +62,30 @@ export function ComponentPreview({
       onValueChange={(value) => setView(value as "preview" | "code")}
       variant="segmented"
       className={cn(
-        "my-6 overflow-hidden rounded-xl border border-border bg-background",
+        "my-6 gap-3",
         className,
       )}
     >
-      <div className="border-b border-border bg-background px-4 py-3">
-        <TabsList aria-label="Example view toggle">
+      <div>
+        <TabsList
+          aria-label="Example view toggle"
+          className="border-transparent bg-transparent p-0"
+        >
           <Tab value="preview">Preview</Tab>
           <Tab value="code">Code</Tab>
         </TabsList>
       </div>
-      <TabsPanel value="preview" data-example-preview>
+      <TabsPanel
+        value="preview"
+        className="overflow-hidden rounded-xl border border-border bg-muted/30"
+        data-example-preview
+      >
         {view === "preview" && (
           <div
             className={cn(
-              "flex bg-muted/30 p-6",
+              "flex p-6",
               align === "center" && "items-center justify-center",
-              align === "start" && "items-start justify-center",
+              align === "start" && "items-start justify-start",
               align === "stretch" && "items-stretch justify-center",
               previewClassName,
             )}
@@ -97,7 +104,11 @@ export function ComponentPreview({
           </div>
         )}
       </TabsPanel>
-      <TabsPanel value="code" data-example-code>
+      <TabsPanel
+        value="code"
+        className="overflow-hidden rounded-xl border border-border bg-muted/30"
+        data-example-code
+      >
         {view === "code" && (
           <DocsCodeBlock copyText={code} embedded>
             {highlightedCode ?? <code>{code}</code>}

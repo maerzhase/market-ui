@@ -8,11 +8,12 @@ import {
 import { notFound } from "next/navigation";
 import { source } from "@/lib/source";
 import { ComponentExample } from "@/components/docs/component-example";
-import { DocsMdxPre } from "@/components/docs/docs-code-block";
+import { DocsInlineCode, DocsMdxPre } from "@/components/docs/docs-code-block";
 
 const components = {
 	...defaultMdxComponents,
 	ComponentExample,
+	code: DocsInlineCode,
 	pre: DocsMdxPre,
 };
 

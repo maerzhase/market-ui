@@ -1,7 +1,6 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
 
 export const metadata: Metadata = {
 	title: "@m3000/market - Trading UI Components",
@@ -17,10 +16,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className="min-h-screen bg-background text-foreground antialiased">
-				<RootProvider>
-					<Header />
-					{children}
-				</RootProvider>
+				<RootProvider>{children}</RootProvider>
 			</body>
 		</html>
 	);

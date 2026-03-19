@@ -22,21 +22,26 @@ export function Installation() {
 			value={pm}
 			onValueChange={(value) => setPm(value as PackageManager)}
 			variant="segmented"
-			className="w-full max-w-[28rem] overflow-hidden rounded-xl border border-border bg-muted"
+			className="w-full max-w-[28rem] gap-3"
 			data-installation-tabs
 		>
-			<TabsList aria-label="Package managers" className="mx-4 mt-4 w-fit">
-				{PACKAGE_MANAGERS.map((packageManager) => (
-					<Tab key={packageManager} value={packageManager}>
-						{packageManager}
-					</Tab>
-				))}
-			</TabsList>
+			<div>
+				<TabsList
+					aria-label="Package managers"
+					className="w-fit border-transparent bg-transparent p-0"
+				>
+					{PACKAGE_MANAGERS.map((packageManager) => (
+						<Tab key={packageManager} value={packageManager}>
+							{packageManager}
+						</Tab>
+					))}
+				</TabsList>
+			</div>
 			{PACKAGE_MANAGERS.map((packageManager) => (
 				<TabsPanel key={packageManager} value={packageManager}>
 					<DocsCodeBlock
 						copyText={INSTALL_COMMANDS[packageManager]}
-						embedded
+						className="overflow-hidden"
 						preClassName="text-sm text-foreground"
 					>
 						<code>{INSTALL_COMMANDS[packageManager]}</code>
