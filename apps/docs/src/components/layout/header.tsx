@@ -4,6 +4,7 @@ import { Button, cn } from "@m3000/market";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteLinks, siteTitle, siteVersion } from "@/app/layout.config";
+import { HeaderSearch } from "@/components/layout/header-search";
 
 type HeaderVariant = "site" | "docs";
 
@@ -32,51 +33,55 @@ export function Header({ variant = "site" }: HeaderProps) {
 					</span>
 				</Link>
 
-				<nav className="flex items-center gap-2">
-					{siteLinks.map((link) => {
-						const isActive =
-							!link.external && pathname?.startsWith(link.href);
+				<div className="flex items-center gap-2">
+					<HeaderSearch variant={variant} />
 
-						if (link.external) {
+					<nav className="flex items-center gap-2">
+						{siteLinks.map((link) => {
+							const isActive =
+								!link.external && pathname?.startsWith(link.href);
+
+							if (link.external) {
+								return (
+									<Button
+										key={link.href}
+										color="ghost"
+										size="sm"
+										className={cn(
+											variant === "docs" &&
+												"text-muted-foreground hover:text-foreground",
+										)}
+										render={
+											<a
+												href={link.href}
+												target="_blank"
+												rel="noopener noreferrer"
+											/>
+										}
+									>
+										{link.label}
+									</Button>
+								);
+							}
+
 							return (
 								<Button
 									key={link.href}
 									color="ghost"
 									size="sm"
+									active={isActive}
 									className={cn(
 										variant === "docs" &&
 											"text-muted-foreground hover:text-foreground",
 									)}
-									render={
-										<a
-											href={link.href}
-											target="_blank"
-											rel="noopener noreferrer"
-										/>
-									}
+									render={<Link href={link.href} />}
 								>
 									{link.label}
 								</Button>
 							);
-						}
-
-						return (
-							<Button
-								key={link.href}
-								color="ghost"
-								size="sm"
-								active={isActive}
-								className={cn(
-									variant === "docs" &&
-										"text-muted-foreground hover:text-foreground",
-								)}
-								render={<Link href={link.href} />}
-							>
-								{link.label}
-							</Button>
-						);
-					})}
-				</nav>
+						})}
+					</nav>
+				</div>
 			</div>
 		</header>
 	);
