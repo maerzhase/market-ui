@@ -45,6 +45,11 @@ export function useCountdown(
 
     const target = to.getTime();
     const initialRemainingMs = target - Date.now();
+    setResult({
+      timeString: formatCountdownString(initialRemainingMs),
+      remainingMs: initialRemainingMs,
+      isExpired: initialRemainingMs <= 0,
+    });
     let lastSeconds = Math.floor(Math.abs(initialRemainingMs) / 1000);
     let hasExpired = initialRemainingMs <= 0;
     let frameId: number;

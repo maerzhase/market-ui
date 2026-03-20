@@ -194,29 +194,35 @@ function RankingRoot<T>({
   );
 
   if (entries.length === 0) {
-    return emptyChild ? (
-      <>{emptyChild}</>
-    ) : (
-      <Empty>
-        <Text color="tertiary">No items</Text>
-      </Empty>
+    return (
+      <div className={className}>
+        {emptyChild ? (
+          <>{emptyChild}</>
+        ) : (
+          <Empty>
+            <Text color="tertiary">No items</Text>
+          </Empty>
+        )}
+      </div>
     );
   }
 
   return (
-    <RankingContext.Provider
-      value={{
-        items: items as unknown[],
-        entries: entries as ListEntry<unknown>[],
-        boundaries,
-        labels,
-        getKey: getKey as (item: unknown) => string,
-        registerSlot,
-        unregisterSlot,
-      }}
-    >
-      <div className={className}>{otherChildren}</div>
-    </RankingContext.Provider>
+    <div className={className}>
+      <RankingContext.Provider
+        value={{
+          items: items as unknown[],
+          entries: entries as ListEntry<unknown>[],
+          boundaries,
+          labels,
+          getKey: getKey as (item: unknown) => string,
+          registerSlot,
+          unregisterSlot,
+        }}
+      >
+        {otherChildren}
+      </RankingContext.Provider>
+    </div>
   );
 }
 

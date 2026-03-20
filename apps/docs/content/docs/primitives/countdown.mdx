@@ -24,13 +24,15 @@ import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
 
 <ComponentExample name="countdown/usage" />
 
+`Countdown` renders a formatted time string out of the box when you pass a target `Date`.
+
 ## Examples
 
-### Basic Usage
+### Custom Render
 
-Display remaining time until a target date.
+Use the render prop when you want to control typography, color, or surrounding UI.
 
-<ComponentExample name="countdown/basic" />
+<ComponentExample name="countdown/custom-render" />
 
 ### Semantic Labels
 
@@ -44,6 +46,18 @@ Display time since expiration with `showWhenExpired`.
 
 <ComponentExample name="countdown/expired" />
 
+### Live To Closed
+
+Show how the render prop can switch labels and styling when the countdown crosses zero.
+
+<ComponentExample name="countdown/live-to-closed" />
+
+### With Progress
+
+Combine `remainingMs` with your own UI to build progress bars and timed flows.
+
+<ComponentExample name="countdown/progress" />
+
 ## API Reference
 
 ### Countdown
@@ -52,18 +66,16 @@ Display time since expiration with `showWhenExpired`.
 |------|------|---------|-------------|
 | `to` | `Date` | required | Target date for the countdown |
 | `showWhenExpired` | `boolean` | `false` | Continue showing time after expiration |
-| `children` | `(state: CountdownState) => ReactNode` | required | Render function |
+| `stopOnExpired` | `boolean` | `false` | Stop updating once the countdown reaches zero |
+| `className` | `string` | `undefined` | Class name for the default text output |
+| `children` | `(state: UseCountdownResult) => ReactNode` | `undefined` | Optional custom render function |
 
-### CountdownState
+### UseCountdownResult
 
 The state object passed to the render function.
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `timeString` | `string` | Formatted time remaining (e.g., "2d 5h 30m") |
+| `timeString` | `string \| null` | Formatted time string for the current countdown state |
+| `remainingMs` | `number \| null` | Milliseconds remaining until the target date |
 | `isExpired` | `boolean` | Whether the countdown has expired |
-| `days` | `number` | Days remaining |
-| `hours` | `number` | Hours remaining |
-| `minutes` | `number` | Minutes remaining |
-| `seconds` | `number` | Seconds remaining |
-| `totalSeconds` | `number` | Total seconds remaining |

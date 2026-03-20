@@ -10,8 +10,10 @@ import { AuctionRankingsExample } from "./auction/rankings.example";
 import { AuctionSuggestedBidsExample } from "./auction/suggested-bids.example";
 import { AuctionUsageExample } from "./auction/usage.example";
 import { AuctionYourBidsExample } from "./auction/your-bids.example";
-import { CountdownBasicExample } from "./countdown/basic.example";
+import { CountdownCustomRenderExample } from "./countdown/custom-render.example";
 import { CountdownExpiredExample } from "./countdown/expired.example";
+import { CountdownLiveToClosedExample } from "./countdown/live-to-closed.example";
+import { CountdownProgressExample } from "./countdown/progress.example";
 import { CountdownSemanticExample } from "./countdown/semantic.example";
 import { CountdownUsageExample } from "./countdown/usage.example";
 import { PriceAbbreviatedExample } from "./price/abbreviated.example";
@@ -111,9 +113,17 @@ export const exampleRegistry: ExampleRegistry = {
 		Component: CountdownUsageExample,
 		code: readCode("./countdown/usage.example.tsx"),
 	},
-	"countdown/basic": {
-		Component: CountdownBasicExample,
-		code: readCode("./countdown/basic.example.tsx"),
+	"countdown/custom-render": {
+		Component: CountdownCustomRenderExample,
+		code: readCode("./countdown/custom-render.example.tsx"),
+	},
+	"countdown/live-to-closed": {
+		Component: CountdownLiveToClosedExample,
+		code: readCode("./countdown/live-to-closed.example.tsx"),
+	},
+	"countdown/progress": {
+		Component: CountdownProgressExample,
+		code: readCode("./countdown/progress.example.tsx"),
 	},
 	"countdown/semantic": {
 		Component: CountdownSemanticExample,
