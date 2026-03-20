@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: "@m3000/market - Trading UI Components",
+	title: "@m3000/market - Market UI Components",
 	description:
-		"A collection of React components for trading interfaces, featuring Price, RankedList, Countdown, Receipt, and more.",
+		"A collection of React components for marketplace applications, featuring Price, RankedList, Countdown, Receipt, and more.",
 };
 
 export default function RootLayout({

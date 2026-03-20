@@ -1,10 +1,10 @@
-# @m3000/market - Trading UI Components
+# @m3000/market - Market UI Components
 
-> A collection of beautifully crafted React components for trading interfaces.
+> A collection of beautifully crafted React components for marketplace applications.
 
 ## Overview
 
-@m3000/market is a React component library designed specifically for trading and financial interfaces. It provides primitives for displaying prices, ranked lists, countdowns, receipts, and complex UI blocks like auction interfaces.
+@m3000/market is a React component library for marketplace applications. It provides primitives for displaying prices, ranked lists, countdowns, receipts, and complex UI blocks like auction interfaces.
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # @m3000/market
 
-A React UI component library for trading interfaces.
+Market UI Components for marketplace applications.
 
 ## Installation
 
