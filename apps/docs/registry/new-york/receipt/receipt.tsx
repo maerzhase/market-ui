@@ -109,7 +109,7 @@ type ReceiptPriceDefaults = {
 };
 
 const ReceiptPriceContext = React.createContext<ReceiptPriceDefaults | null>(
-  null,
+  null
 );
 
 function useReceiptPriceDefaults() {
@@ -156,13 +156,19 @@ function ReceiptRoot({
 
   const contextValue = React.useMemo(
     () => ({ store: storeRef.current!, decimals }),
-    [decimals],
+    [decimals]
   );
 
   return (
     <ReceiptContext value={contextValue}>
       <ReceiptPriceContext value={priceDefaults}>
-        <div className={cn("flex flex-col gap-2", className)} {...props}>
+        <div
+          className={cn(
+            "text-2 text-foreground flex flex-col gap-2 leading-2",
+            className
+          )}
+          {...props}
+        >
           {filteredChildren}
         </div>
       </ReceiptPriceContext>
@@ -210,7 +216,7 @@ function ReceiptHeader({
   ...props
 }: ReceiptHeaderProps): React.ReactElement {
   return (
-    <div className={cn("pb-2", className)} {...props}>
+    <div className={cn("text-foreground pb-2", className)} {...props}>
       {children}
     </div>
   );
@@ -218,8 +224,10 @@ function ReceiptHeader({
 
 // --- Item ---
 
-export interface ReceiptItemProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface ReceiptItemProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -255,12 +263,13 @@ function ReceiptItem({
       className={cn("flex items-center justify-between gap-4", className)}
       {...props}
     >
-      <span>{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <Price
         value={value}
         decimals={itemDecimals}
         maxDecimals={priceMaxDecimals}
         abbreviate={priceAbbreviate}
+        className="text-foreground"
       >
         {priceChildren}
       </Price>
@@ -270,8 +279,9 @@ function ReceiptItem({
 
 // --- Separator ---
 
-export interface ReceiptSeparatorProps
-  extends React.ComponentProps<typeof Separator> {}
+export interface ReceiptSeparatorProps extends React.ComponentProps<
+  typeof Separator
+> {}
 
 function ReceiptSeparator({
   className,
@@ -322,7 +332,7 @@ function ReceiptSubtotal({
   }, [context.store, id, displayDecimals]);
 
   const subtotal = useStoreValue(context.store, () =>
-    context.store.getSubtotal(displayDecimals, orderRef.current),
+    context.store.getSubtotal(displayDecimals, orderRef.current)
   );
 
   const displayValue = value !== undefined ? toBigInt(value) : subtotal;
@@ -332,12 +342,13 @@ function ReceiptSubtotal({
       className={cn("flex items-center justify-between gap-4", className)}
       {...props}
     >
-      <span>{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <Price
         value={displayValue}
         decimals={displayDecimals}
         maxDecimals={priceMaxDecimals}
         abbreviate={priceAbbreviate}
+        className="text-foreground"
       >
         {priceChildren}
       </Price>
@@ -347,8 +358,10 @@ function ReceiptSubtotal({
 
 // --- Discount ---
 
-export interface ReceiptDiscountProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface ReceiptDiscountProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -389,14 +402,15 @@ function ReceiptDiscount({
       className={cn("flex items-center justify-between gap-4", className)}
       {...props}
     >
-      <span>{label}</span>
-      <span>
+      <span className="text-muted-foreground">{label}</span>
+      <span className="text-foreground">
         -
         <Price
           value={value}
           decimals={displayDecimals}
           maxDecimals={priceMaxDecimals}
           abbreviate={priceAbbreviate}
+          className="text-foreground"
         >
           {priceChildren}
         </Price>
@@ -407,8 +421,10 @@ function ReceiptDiscount({
 
 // --- Fee ---
 
-export interface ReceiptFeeProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface ReceiptFeeProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -449,12 +465,13 @@ function ReceiptFee({
       className={cn("flex items-center justify-between gap-4", className)}
       {...props}
     >
-      <span>{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <Price
         value={value}
         decimals={displayDecimals}
         maxDecimals={priceMaxDecimals}
         abbreviate={priceAbbreviate}
+        className="text-foreground"
       >
         {priceChildren}
       </Price>
@@ -464,8 +481,10 @@ function ReceiptFee({
 
 // --- Tax ---
 
-export interface ReceiptTaxProps
-  extends Omit<React.ComponentProps<"div">, "children"> {
+export interface ReceiptTaxProps extends Omit<
+  React.ComponentProps<"div">,
+  "children"
+> {
   label?: string;
   value?: bigint | number | string;
   rate?: number;
@@ -495,7 +514,7 @@ function ReceiptTax({
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
 
   const subtotal = useStoreValue(context.store, () =>
-    context.store.getSubtotal(displayDecimals),
+    context.store.getSubtotal(displayDecimals)
   );
 
   const computedValue = React.useMemo(() => {
@@ -523,7 +542,7 @@ function ReceiptTax({
       className={cn("flex items-center justify-between gap-4", className)}
       {...props}
     >
-      <span>
+      <span className="text-muted-foreground">
         {label}
         {rate !== undefined && (
           <span> ({parseFloat((rate * 100).toPrecision(10))}%)</span>
@@ -534,6 +553,7 @@ function ReceiptTax({
         decimals={displayDecimals}
         maxDecimals={priceMaxDecimals}
         abbreviate={priceAbbreviate}
+        className="text-foreground"
       >
         {priceChildren}
       </Price>
@@ -570,23 +590,27 @@ function ReceiptTotal({
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
 
   const total = useStoreValue(context.store, () =>
-    context.store.getTotal(displayDecimals),
+    context.store.getTotal(displayDecimals)
   );
 
   const displayValue = value !== undefined ? toBigInt(value) : total;
 
   return (
     <div
-      className={cn("flex items-center justify-between gap-4 pt-2", className)}
+      className={cn(
+        "text-foreground flex items-center justify-between gap-4 pt-2 font-medium",
+        className
+      )}
       {...props}
     >
       <span>{label}</span>
-      <span>
+      <span className="text-foreground">
         <Price
           value={displayValue}
           decimals={displayDecimals}
           maxDecimals={priceMaxDecimals}
           abbreviate={priceAbbreviate}
+          className="text-foreground"
         >
           {priceChildren}
         </Price>
@@ -605,7 +629,10 @@ function ReceiptFooter({
   ...props
 }: ReceiptFooterProps): React.ReactElement {
   return (
-    <div className={cn("pt-2", className)} {...props}>
+    <div
+      className={cn("text-1 text-muted-foreground pt-2 leading-1", className)}
+      {...props}
+    >
       {children}
     </div>
   );
