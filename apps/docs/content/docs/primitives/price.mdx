@@ -1,12 +1,13 @@
 ---
 title: Price
-description: Format cryptocurrency and fiat prices with customizable precision, symbols, and localization.
+description: Format fiat and crypto prices from smallest-unit integers with `bigint`, precision controls, and customizable rendering.
 ---
 
-import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
 
 ## Installation
 
+{/*prettier-ignore*/}
 <Tabs items={['Package', 'CLI']}>
   <Tab value="Package">
     ```bash
@@ -24,13 +25,9 @@ import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
 
 <ComponentExample name="price/basic" />
 
+`Price` formats raw smallest-unit values and accepts `number`, `string`, and `bigint`.
+
 ## Examples
-
-### Basic Usage
-
-Display a simple price with a dollar symbol.
-
-<ComponentExample name="price/basic" />
 
 ### With Abbreviation
 
@@ -38,11 +35,23 @@ Large numbers are automatically abbreviated (K, M, B).
 
 <ComponentExample name="price/abbreviated" />
 
-### Cryptocurrency
+### High Decimal Precision
 
-Display ETH with 18 decimals, showing up to 4 decimal places.
+Supports any currency, including those that use high-precision decimal values. For example, Ethereum values may be stored in wei (the smallest unit) and displayed using up to 18 decimal places.
 
 <ComponentExample name="price/crypto" />
+
+### Custom Locale
+
+Apply locale-specific grouping and decimal separators with `Price.Value`.
+
+<ComponentExample name="price/locale" />
+
+### Customized Rendering
+
+Compose `Price.Value` and `Price.Symbol` inside your own layout to control placement, emphasis, and surrounding UI.
+
+<ComponentExample name="price/custom-rendering" />
 
 ## API Reference
 
@@ -50,25 +59,25 @@ Display ETH with 18 decimals, showing up to 4 decimal places.
 
 The root component that provides context for price formatting.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `number \| bigint` | required | The raw value to format |
-| `decimals` | `number` | required | Number of decimal places in the raw value |
-| `maxDecimals` | `number` | `decimals` | Maximum decimal places to display |
-| `abbreviate` | `boolean` | `false` | Abbreviate large numbers (K, M, B) |
+| Prop          | Type                         | Default    | Description                                           |
+| ------------- | ---------------------------- | ---------- | ----------------------------------------------------- |
+| `value`       | `number \| bigint \| string` | required   | Raw value in the smallest unit to format              |
+| `decimals`    | `number`                     | required   | Number of decimal places represented by the raw value |
+| `maxDecimals` | `number`                     | `decimals` | Maximum decimal places to display                     |
+| `abbreviate`  | `boolean`                    | `false`    | Abbreviate large numbers (K, M, B)                    |
 
 ### Price.Value
 
-Renders the formatted price value.
+Renders the formatted price value. Pass `locale` when you want localized separators and grouping.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `locale` | `string` | `"en-US"` | Locale for number formatting |
+| Prop     | Type     | Default | Description                  |
+| -------- | -------- | ------- | ---------------------------- |
+| `locale` | `string` | none    | Locale for number formatting |
 
 ### Price.Symbol
 
 Renders the currency symbol.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
+| Prop       | Type        | Default  | Description           |
+| ---------- | ----------- | -------- | --------------------- |
 | `children` | `ReactNode` | required | The symbol to display |

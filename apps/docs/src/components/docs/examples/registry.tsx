@@ -17,6 +17,8 @@ import { CountdownUsageExample } from "./countdown/usage.example";
 import { PriceAbbreviatedExample } from "./price/abbreviated.example";
 import { PriceBasicExample } from "./price/basic.example";
 import { PriceCryptoExample } from "./price/crypto.example";
+import { PriceCustomRenderingExample } from "./price/custom-rendering.example";
+import { PriceLocaleExample } from "./price/locale.example";
 import { RankedListBasicExample } from "./ranked-list/basic.example";
 import { RankedListThreeGroupsExample } from "./ranked-list/three-groups.example";
 import { RankedListUsageExample } from "./ranked-list/usage.example";
@@ -56,6 +58,10 @@ export const exampleRegistry: ExampleRegistry = {
 		Component: PriceBasicExample,
 		code: readCode("./price/basic.example.tsx"),
 	},
+	"price/custom-rendering": {
+		Component: PriceCustomRenderingExample,
+		code: readCode("./price/custom-rendering.example.tsx"),
+	},
 	"price/abbreviated": {
 		Component: PriceAbbreviatedExample,
 		code: readCode("./price/abbreviated.example.tsx"),
@@ -63,6 +69,10 @@ export const exampleRegistry: ExampleRegistry = {
 	"price/crypto": {
 		Component: PriceCryptoExample,
 		code: readCode("./price/crypto.example.tsx"),
+	},
+	"price/locale": {
+		Component: PriceLocaleExample,
+		code: readCode("./price/locale.example.tsx"),
 	},
 	"ranked-list/usage": {
 		Component: RankedListUsageExample,
