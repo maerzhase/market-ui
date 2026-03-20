@@ -7,6 +7,6 @@ const create = browser<typeof Config, import("fumadocs-mdx/runtime/types").Inter
   }
 }>();
 const browserCollections = {
-  docs: create.doc("docs", {"index.mdx": () => import("../content/docs/index.mdx?collection=docs"), "blocks/auction.mdx": () => import("../content/docs/blocks/auction.mdx?collection=docs"), "primitives/countdown.mdx": () => import("../content/docs/primitives/countdown.mdx?collection=docs"), "primitives/price.mdx": () => import("../content/docs/primitives/price.mdx?collection=docs"), "primitives/ranked-list.mdx": () => import("../content/docs/primitives/ranked-list.mdx?collection=docs"), "primitives/receipt.mdx": () => import("../content/docs/primitives/receipt.mdx?collection=docs"), }),
+  docs: create.doc("docs", {"index.mdx": () => import("../content/docs/index.mdx?collection=docs"), "blocks/auction.mdx": () => import("../content/docs/blocks/auction.mdx?collection=docs"), "primitives/countdown.mdx": () => import("../content/docs/primitives/countdown.mdx?collection=docs"), "primitives/price.mdx": () => import("../content/docs/primitives/price.mdx?collection=docs"), "primitives/ranking.mdx": () => import("../content/docs/primitives/ranking.mdx?collection=docs"), "primitives/receipt.mdx": () => import("../content/docs/primitives/receipt.mdx?collection=docs"), }),
 };
 export default browserCollections;

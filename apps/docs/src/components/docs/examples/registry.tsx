@@ -19,9 +19,12 @@ import { PriceBasicExample } from "./price/basic.example";
 import { PriceCryptoExample } from "./price/crypto.example";
 import { PriceCustomRenderingExample } from "./price/custom-rendering.example";
 import { PriceLocaleExample } from "./price/locale.example";
-import { RankedListBasicExample } from "./ranked-list/basic.example";
-import { RankedListThreeGroupsExample } from "./ranked-list/three-groups.example";
-import { RankedListUsageExample } from "./ranked-list/usage.example";
+import { RankingBasicExample } from "./ranked-list/basic.example";
+import { RankingEmptyExample } from "./ranked-list/empty.example";
+import { RankingUsageExample } from "./ranked-list/usage.example";
+import { RankingCustomGroupExample } from "./ranked-list/custom-group.example";
+import { RankingDynamicSlotExample } from "./ranked-list/dynamic-slot.example";
+import { RankingStaticSlotExample } from "./ranked-list/static-slot.example";
 import { ReceiptBasicExample } from "./receipt/basic.example";
 import { ReceiptFullExample } from "./receipt/full.example";
 import { ReceiptUsageExample } from "./receipt/usage.example";
@@ -74,19 +77,34 @@ export const exampleRegistry: ExampleRegistry = {
 		Component: PriceLocaleExample,
 		code: readCode("./price/locale.example.tsx"),
 	},
-	"ranked-list/usage": {
-		Component: RankedListUsageExample,
+	"ranking/usage": {
+		Component: RankingUsageExample,
 		code: readCode("./ranked-list/usage.example.tsx"),
 		maxWidth: 640,
 	},
-	"ranked-list/basic": {
-		Component: RankedListBasicExample,
+	"ranking/basic": {
+		Component: RankingBasicExample,
 		code: readCode("./ranked-list/basic.example.tsx"),
 		maxWidth: 640,
 	},
-	"ranked-list/three-groups": {
-		Component: RankedListThreeGroupsExample,
-		code: readCode("./ranked-list/three-groups.example.tsx"),
+	"ranking/empty": {
+		Component: RankingEmptyExample,
+		code: readCode("./ranked-list/empty.example.tsx"),
+		maxWidth: 640,
+	},
+	"ranking/custom-group": {
+		Component: RankingCustomGroupExample,
+		code: readCode("./ranked-list/custom-group.example.tsx"),
+		maxWidth: 640,
+	},
+	"ranking/static-slot": {
+		Component: RankingStaticSlotExample,
+		code: readCode("./ranked-list/static-slot.example.tsx"),
+		maxWidth: 640,
+	},
+	"ranking/dynamic-slot": {
+		Component: RankingDynamicSlotExample,
+		code: readCode("./ranked-list/dynamic-slot.example.tsx"),
 		maxWidth: 640,
 	},
 	"countdown/usage": {

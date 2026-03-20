@@ -42,8 +42,8 @@ const COMPONENT_MAPPINGS: ComponentMapping[] = [
 	},
 	{
 		source: "components/primitives/ranked-list",
-		dest: "ranked-list",
-		files: ["RankedList.tsx"],
+		dest: "ranking",
+		files: ["Ranking.tsx"],
 	},
 	{
 		source: "components/primitives",

@@ -1,6 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "countdown",
+  "type": "registry:component",
   "title": "Countdown",
   "description": "Countdown timer with semantic labels, progress bars, and custom rendering.",
   "dependencies": [
@@ -23,6 +24,5 @@
       "content": "import { type ClassValue, clsx } from \"clsx\";\nimport { extendTailwindMerge } from \"tailwind-merge\";\n\n// Primitive color scale (Radix-style 1-12 naming)\nconst PRIMITIVE_COLORS = [\n  \"grey-1\",\n  \"grey-2\",\n  \"grey-3\",\n  \"grey-4\",\n  \"grey-5\",\n  \"grey-6\",\n  \"grey-7\",\n  \"grey-8\",\n  \"grey-9\",\n  \"grey-10\",\n  \"grey-11\",\n  \"grey-12\",\n  \"white\",\n  \"black\",\n  \"current\",\n  \"transparent\",\n];\n\n// Semantic color tokens (shadcn-style naming)\nconst SEMANTIC_COLORS = [\n  \"background\",\n  \"foreground\",\n  \"muted\",\n  \"muted-foreground\",\n  \"card\",\n  \"card-foreground\",\n  \"popover\",\n  \"popover-foreground\",\n  \"primary\",\n  \"primary-hover\",\n  \"primary-foreground\",\n  \"secondary\",\n  \"secondary-hover\",\n  \"secondary-foreground\",\n  \"accent\",\n  \"accent-hover\",\n  \"accent-active\",\n  \"accent-foreground\",\n  \"border\",\n  \"input\",\n  \"ring\",\n  \"disabled\",\n  \"disabled-foreground\",\n  \"destructive\",\n  \"destructive-hover\",\n  \"destructive-foreground\",\n  \"destructive-muted\",\n  \"destructive-muted-foreground\",\n  \"success\",\n  \"success-hover\",\n  \"success-foreground\",\n  \"success-muted\",\n  \"success-muted-foreground\",\n  \"warning\",\n  \"warning-hover\",\n  \"warning-foreground\",\n  \"warning-muted\",\n  \"warning-muted-foreground\",\n  \"separator\",\n];\n\nconst THEME_COLORS = [...PRIMITIVE_COLORS, ...SEMANTIC_COLORS];\n\nconst customTwMerge = extendTailwindMerge({\n  extend: {\n    classGroups: {\n      leading: [\n        \"leading-0\",\n        \"leading-1\",\n        \"leading-2\",\n        \"leading-3\",\n        \"leading-4\",\n        \"leading-5\",\n        \"leading-6\",\n        \"leading-7\",\n        \"leading-8\",\n        \"leading-9\",\n      ],\n      \"font-size\": [\n        \"text-1\",\n        \"text-2\",\n        \"text-3\",\n        \"text-4\",\n        \"text-5\",\n        \"text-6\",\n        \"text-7\",\n        \"text-8\",\n        \"text-9\",\n      ],\n      \"text-color\": [{ text: THEME_COLORS }],\n      \"bg-color\": [{ bg: THEME_COLORS }],\n      \"border-color\": [{ border: THEME_COLORS }],\n    },\n  },\n});\n\nexport function cn(...inputs: ClassValue[]): string {\n  return customTwMerge(clsx(inputs));\n}\n",
       "type": "registry:lib"
     }
-  ],
-  "type": "registry:component"
+  ]
 }

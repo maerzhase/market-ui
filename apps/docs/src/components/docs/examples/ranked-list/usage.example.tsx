@@ -1,6 +1,6 @@
 "use client";
 
-import { RankedList, Separator, Text } from "@m3000/market";
+import { Ranking, Text } from "@m3000/market";
 
 interface Player {
 	id: string;
@@ -12,37 +12,31 @@ const players: Player[] = [
 	{ id: "1", name: "Alice", score: 950 },
 	{ id: "2", name: "Bob", score: 880 },
 	{ id: "3", name: "Charlie", score: 820 },
+	{ id: "4", name: "Dana", score: 790 },
 ];
 
-export function RankedListUsageExample() {
+export function RankingUsageExample() {
 	return (
-		<div className="overflow-hidden rounded-lg border border-border bg-background">
-			<RankedList.Root
-				items={players}
-				getKey={(player) => player.id}
-				boundaries={[3]}
-				labels={["Top 3", "Others"]}
-			>
-				<RankedList.Group>
-					<RankedList.GroupDivider />
-					<RankedList.GroupItem>
-						<RankedList.GroupItemValue>
-							{(player: Player, ctx) => (
-								<>
-									<div className="flex justify-between px-4 py-2">
-										<RankedList.GroupItemIndex />
-										<Text>{player.name}</Text>
-										<Text>{player.score}</Text>
-									</div>
-									{!ctx.isLastInGroup && (
-										<Separator orientation="horizontal" />
-									)}
-								</>
+		<Ranking.Root
+			items={players}
+			getKey={(player) => player.id}
+			boundaries={[3]}
+			labels={["Top 3", "Others"]}
+			className="overflow-hidden rounded-lg border border-border bg-background"
+		>
+			<Ranking.Group>
+				<Ranking.GroupDivider />
+				<Ranking.GroupItem>
+						<Ranking.GroupItemValue>
+							{(player: Player) => (
+								<Text render={<div className="px-4 py-2" />}>
+									<Ranking.GroupItemIndex /> {player.name}{" "}
+									<Text color="secondary">{player.score}</Text>
+								</Text>
 							)}
-						</RankedList.GroupItemValue>
-					</RankedList.GroupItem>
-				</RankedList.Group>
-			</RankedList.Root>
-		</div>
+						</Ranking.GroupItemValue>
+				</Ranking.GroupItem>
+			</Ranking.Group>
+		</Ranking.Root>
 	);
 }

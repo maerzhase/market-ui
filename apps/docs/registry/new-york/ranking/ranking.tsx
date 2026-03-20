@@ -4,12 +4,10 @@ import * as React from "react";
 import { cn } from "@/lib/cn";
 import { Separator, Text } from "..";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
 interface SlotSpec {
   key: string;
   atIndex: number;
-  children: (context: SlotContext) => React.ReactNode;
+  children: SlotProps["children"];
 }
 
 interface SlotContext {
@@ -22,11 +20,15 @@ interface SlotContext {
   isLastItem: boolean;
 }
 
+type SlotChildren =
+  | React.ReactNode
+  | ((context: SlotContext) => React.ReactNode);
+
 type ListEntry<T> =
   | { type: "item"; item: T; key: string }
   | { type: "slot"; spec: SlotSpec };
 
-interface RankedListContextValue<T> {
+interface RankingContextValue<T> {
   items: T[];
   entries: ListEntry<T>[];
   boundaries: number[];
@@ -41,29 +43,29 @@ interface GroupContextValue<T> {
   groupLabel: string;
   entries: ListEntry<T>[];
   startIndex: number;
+  totalEntryCount: number;
 }
 
 interface GroupItemContextValue<T> {
   item: T;
   globalIndex: number;
   groupIndex: number;
+  rank: number;
   rankInGroup: number;
   isFirstInGroup: boolean;
   isLastInGroup: boolean;
   isLastItem: boolean;
 }
 
-// ─── Contexts ─────────────────────────────────────────────────────────────────
+const RankingContext =
+  React.createContext<RankingContextValue<unknown> | null>(null);
 
-const RankedListContext =
-  React.createContext<RankedListContextValue<unknown> | null>(null);
-
-function useRankedList<T>(): RankedListContextValue<T> {
-  const context = React.useContext(RankedListContext);
+function useRanking<T>(): RankingContextValue<T> {
+  const context = React.useContext(RankingContext);
   if (!context) {
-    throw new Error("useRankedList must be used within RankedList.Root");
+    throw new Error("useRanking must be used within Ranking.Root");
   }
-  return context as RankedListContextValue<T>;
+  return context as RankingContextValue<T>;
 }
 
 const GroupContext = React.createContext<GroupContextValue<unknown> | null>(
@@ -73,7 +75,7 @@ const GroupContext = React.createContext<GroupContextValue<unknown> | null>(
 function useGroup<T>(): GroupContextValue<T> {
   const context = React.useContext(GroupContext);
   if (!context) {
-    throw new Error("useGroup must be used within RankedList.Group");
+    throw new Error("useGroup must be used within Ranking.Group");
   }
   return context as GroupContextValue<T>;
 }
@@ -84,12 +86,10 @@ const GroupItemContext =
 function useGroupItem<T>(): GroupItemContextValue<T> {
   const context = React.useContext(GroupItemContext);
   if (!context) {
-    throw new Error("useGroupItem must be used within RankedList.GroupItem");
+    throw new Error("useGroupItem must be used within Ranking.GroupItem");
   }
   return context as GroupItemContextValue<T>;
 }
-
-// ─── Components ───────────────────────────────────────────────────────────────
 
 interface EmptyProps {
   children: React.ReactNode;
@@ -107,7 +107,7 @@ function Empty({ children, className }: EmptyProps): React.ReactElement {
 interface SlotProps {
   slotKey: string;
   atIndex: number;
-  children: (context: SlotContext) => React.ReactNode;
+  children: SlotChildren;
 }
 
 function Slot({
@@ -115,7 +115,7 @@ function Slot({
   atIndex,
   children,
 }: SlotProps): React.ReactElement | null {
-  const { registerSlot, unregisterSlot } = useRankedList();
+  const { registerSlot, unregisterSlot } = useRanking();
 
   React.useEffect(() => {
     registerSlot({ key: slotKey, atIndex, children });
@@ -125,7 +125,7 @@ function Slot({
   return null;
 }
 
-interface RankedListProps<T> {
+interface RankingProps<T> {
   items: T[];
   children: React.ReactNode;
   getKey: (item: T) => string;
@@ -134,14 +134,14 @@ interface RankedListProps<T> {
   className?: string;
 }
 
-function RankedListInner<T>({
+function RankingRoot<T>({
   items,
   children,
   getKey,
   boundaries = [],
   labels = [],
   className,
-}: RankedListProps<T>): React.ReactElement {
+}: RankingProps<T>): React.ReactElement {
   const [slots, setSlots] = React.useState<Map<string, SlotSpec>>(new Map());
 
   const registerSlot = React.useCallback((spec: SlotSpec) => {
@@ -160,26 +160,20 @@ function RankedListInner<T>({
     });
   }, []);
 
-  // Build entries: items in original order, with slots inserted at their specified indices
   const entries = React.useMemo<ListEntry<T>[]>(() => {
-    // Start with items in their original order
     const result: ListEntry<T>[] = items.map((item) => ({
       type: "item" as const,
       item,
       key: getKey(item),
     }));
 
-    // Insert slots at their specified indices
-    // Sort by atIndex ascending so slots at same index maintain registration order
     const sortedSlots = Array.from(slots.values()).sort(
       (a, b) => a.atIndex - b.atIndex,
     );
 
-    // Track offset as we insert (each insertion shifts subsequent indices)
     let offset = 0;
     for (const spec of sortedSlots) {
       const slotEntry: ListEntry<T> = { type: "slot", spec };
-      // Clamp to valid range: [0, result.length]
       const targetIndex = Math.max(0, Math.min(spec.atIndex, items.length));
       const insertAt = targetIndex + offset;
       result.splice(insertAt, 0, slotEntry);
@@ -199,7 +193,6 @@ function RankedListInner<T>({
     (child) => !React.isValidElement(child) || child.type !== Empty,
   );
 
-  // Show empty state only if no items AND no slots
   if (entries.length === 0) {
     return emptyChild ? (
       <>{emptyChild}</>
@@ -211,7 +204,7 @@ function RankedListInner<T>({
   }
 
   return (
-    <RankedListContext.Provider
+    <RankingContext.Provider
       value={{
         items: items as unknown[],
         entries: entries as ListEntry<unknown>[],
@@ -223,7 +216,7 @@ function RankedListInner<T>({
       }}
     >
       <div className={className}>{otherChildren}</div>
-    </RankedListContext.Provider>
+    </RankingContext.Provider>
   );
 }
 
@@ -233,7 +226,7 @@ interface GroupProps {
 }
 
 function Group({ children, className }: GroupProps): React.ReactElement {
-  const { entries, boundaries, labels } = useRankedList();
+  const { entries, boundaries, labels } = useRanking();
 
   const groups: Array<{
     label: string;
@@ -268,19 +261,36 @@ function Group({ children, className }: GroupProps): React.ReactElement {
     });
   }
 
+  const childArray = React.Children.toArray(children);
+  const dividerChildren = childArray.filter(
+    (child) => React.isValidElement(child) && child.type === GroupDivider,
+  );
+  const itemChildren = childArray.filter(
+    (child) => !React.isValidElement(child) || child.type !== GroupDivider,
+  );
+
   return (
     <>
       {groups.map((group, groupIndex) => (
         <GroupContext.Provider
-          key={group.label}
+          key={`${group.startIndex}-${group.label}`}
           value={{
             groupIndex,
             groupLabel: group.label,
             entries: group.entries,
             startIndex: group.startIndex,
+            totalEntryCount: entries.length,
           }}
         >
-          <div className={className}>{children}</div>
+          <div>
+            {dividerChildren}
+            <ol
+              className={cn("m-0 list-none p-0", className)}
+              start={group.startIndex + 1}
+            >
+              {itemChildren}
+            </ol>
+          </div>
         </GroupContext.Provider>
       ))}
     </>
@@ -296,46 +306,41 @@ function GroupItem({
   children,
   className,
 }: GroupItemProps): React.ReactElement {
-  const { entries, startIndex, groupIndex } = useGroup<unknown>();
-  const { getKey } = useRankedList<unknown>();
+  const { entries, startIndex, groupIndex, totalEntryCount } = useGroup<unknown>();
+  const { getKey } = useRanking<unknown>();
 
   return (
     <>
       {entries.map((entry, entryIndexInGroup) => {
         const globalIndex = startIndex + entryIndexInGroup;
-
-        // Render slots using their children function
-        if (entry.type === "slot") {
-          const context: SlotContext = {
-            globalIndex,
-            groupIndex,
-            rank: globalIndex + 1,
-            rankInGroup: entryIndexInGroup + 1,
-            isFirstInGroup: entryIndexInGroup === 0,
-            isLastInGroup: entryIndexInGroup === entries.length - 1,
-            isLastItem: globalIndex === entries.length - 1,
-          };
-          return (
-            <div key={entry.spec.key} className={className}>
-              {entry.spec.children(context)}
-            </div>
-          );
-        }
-
-        // Render items with children
-        const context: GroupItemContextValue<unknown> = {
-          item: entry.item,
+        const sharedContext = {
           globalIndex,
           groupIndex,
+          rank: globalIndex + 1,
           rankInGroup: entryIndexInGroup + 1,
           isFirstInGroup: entryIndexInGroup === 0,
           isLastInGroup: entryIndexInGroup === entries.length - 1,
-          isLastItem: globalIndex === entries.length - 1,
+          isLastItem: globalIndex === totalEntryCount - 1,
+        };
+
+        if (entry.type === "slot") {
+          return (
+            <li key={entry.spec.key} className={className}>
+              {typeof entry.spec.children === "function"
+                ? entry.spec.children(sharedContext)
+                : entry.spec.children}
+            </li>
+          );
+        }
+
+        const context: GroupItemContextValue<unknown> = {
+          item: entry.item,
+          ...sharedContext,
         };
 
         return (
           <GroupItemContext.Provider key={getKey(entry.item)} value={context}>
-            <div className={className}>{children}</div>
+            <li className={className}>{children}</li>
           </GroupItemContext.Provider>
         );
       })}
@@ -356,15 +361,15 @@ function GroupItemIndex({
   children,
   className,
 }: GroupItemIndexProps): React.ReactElement | null {
-  const { globalIndex, rankInGroup, groupIndex } = useGroupItem();
+  const { globalIndex, rank, groupIndex } = useGroupItem();
 
   if (children) {
-    return <>{children({ globalIndex, rank: rankInGroup, groupIndex })}</>;
+    return <>{children({ globalIndex, rank, groupIndex })}</>;
   }
 
   return (
     <Text color="tertiary" className={cn("w-8 shrink-0", className)}>
-      #{globalIndex + 1}
+      #{rank}
     </Text>
   );
 }
@@ -415,10 +420,8 @@ function GroupDivider({
   );
 }
 
-// ─── Component Export ─────────────────────────────────────────────────────────
-
-interface RankedListComponent {
-  Root: typeof RankedListInner;
+interface RankingComponent {
+  Root: typeof RankingRoot;
   Empty: typeof Empty;
   Slot: typeof Slot;
   Group: typeof Group;
@@ -428,8 +431,8 @@ interface RankedListComponent {
   GroupDivider: typeof GroupDivider;
 }
 
-const RankedList = {
-  Root: RankedListInner,
+const Ranking = {
+  Root: RankingRoot,
   Empty,
   Slot,
   Group,
@@ -437,7 +440,17 @@ const RankedList = {
   GroupItemIndex,
   GroupItemValue,
   GroupDivider,
-} as RankedListComponent;
+} as RankingComponent;
 
-export { RankedList };
-export type { RankedListProps, GroupItemContextValue, SlotContext, SlotProps };
+const RankedList: RankingComponent = Ranking;
+
+type RankedListProps<T> = RankingProps<T>;
+
+export { Ranking, RankedList };
+export type {
+  GroupItemContextValue,
+  RankedListProps,
+  RankingProps,
+  SlotContext,
+  SlotProps,
+};

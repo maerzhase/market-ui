@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import type { GroupItemContextValue } from "@/components";
-import { RankedList } from "@/components";
+import { Ranking } from "@/components";
 import { Button, Separator, Skeleton, Text } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import type { AuctionBid, AuctionUserBid } from "@/types";
@@ -310,14 +310,14 @@ export function AuctionRankings({
       ref={scrollContainerRef}
       className={cn("min-h-0 flex-1 overflow-y-auto", className)}
     >
-      <RankedList.Root
+      <Ranking.Root
         items={allBids}
         getKey={(bid) => bid.id}
         boundaries={[maxTotalItems]}
         labels={["Winning Bids", "Outbid"]}
       >
         {showPreview && (
-          <RankedList.Slot slotKey="preview" atIndex={previewIndex}>
+          <Ranking.Slot slotKey="preview" atIndex={previewIndex}>
             {(context) => (
               <>
                 <BidPreviewRow
@@ -333,10 +333,10 @@ export function AuctionRankings({
                 )}
               </>
             )}
-          </RankedList.Slot>
+          </Ranking.Slot>
         )}
         {lockedBid !== null && topUpPreviewIndex !== null && (
-          <RankedList.Slot slotKey="topup-preview" atIndex={topUpPreviewIndex}>
+          <Ranking.Slot slotKey="topup-preview" atIndex={topUpPreviewIndex}>
             {(context) => (
               <>
                 <TopUpPreviewRow
@@ -351,15 +351,15 @@ export function AuctionRankings({
                 )}
               </>
             )}
-          </RankedList.Slot>
+          </Ranking.Slot>
         )}
-        <RankedList.Empty>
+        <Ranking.Empty>
           <Text color="tertiary">No activity</Text>
-        </RankedList.Empty>
-        <RankedList.Group>
-          <RankedList.GroupDivider />
-          <RankedList.GroupItem>
-            <RankedList.GroupItemValue>
+        </Ranking.Empty>
+        <Ranking.Group>
+          <Ranking.GroupDivider />
+          <Ranking.GroupItem>
+            <Ranking.GroupItemValue>
               {(bid: AuctionBid, context) => {
                 const isOutbid = context.groupIndex === 1;
                 const isBelowLockedBid =
@@ -404,10 +404,10 @@ export function AuctionRankings({
                   </>
                 );
               }}
-            </RankedList.GroupItemValue>
-          </RankedList.GroupItem>
-        </RankedList.Group>
-      </RankedList.Root>
+            </Ranking.GroupItemValue>
+          </Ranking.GroupItem>
+        </Ranking.Group>
+      </Ranking.Root>
     </div>
   );
 }

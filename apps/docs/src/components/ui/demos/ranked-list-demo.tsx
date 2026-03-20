@@ -1,6 +1,6 @@
 "use client";
 
-import { Price, RankedList, Separator, Text } from "@m3000/market";
+import { Ranking, Separator, Text } from "@m3000/market";
 
 interface DemoBid {
 	id: string;
@@ -14,24 +14,24 @@ const DEMO_BIDS: DemoBid[] = [
 	{ id: "3", name: "Charlie", score: 820 },
 ];
 
-export function RankedListDemo() {
+export function RankingDemo() {
 	return (
 		<div className="max-h-36 w-full overflow-hidden rounded-lg border border-border bg-background">
-			<RankedList.Root
+			<Ranking.Root
 				items={DEMO_BIDS}
 				getKey={(item) => item.id}
 				boundaries={[2]}
 				labels={["Top", "Others"]}
 			>
-				<RankedList.Group>
-					<RankedList.GroupDivider />
-					<RankedList.GroupItem>
-						<RankedList.GroupItemValue>
+				<Ranking.Group>
+					<Ranking.GroupDivider />
+					<Ranking.GroupItem>
+						<Ranking.GroupItemValue>
 							{(item: DemoBid, ctx) => (
 								<>
 									<div className="flex items-center justify-between px-3 py-1.5">
 										<div className="flex items-center gap-2">
-											<RankedList.GroupItemIndex />
+											<Ranking.GroupItemIndex />
 											<Text size="2">{item.name}</Text>
 										</div>
 										<Text size="2" color="secondary">
@@ -43,10 +43,10 @@ export function RankedListDemo() {
 									)}
 								</>
 							)}
-						</RankedList.GroupItemValue>
-					</RankedList.GroupItem>
-				</RankedList.Group>
-			</RankedList.Root>
+						</Ranking.GroupItemValue>
+					</Ranking.GroupItem>
+				</Ranking.Group>
+			</Ranking.Root>
 		</div>
 	);
 }

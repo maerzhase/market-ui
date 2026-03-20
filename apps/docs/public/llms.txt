@@ -58,32 +58,32 @@ Key features:
 - Days, hours, minutes, seconds breakdown
 - Show time since expiration option
 
-#### RankedList
-Display ranked items with group boundaries and custom dividers.
+#### Ranking
+Render already-sorted ranked items with group boundaries and custom dividers.
 
 ```tsx
-import { RankedList, Text } from "@m3000/market";
+import { Ranking, Text } from "@m3000/market";
 
-<RankedList.Root
+<Ranking.Root
   items={players}
   getKey={(p) => p.id}
   boundaries={[3]}
   labels={["Top 3", "Others"]}
 >
-  <RankedList.Group>
-    <RankedList.GroupDivider />
-    <RankedList.GroupItem>
-      <RankedList.GroupItemValue>
+  <Ranking.Group>
+    <Ranking.GroupDivider />
+    <Ranking.GroupItem>
+      <Ranking.GroupItemValue>
         {(player, ctx) => (
           <div>
-            <RankedList.GroupItemIndex />
+            <Ranking.GroupItemIndex />
             <Text>{player.name}</Text>
           </div>
         )}
-      </RankedList.GroupItemValue>
-    </RankedList.GroupItem>
-  </RankedList.Group>
-</RankedList.Root>
+      </Ranking.GroupItemValue>
+    </Ranking.GroupItem>
+  </Ranking.Group>
+</Ranking.Root>
 ```
 
 Key features:
@@ -139,7 +139,7 @@ import { Auction } from "@m3000/market";
 
 Sub-components:
 - Auction.Layout - Responsive layout container
-- Auction.Rankings - RankedList-based bid display
+- Auction.Rankings - Ranking-based bid display
 - Auction.BidForm - Stepped input with validation
 - Auction.StatusTag - Semantic status indicator
 - Auction.YourBids - Current user's bid display

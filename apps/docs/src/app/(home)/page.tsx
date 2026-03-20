@@ -4,13 +4,12 @@ import {
   Button,
   Countdown,
   Price,
-  RankedList,
+  Ranking,
   Receipt,
   Separator,
   Text,
 } from "@m3000/market";
 import Link from "next/link";
-import { Installation } from "@/components/docs/installation";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
 
 interface DemoBid {
@@ -45,24 +44,24 @@ function PriceDemo() {
   );
 }
 
-function RankedListDemo() {
+function RankingDemo() {
   return (
     <div className="w-full overflow-hidden rounded-lg border border-border bg-background">
-      <RankedList.Root
+      <Ranking.Root
         items={DEMO_BIDS.slice(0, 5)}
         getKey={(item) => item.id}
         boundaries={[2]}
         labels={["Top", "Others"]}
       >
-        <RankedList.Group>
-          <RankedList.GroupDivider />
-          <RankedList.GroupItem>
-            <RankedList.GroupItemValue>
+        <Ranking.Group>
+          <Ranking.GroupDivider />
+          <Ranking.GroupItem>
+            <Ranking.GroupItemValue>
               {(item: DemoBid, ctx) => (
                 <>
                   <div className="flex items-center justify-between px-3 py-1.5">
                     <div className="flex items-center gap-2">
-                      <RankedList.GroupItemIndex />
+                      <Ranking.GroupItemIndex />
                       <Text size="2">{item.name}</Text>
                     </div>
                     <Text size="2" color="secondary">
@@ -72,10 +71,10 @@ function RankedListDemo() {
                   {!ctx.isLastInGroup && <Separator orientation="horizontal" />}
                 </>
               )}
-            </RankedList.GroupItemValue>
-          </RankedList.GroupItem>
-        </RankedList.Group>
-      </RankedList.Root>
+            </Ranking.GroupItemValue>
+          </Ranking.GroupItem>
+        </Ranking.Group>
+      </Ranking.Root>
     </div>
   );
 }
@@ -123,11 +122,11 @@ const COMPONENTS = [
     demo: <PriceDemo />,
   },
   {
-    name: "RankedList",
+    name: "Ranking",
     description:
-      "Display ranked items with group boundaries, custom dividers, and preview slots.",
-    href: "/docs/primitives/ranked-list",
-    demo: <RankedListDemo />,
+      "Render already-sorted ranked items with group boundaries, custom dividers, and inserted slots.",
+    href: "/docs/primitives/ranking",
+    demo: <RankingDemo />,
   },
   {
     name: "Countdown",
@@ -156,7 +155,7 @@ export default function Home() {
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-xl text-muted-foreground">
             A collection of beautifully crafted React components for
-            marketplace applications. Price formatting, ranked lists,
+            marketplace applications. Price formatting, rankings,
             countdowns, receipts, and more.
           </p>
           <Button

@@ -1,7 +1,8 @@
 export type {
   GroupItemContextValue,
   RankedListProps,
+  RankingProps,
   SlotContext,
   SlotProps,
-} from "./RankedList";
-export { RankedList } from "./RankedList";
+} from "./Ranking";
+export { RankedList, Ranking } from "./Ranking";

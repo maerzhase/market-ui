@@ -89,7 +89,6 @@ export function ComponentPreview({
               align === "stretch" && "items-stretch justify-center",
               previewClassName,
             )}
-            style={{ minHeight: resolvedMinHeight }}
           >
             <div
               className={cn(

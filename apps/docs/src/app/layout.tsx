@@ -16,7 +16,7 @@ const docsSearch =
 export const metadata: Metadata = {
 	title: "@m3000/market - Market UI Components",
 	description:
-		"A collection of React components for marketplace applications, featuring Price, RankedList, Countdown, Receipt, and more.",
+		"A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
 };
 
 export default function RootLayout({

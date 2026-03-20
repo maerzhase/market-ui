@@ -42,14 +42,14 @@
 			]
 		},
 		{
-			"name": "ranked-list",
+			"name": "ranking",
 			"type": "registry:component",
-			"title": "RankedList",
-			"description": "Display ranked items with group boundaries, custom dividers, and preview slots.",
+			"title": "Ranking",
+			"description": "Render already-sorted ranked items as ordered groups, with index-based grouping and inserted slots.",
 			"dependencies": ["clsx", "tailwind-merge"],
 			"files": [
 				{
-					"path": "registry/new-york/ranked-list/ranked-list.tsx",
+					"path": "registry/new-york/ranking/ranking.tsx",
 					"type": "registry:component"
 				},
 				{
@@ -255,7 +255,7 @@
 			"registryDependencies": [
 				"price",
 				"countdown",
-				"ranked-list",
+				"ranking",
 				"button",
 				"text",
 				"tag",

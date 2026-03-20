@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RankedList, Separator, Text } from "@/components";
+import { Ranking, Separator, Text } from "@/components";
 import {
   Auction,
   AuctionArtwork,
@@ -397,7 +397,7 @@ const singleItemBids: SingleItemBid[] = mockSingleBids.map((b) => ({
 }));
 
 /**
- * Renders a preview slot in the RankedList that shows where the user's
+ * Renders a preview slot in the Ranking component that shows where the user's
  * current bid (from the bid form) would land. Reads bidValue/showBidPreview
  * from the auction context so it updates live as the user adjusts the input.
  */
@@ -419,7 +419,7 @@ function BidPreviewSlot() {
   const atIndex = rank ? rank - 1 : 0;
 
   return (
-    <RankedList.Slot slotKey="bid-preview" atIndex={atIndex}>
+    <Ranking.Slot slotKey="bid-preview" atIndex={atIndex}>
       {(ctx) => (
         <>
           <div className="relative">
@@ -444,7 +444,7 @@ function BidPreviewSlot() {
           {!ctx.isLastInGroup && <Separator />}
         </>
       )}
-    </RankedList.Slot>
+    </Ranking.Slot>
   );
 }
 
@@ -499,11 +499,11 @@ function SingleItemContent({ userBids }: { userBids: AuctionUserBid[] }) {
           </div>
           <div className="flex min-w-0 flex-1 flex-col lg:border-l lg:border-border">
             <div className="min-h-0 flex-1 overflow-y-auto">
-              <RankedList.Root items={singleItemBids} getKey={(bid) => bid.id}>
+              <Ranking.Root items={singleItemBids} getKey={(bid) => bid.id}>
                 <BidPreviewSlot />
-                <RankedList.Group>
-                  <RankedList.GroupItem>
-                    <RankedList.GroupItemValue>
+                <Ranking.Group>
+                  <Ranking.GroupItem>
+                    <Ranking.GroupItemValue>
                       {(bid: SingleItemBid, ctx) => {
                         const isHighest = ctx.globalIndex === 0;
                         return (
@@ -550,10 +550,10 @@ function SingleItemContent({ userBids }: { userBids: AuctionUserBid[] }) {
                           </>
                         );
                       }}
-                    </RankedList.GroupItemValue>
-                  </RankedList.GroupItem>
-                </RankedList.Group>
-              </RankedList.Root>
+                    </Ranking.GroupItemValue>
+                  </Ranking.GroupItem>
+                </Ranking.Group>
+              </Ranking.Root>
             </div>
             <AuctionBiddingPanel>
               <AuctionBidForm.Root />
