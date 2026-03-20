@@ -7,14 +7,20 @@
     "dev": "turbo run dev",
     "dev:docs": "turbo run dev --filter=@m3000/docs",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "format": "turbo run format",
-    "format:check": "turbo run format:check",
+    "format:fix": "turbo run format:fix",
+    "check": "turbo run lint format typecheck",
+    "fix": "turbo run lint:fix format:fix",
     "typecheck": "turbo run typecheck",
     "quality": "turbo run quality",
     "storybook": "turbo run storybook --filter=@m3000/ui",
     "build:storybook": "turbo run build:storybook --filter=@m3000/ui"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "turbo": "^2.5.0"
   },
   "packageManager": "pnpm@9.0.0",

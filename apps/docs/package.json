@@ -1,38 +1,39 @@
 {
-	"name": "@m3000/docs",
-	"version": "0.0.0",
-	"private": true,
-	"type": "module",
-	"scripts": {
-		"dev": "next dev --turbopack",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"format": "biome format --write .",
-		"format:check": "biome check . --formatter-enabled=true --write=false",
-		"typecheck": "tsc --noEmit",
-		"registry:copy": "tsx scripts/build-registry.ts",
-		"registry:build": "pnpm registry:copy && shadcn build",
-		"prebuild": "pnpm registry:copy"
-	},
-	"dependencies": {
-		"@m3000/market": "workspace:*",
-		"fumadocs-core": "^16.6.17",
-		"fumadocs-mdx": "^14.2.10",
-		"fumadocs-ui": "^16.6.17",
-		"next": "^16.2.0",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.2.0",
-		"@types/mdx": "^2.0.13",
-		"@types/node": "^22.0.0",
-		"@types/react": "^19.0.0",
-		"@types/react-dom": "^19.0.0",
-		"shadcn": "^2.10.0",
-		"tailwindcss": "^4.1.0",
-		"tsx": "^4.21.0",
-		"typescript": "^5.0.0"
-	}
+  "name": "@m3000/docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "registry:copy": "tsx scripts/build-registry.ts",
+    "registry:build": "pnpm registry:copy && shadcn build",
+    "prebuild": "pnpm registry:copy"
+  },
+  "dependencies": {
+    "@m3000/market": "workspace:*",
+    "fumadocs-core": "^16.6.17",
+    "fumadocs-mdx": "^14.2.10",
+    "fumadocs-ui": "^16.6.17",
+    "next": "^16.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "shadcn": "^2.10.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.0.0"
+  }
 }

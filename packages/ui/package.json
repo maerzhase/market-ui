@@ -26,11 +26,12 @@
     "build:storybook": "storybook build",
     "dev": "tsdown --watch",
     "storybook": "storybook dev -p 6007",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "format:check": "biome check . --formatter-enabled=true --write=false",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format .",
+    "format:fix": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "quality": "pnpm run lint && pnpm run format:check && pnpm run typecheck"
+    "quality": "pnpm run lint && pnpm run format && pnpm run typecheck"
   },
   "peerDependencies": {
     "react": "^19.0.0",
@@ -64,8 +65,6 @@
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "motion": "12.35.2",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "react": "^19.0.0",
     "react-docgen-typescript": "2.4.0",
     "react-dom": "^19.0.0",

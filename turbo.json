@@ -14,12 +14,15 @@
       "cache": true,
       "outputs": []
     },
-    "format": {
+    "lint:fix": {
       "cache": false
     },
-    "format:check": {
+    "format": {
       "cache": true,
       "outputs": []
+    },
+    "format:fix": {
+      "cache": false
     },
     "typecheck": {
       "cache": true,
@@ -27,7 +30,7 @@
     },
     "quality": {
       "cache": false,
-      "dependsOn": ["lint", "format:check", "typecheck"]
+      "dependsOn": ["lint", "format", "typecheck"]
     }
   }
 }
