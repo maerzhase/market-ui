@@ -11,6 +11,7 @@ import {
 } from "@m3000/market";
 import Link from "next/link";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
+import { LandingReceipt } from "@/components/ui/landing-receipt";
 
 interface DemoBid {
   id: string;
@@ -46,7 +47,7 @@ function PriceDemo() {
 
 function RankingDemo() {
   return (
-    <div className="w-full overflow-hidden rounded-lg border border-border bg-background">
+    <div className="border-border bg-background w-full overflow-hidden rounded-lg border">
       <Ranking.Root
         items={DEMO_BIDS.slice(0, 5)}
         getKey={(item) => item.id}
@@ -83,7 +84,7 @@ function CountdownDemo() {
   return (
     <Countdown to={new Date(Date.now() + 86400000 * 3)}>
       {({ timeString, isExpired }) => (
-        <span className="font-mono text-3">
+        <span className="text-3 font-mono">
           {isExpired ? "Expired" : timeString}
         </span>
       )}
@@ -93,7 +94,7 @@ function CountdownDemo() {
 
 function ReceiptDemo() {
   return (
-    <div className="w-full rounded-lg border border-border p-3 bg-background">
+    <div className="border-border bg-background w-full rounded-lg border p-3">
       <Receipt decimals={2}>
         <Receipt.Price maxDecimals={2}>
           <Price.Symbol>$</Price.Symbol>
@@ -148,28 +149,41 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="pt-12 pb-20">
-        <div className="mx-auto max-w-5xl px-6 text-center">
-          <h1 className="text-6xl font-bold tracking-tight">
-            Market UI Components
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-xl text-muted-foreground">
-            A collection of beautifully crafted React components for
-            marketplace applications. Price formatting, rankings,
-            countdowns, receipts, and more.
-          </p>
-          <Button
-            className="mt-6"
-            color="tertiary"
-            render={<Link href="/docs" />}
-          >
-            Browse Docs
-          </Button>
+      <section className="relative flex min-h-[calc(100vh-8rem)] items-center">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(251,205,193,0.55),transparent_32%),radial-gradient(circle_at_78%_22%,rgba(255,178,164,0.32),transparent_28%),linear-gradient(180deg,rgba(252,248,245,0.92),rgba(252,248,245,0.65))]" />
+
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-8 md:grid-cols-2 md:gap-12 lg:gap-16">
+          <div className="relative z-10">
+            <div className="border-primary/20 bg-background/85 text-primary inline-flex rounded-full border px-4 py-1.5 text-[0.72rem] font-semibold tracking-[0.24em] whitespace-nowrap uppercase shadow-sm backdrop-blur">
+              Marketplace design system
+            </div>
+            <h1 className="text-foreground relative z-10 mt-5 max-w-3xl text-[2.5rem] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[2.75rem] md:text-[3rem] lg:text-[3.5rem]">
+              Interfaces shaped by price, time, and competition.
+            </h1>
+            <p className="text-muted-foreground relative z-10 mt-5 max-w-2xl text-base leading-7 md:text-lg">
+              Components for building transactions, auctions, and marketplace mechanics.
+            </p>
+            <div className="relative z-10 mt-7 flex items-center gap-4">
+              <Button color="tertiary" render={<Link href="/docs" />}>
+                Browse Docs
+              </Button>
+              <Link
+                href="/docs/primitives/receipt"
+                className="text-foreground hover:text-primary text-sm font-medium transition-colors"
+              >
+                Explore the Receipt primitive →
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-96 md:mx-0 md:justify-self-end">
+            <LandingReceipt />
+          </div>
         </div>
       </section>
 
       {/* Component Grid */}
-      <section className="pb-24">
+      <section className="pt-4 pb-24">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-3xl font-semibold tracking-tight">
             Components
@@ -190,13 +204,13 @@ export default function Home() {
       </section>
 
       {/* Complex UI Section */}
-      <section className="border-t border-border bg-muted/30 py-24">
+      <section className="border-border bg-muted/30 border-t py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-semibold tracking-tight">
               Complex UI Components
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+            <p className="text-muted-foreground mx-auto mt-4 max-w-2xl">
               Built from primitives, our complex components provide complete
               solutions for real-world marketplace applications.
             </p>
@@ -222,7 +236,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12">
+      <footer className="border-border border-t py-12">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <Text color="secondary" size="2">
