@@ -14,82 +14,47 @@ function toBigInt(value: bigint | number | string): bigint {
   }
 }
 
-type ReceiptEntry = {
-  id: string;
-  value: bigint | number | string;
-  decimals: number;
-  sign?: "+" | "-";
-  order: number;
-};
-
-type ReceiptStore = {
-  entries: Map<string, ReceiptEntry>;
-  subscribe: (cb: () => void) => () => void;
-  notify: () => void;
-  register: (entry: Omit<ReceiptEntry, "order">) => () => void;
-  getSubtotal: (decimals: number, beforeOrder?: number) => bigint;
-  getTotal: (decimals: number) => bigint;
-};
-
-function createReceiptStore(): ReceiptStore {
-  const listeners = new Set<() => void>();
-  const entries = new Map<string, ReceiptEntry>();
-  let orderCounter = 0;
-
-  function notify() {
-    for (const cb of listeners) cb();
-  }
-
-  function subscribe(cb: () => void) {
-    listeners.add(cb);
-    return () => listeners.delete(cb);
-  }
-
-  function register(entry: Omit<ReceiptEntry, "order">) {
-    const entryWithOrder = { ...entry, order: orderCounter++ };
-    entries.set(entryWithOrder.id, entryWithOrder);
-    notify();
-    return () => {
-      entries.delete(entry.id);
-      notify();
-    };
-  }
-
-  function getSubtotal(contextDecimals: number, beforeOrder?: number) {
-    let sum = BigInt(0);
-    for (const entry of entries.values()) {
-      if (entry.sign) continue;
-      if (beforeOrder !== undefined && entry.order >= beforeOrder) continue;
-      const val = toBigInt(entry.value);
-      const scale = BigInt(10 ** (contextDecimals - entry.decimals));
-      sum += val * scale;
-    }
-    return sum;
-  }
-
-  function getTotal(contextDecimals: number) {
-    let positive = BigInt(0);
-    let negative = BigInt(0);
-    for (const entry of entries.values()) {
-      const val = toBigInt(entry.value);
-      const scale = BigInt(10 ** (contextDecimals - entry.decimals));
-      if (entry.sign === "-") {
-        negative += val * scale;
-      } else {
-        positive += val * scale;
-      }
-    }
-    return positive - negative;
-  }
-
-  return { entries, subscribe, notify, register, getSubtotal, getTotal };
+function scaleValue(
+  value: bigint | number | string,
+  fromDecimals: number,
+  toDecimals: number,
+): bigint {
+  const normalizedValue = toBigInt(value);
+  if (fromDecimals === toDecimals) return normalizedValue;
+  const scale = BigInt(10 ** Math.abs(toDecimals - fromDecimals));
+  return fromDecimals < toDecimals
+    ? normalizedValue * scale
+    : normalizedValue / scale;
 }
 
-// --- Contexts ---
+function computeTaxFromRate(
+  subtotal: bigint,
+  decimals: number,
+  rate: number,
+): bigint {
+  const subtotalNum = Number(subtotal) / 10 ** decimals;
+  const taxNum = subtotalNum * rate;
+  const multiplier = BigInt(10 ** decimals);
+  return BigInt(Math.round(taxNum * Number(multiplier)));
+}
+
+type ReceiptRowKind =
+  | "item"
+  | "discount"
+  | "fee"
+  | "subtotal"
+  | "tax"
+  | "total";
+
+type ComputedReceiptValues = {
+  subtotals: Map<number, bigint>;
+  taxes: Map<number, bigint>;
+  totals: Map<number, bigint>;
+};
 
 type ReceiptContextValue = {
-  store: ReceiptStore;
   decimals: number;
+  computed: ComputedReceiptValues;
 };
 
 const ReceiptContext = React.createContext<ReceiptContextValue | null>(null);
@@ -109,104 +74,131 @@ type ReceiptPriceDefaults = {
 };
 
 const ReceiptPriceContext = React.createContext<ReceiptPriceDefaults | null>(
-  null
+  null,
 );
 
 function useReceiptPriceDefaults() {
   return React.useContext(ReceiptPriceContext);
 }
 
-function useStoreValue<T>(store: ReceiptStore, selector: () => T): T {
-  return React.useSyncExternalStore(store.subscribe, selector, selector);
+type ReceiptCalculationDescriptor = {
+  index: number;
+  kind: ReceiptRowKind;
+  decimals: number;
+  value?: bigint | number | string;
+  rate?: number;
+};
+
+type ReceiptInternalIndexProp = {
+  __receiptIndex?: number;
+};
+
+function isElementOfType<P>(
+  child: React.ReactNode,
+  component: React.ComponentType<P>,
+): child is React.ReactElement<P> {
+  return React.isValidElement(child) && child.type === component;
 }
 
-// --- Root ---
+function getDisplayValue(
+  explicitValue: bigint | number | string | undefined,
+  fallbackValue: bigint,
+): bigint {
+  return explicitValue !== undefined ? toBigInt(explicitValue) : fallbackValue;
+}
+
+function computeReceiptValues(
+  descriptors: ReceiptCalculationDescriptor[],
+  receiptDecimals: number,
+): ComputedReceiptValues {
+  const subtotals = new Map<number, bigint>();
+  const taxes = new Map<number, bigint>();
+  const totals = new Map<number, bigint>();
+
+  let subtotalAccumulator = BigInt(0);
+  let positiveAccumulator = BigInt(0);
+  let negativeAccumulator = BigInt(0);
+
+  for (const descriptor of descriptors) {
+    switch (descriptor.kind) {
+      case "item": {
+        const scaledValue = scaleValue(
+          descriptor.value ?? 0,
+          descriptor.decimals,
+          receiptDecimals,
+        );
+        subtotalAccumulator += scaledValue;
+        positiveAccumulator += scaledValue;
+        break;
+      }
+      case "discount": {
+        const scaledValue = scaleValue(
+          descriptor.value ?? 0,
+          descriptor.decimals,
+          receiptDecimals,
+        );
+        negativeAccumulator += scaledValue;
+        break;
+      }
+      case "fee": {
+        const scaledValue = scaleValue(
+          descriptor.value ?? 0,
+          descriptor.decimals,
+          receiptDecimals,
+        );
+        positiveAccumulator += scaledValue;
+        break;
+      }
+      case "subtotal": {
+        subtotals.set(descriptor.index, subtotalAccumulator);
+        break;
+      }
+      case "tax": {
+        const explicitValue = descriptor.value;
+        const computedTax =
+          explicitValue !== undefined
+            ? scaleValue(explicitValue, descriptor.decimals, receiptDecimals)
+            : descriptor.rate !== undefined
+              ? computeTaxFromRate(
+                  scaleValue(subtotalAccumulator, receiptDecimals, descriptor.decimals),
+                  descriptor.decimals,
+                  descriptor.rate,
+                )
+              : BigInt(0);
+        taxes.set(
+          descriptor.index,
+          scaleValue(computedTax, descriptor.decimals, receiptDecimals),
+        );
+        positiveAccumulator += scaleValue(
+          computedTax,
+          descriptor.decimals,
+          receiptDecimals,
+        );
+        break;
+      }
+      case "total": {
+        totals.set(descriptor.index, positiveAccumulator - negativeAccumulator);
+        break;
+      }
+    }
+  }
+
+  return { subtotals, taxes, totals };
+}
 
 export interface ReceiptProps extends React.ComponentProps<"div"> {
   decimals?: number;
 }
 
-function ReceiptRoot({
-  children,
-  className,
-  decimals = 6,
-  ...props
-}: ReceiptProps): React.ReactElement {
-  const storeRef = React.useRef<ReceiptStore | null>(null);
-  if (storeRef.current === null) {
-    storeRef.current = createReceiptStore();
-  }
-
-  // Extract Receipt.Price from children to read defaults
-  let priceDefaults: ReceiptPriceDefaults | null = null;
-  const filteredChildren: React.ReactNode[] = [];
-
-  React.Children.forEach(children, (child) => {
-    if (React.isValidElement(child) && child.type === ReceiptPrice) {
-      const {
-        children: template,
-        maxDecimals,
-        abbreviate = false,
-      } = child.props as ReceiptPriceProps;
-      priceDefaults = { template, maxDecimals, abbreviate };
-    } else {
-      filteredChildren.push(child);
-    }
-  });
-
-  const contextValue = React.useMemo(
-    () => ({ store: storeRef.current!, decimals }),
-    [decimals]
-  );
-
-  return (
-    <ReceiptContext value={contextValue}>
-      <ReceiptPriceContext value={priceDefaults}>
-        <div
-          className={cn(
-            "text-2 text-foreground flex flex-col gap-2 leading-2",
-            className
-          )}
-          {...props}
-        >
-          {filteredChildren}
-        </div>
-      </ReceiptPriceContext>
-    </ReceiptContext>
-  );
-}
-
-// --- Price (default price template) ---
-
 export interface ReceiptPriceProps {
-  /** Default max decimal digits for all price displays in the receipt. */
   maxDecimals?: number;
-  /** Default abbreviation setting for all price displays. */
   abbreviate?: boolean;
-  /**
-   * The default Price children template — compose `<Price.Symbol>` and
-   * `<Price.Value>` in the order you want them displayed.
-   *
-   * @example
-   * ```tsx
-   * <Receipt.Price maxDecimals={2}>
-   *   <Price.Symbol>$</Price.Symbol><Price.Value />
-   * </Receipt.Price>
-   * ```
-   */
   children: React.ReactNode;
 }
 
-/**
- * Declarative component — not rendered to the DOM. Placed as a direct child
- * of `<Receipt>` to set default price formatting for all sub-components.
- */
 function ReceiptPrice(_props: ReceiptPriceProps): React.ReactElement {
-  // Never rendered — Receipt root extracts props from this element.
   return null as unknown as React.ReactElement;
 }
-
-// --- Header ---
 
 export interface ReceiptHeaderProps extends React.ComponentProps<"div"> {}
 
@@ -222,12 +214,9 @@ function ReceiptHeader({
   );
 }
 
-// --- Item ---
-
-export interface ReceiptItemProps extends Omit<
-  React.ComponentProps<"div">,
-  "children"
-> {
+export interface ReceiptItemProps
+  extends Omit<React.ComponentProps<"div">, "children">,
+    ReceiptInternalIndexProp {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -244,19 +233,15 @@ function ReceiptItem({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptItemProps): React.ReactElement {
   const context = useReceiptContext();
   const defaults = useReceiptPriceDefaults();
-  const id = React.useId();
   const itemDecimals = decimals ?? context.decimals;
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-
-  React.useEffect(() => {
-    return context.store.register({ id, value, decimals: itemDecimals });
-  }, [context.store, id, value, itemDecimals]);
 
   return (
     <div
@@ -277,8 +262,6 @@ function ReceiptItem({
   );
 }
 
-// --- Separator ---
-
 export interface ReceiptSeparatorProps extends React.ComponentProps<
   typeof Separator
 > {}
@@ -290,9 +273,9 @@ function ReceiptSeparator({
   return <Separator className={cn("my-1", className)} {...props} />;
 }
 
-// --- Subtotal ---
-
-export interface ReceiptSubtotalProps extends React.ComponentProps<"div"> {
+export interface ReceiptSubtotalProps
+  extends React.ComponentProps<"div">,
+    ReceiptInternalIndexProp {
   decimals?: number;
   maxDecimals?: number;
   abbreviate?: boolean;
@@ -309,33 +292,23 @@ function ReceiptSubtotal({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptSubtotalProps): React.ReactElement {
   const context = useReceiptContext();
   const defaults = useReceiptPriceDefaults();
-  const id = React.useId();
   const displayDecimals = decimals ?? context.decimals;
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-  const orderRef = React.useRef<number>(0);
-
-  React.useEffect(() => {
-    const cleanup = context.store.register({
-      id,
-      value: 0,
-      decimals: displayDecimals,
-    });
-    const entry = context.store.entries.get(id);
-    orderRef.current = entry?.order ?? 0;
-    return cleanup;
-  }, [context.store, id, displayDecimals]);
-
-  const subtotal = useStoreValue(context.store, () =>
-    context.store.getSubtotal(displayDecimals, orderRef.current)
+  const computedSubtotal =
+    _receiptIndex !== undefined
+      ? (context.computed.subtotals.get(_receiptIndex) ?? BigInt(0))
+      : BigInt(0);
+  const displayValue = getDisplayValue(
+    value,
+    scaleValue(computedSubtotal, context.decimals, displayDecimals),
   );
-
-  const displayValue = value !== undefined ? toBigInt(value) : subtotal;
 
   return (
     <div
@@ -356,12 +329,9 @@ function ReceiptSubtotal({
   );
 }
 
-// --- Discount ---
-
-export interface ReceiptDiscountProps extends Omit<
-  React.ComponentProps<"div">,
-  "children"
-> {
+export interface ReceiptDiscountProps
+  extends Omit<React.ComponentProps<"div">, "children">,
+    ReceiptInternalIndexProp {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -378,24 +348,15 @@ function ReceiptDiscount({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptDiscountProps): React.ReactElement {
   const context = useReceiptContext();
   const defaults = useReceiptPriceDefaults();
-  const id = React.useId();
   const displayDecimals = decimals ?? context.decimals;
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-
-  React.useEffect(() => {
-    return context.store.register({
-      id,
-      value,
-      decimals: displayDecimals,
-      sign: "-",
-    });
-  }, [context.store, id, value, displayDecimals]);
 
   return (
     <div
@@ -419,12 +380,9 @@ function ReceiptDiscount({
   );
 }
 
-// --- Fee ---
-
-export interface ReceiptFeeProps extends Omit<
-  React.ComponentProps<"div">,
-  "children"
-> {
+export interface ReceiptFeeProps
+  extends Omit<React.ComponentProps<"div">, "children">,
+    ReceiptInternalIndexProp {
   label: string;
   value: bigint | number | string;
   decimals?: number;
@@ -441,24 +399,15 @@ function ReceiptFee({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptFeeProps): React.ReactElement {
   const context = useReceiptContext();
   const defaults = useReceiptPriceDefaults();
-  const id = React.useId();
   const displayDecimals = decimals ?? context.decimals;
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-
-  React.useEffect(() => {
-    return context.store.register({
-      id,
-      value,
-      decimals: displayDecimals,
-      sign: "+",
-    });
-  }, [context.store, id, value, displayDecimals]);
 
   return (
     <div
@@ -479,12 +428,9 @@ function ReceiptFee({
   );
 }
 
-// --- Tax ---
-
-export interface ReceiptTaxProps extends Omit<
-  React.ComponentProps<"div">,
-  "children"
-> {
+export interface ReceiptTaxProps
+  extends Omit<React.ComponentProps<"div">, "children">,
+    ReceiptInternalIndexProp {
   label?: string;
   value?: bigint | number | string;
   rate?: number;
@@ -503,39 +449,23 @@ function ReceiptTax({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptTaxProps): React.ReactElement {
   const context = useReceiptContext();
   const defaults = useReceiptPriceDefaults();
-  const id = React.useId();
   const displayDecimals = decimals ?? context.decimals;
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-
-  const subtotal = useStoreValue(context.store, () =>
-    context.store.getSubtotal(displayDecimals)
+  const computedTax =
+    _receiptIndex !== undefined
+      ? (context.computed.taxes.get(_receiptIndex) ?? BigInt(0))
+      : BigInt(0);
+  const displayValue = getDisplayValue(
+    value,
+    scaleValue(computedTax, context.decimals, displayDecimals),
   );
-
-  const computedValue = React.useMemo(() => {
-    if (value !== undefined) return toBigInt(value);
-    if (rate !== undefined) {
-      const subtotalNum = Number(subtotal) / 10 ** displayDecimals;
-      const taxNum = subtotalNum * rate;
-      const multiplier = BigInt(10 ** displayDecimals);
-      return BigInt(Math.round(taxNum * Number(multiplier)));
-    }
-    return BigInt(0);
-  }, [value, rate, subtotal, displayDecimals]);
-
-  React.useEffect(() => {
-    return context.store.register({
-      id,
-      value: computedValue,
-      decimals: displayDecimals,
-      sign: "+",
-    });
-  }, [context.store, id, computedValue, displayDecimals]);
 
   return (
     <div
@@ -549,7 +479,7 @@ function ReceiptTax({
         )}
       </span>
       <Price
-        value={computedValue}
+        value={displayValue}
         decimals={displayDecimals}
         maxDecimals={priceMaxDecimals}
         abbreviate={priceAbbreviate}
@@ -561,9 +491,9 @@ function ReceiptTax({
   );
 }
 
-// --- Total ---
-
-export interface ReceiptTotalProps extends React.ComponentProps<"div"> {
+export interface ReceiptTotalProps
+  extends React.ComponentProps<"div">,
+    ReceiptInternalIndexProp {
   label?: string;
   value?: bigint | number | string;
   decimals?: number;
@@ -580,6 +510,7 @@ function ReceiptTotal({
   abbreviate,
   children,
   className,
+  __receiptIndex: _receiptIndex,
   ...props
 }: ReceiptTotalProps): React.ReactElement {
   const context = useReceiptContext();
@@ -588,18 +519,20 @@ function ReceiptTotal({
   const priceChildren = children ?? defaults?.template;
   const priceMaxDecimals = maxDecimals ?? defaults?.maxDecimals;
   const priceAbbreviate = abbreviate ?? defaults?.abbreviate;
-
-  const total = useStoreValue(context.store, () =>
-    context.store.getTotal(displayDecimals)
+  const computedTotal =
+    _receiptIndex !== undefined
+      ? (context.computed.totals.get(_receiptIndex) ?? BigInt(0))
+      : BigInt(0);
+  const displayValue = getDisplayValue(
+    value,
+    scaleValue(computedTotal, context.decimals, displayDecimals),
   );
-
-  const displayValue = value !== undefined ? toBigInt(value) : total;
 
   return (
     <div
       className={cn(
         "text-foreground flex items-center justify-between gap-4 pt-2 font-medium",
-        className
+        className,
       )}
       {...props}
     >
@@ -619,8 +552,6 @@ function ReceiptTotal({
   );
 }
 
-// --- Footer ---
-
 export interface ReceiptFooterProps extends React.ComponentProps<"div"> {}
 
 function ReceiptFooter({
@@ -638,7 +569,115 @@ function ReceiptFooter({
   );
 }
 
-// --- Compound export ---
+function ReceiptRoot({
+  children,
+  className,
+  decimals = 6,
+  ...props
+}: ReceiptProps): React.ReactElement {
+  let priceDefaults: ReceiptPriceDefaults | null = null;
+  const calculationDescriptors: ReceiptCalculationDescriptor[] = [];
+
+  const renderedChildren = React.Children.toArray(children).flatMap(
+    (child, index) => {
+      if (isElementOfType(child, ReceiptPrice)) {
+        const {
+          children: template,
+          maxDecimals,
+          abbreviate = false,
+        } = child.props as ReceiptPriceProps;
+        priceDefaults = { template, maxDecimals, abbreviate };
+        return [];
+      }
+
+      if (!React.isValidElement(child)) {
+        return [child];
+      }
+
+      if (isElementOfType(child, ReceiptItem)) {
+        calculationDescriptors.push({
+          index,
+          kind: "item",
+          value: child.props.value,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else if (isElementOfType(child, ReceiptDiscount)) {
+        calculationDescriptors.push({
+          index,
+          kind: "discount",
+          value: child.props.value,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else if (isElementOfType(child, ReceiptFee)) {
+        calculationDescriptors.push({
+          index,
+          kind: "fee",
+          value: child.props.value,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else if (isElementOfType(child, ReceiptSubtotal)) {
+        calculationDescriptors.push({
+          index,
+          kind: "subtotal",
+          value: child.props.value,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else if (isElementOfType(child, ReceiptTax)) {
+        calculationDescriptors.push({
+          index,
+          kind: "tax",
+          value: child.props.value,
+          rate: child.props.rate,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else if (isElementOfType(child, ReceiptTotal)) {
+        calculationDescriptors.push({
+          index,
+          kind: "total",
+          value: child.props.value,
+          decimals: child.props.decimals ?? decimals,
+        });
+      } else {
+        return [child];
+      }
+
+      return [
+        React.cloneElement(
+          child as React.ReactElement<ReceiptInternalIndexProp>,
+          {
+            __receiptIndex: index,
+          },
+        ),
+      ];
+    },
+  );
+
+  const computed = React.useMemo(
+    () => computeReceiptValues(calculationDescriptors, decimals),
+    [calculationDescriptors, decimals],
+  );
+
+  const contextValue = React.useMemo(
+    () => ({ decimals, computed }),
+    [decimals, computed],
+  );
+
+  return (
+    <ReceiptContext value={contextValue}>
+      <ReceiptPriceContext value={priceDefaults}>
+        <div
+          className={cn(
+            "text-2 text-foreground flex flex-col gap-2 leading-2",
+            className,
+          )}
+          {...props}
+        >
+          {renderedChildren}
+        </div>
+      </ReceiptPriceContext>
+    </ReceiptContext>
+  );
+}
 
 export const Receipt: {
   (props: ReceiptProps): React.ReactElement;
