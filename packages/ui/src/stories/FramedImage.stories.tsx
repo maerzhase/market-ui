@@ -31,7 +31,7 @@ export const Editorial: Story = {
         </div>
         <p className="leading-relaxed text-muted-foreground">
           A unique digital artwork exploring the intersection of color and form.
-          Click the image to expand.
+          Click the image to open a morphing dialog preview.
         </p>
         <div className="flex items-center justify-between border-t border-border pt-4">
           <div>

@@ -3,6 +3,7 @@ export { Button, buttonVariants } from "./Button";
 export * from "./countdown";
 export { Feedback } from "./Feedback";
 export * from "./framed-image";
+export { MorphDialog, type MorphDialogProps } from "./MorphDialog";
 export type {
   FormatPriceOptions,
   PriceProps,

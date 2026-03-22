@@ -20,6 +20,20 @@
   "sideEffects": [
     "*.css"
   ],
+  "dependencies": {
+    "@base-ui/react": "1.2.0",
+    "@base-ui/utils": "0.2.5",
+    "@floating-ui/core": "^1.7.3",
+    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/react-dom": "^2.1.6",
+    "@floating-ui/utils": "^0.2.10",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "motion": "12.35.2",
+    "reselect": "^5.1.1",
+    "tabbable": "^6.4.0",
+    "tailwind-merge": "3.3.1"
+  },
   "scripts": {
     "build": "tsdown",
     "build:watch": "tsdown --watch",
@@ -50,7 +64,6 @@
     }
   },
   "devDependencies": {
-    "@base-ui/react": "1.2.0",
     "@biomejs/biome": "2.2.0",
     "@storybook/addon-a11y": "10.1.2",
     "@storybook/addon-docs": "10.1.2",
@@ -62,14 +75,10 @@
     "@types/node": "22.14.1",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.3",
-    "class-variance-authority": "0.7.1",
-    "clsx": "2.1.1",
-    "motion": "12.35.2",
     "react": "^19.0.0",
     "react-docgen-typescript": "2.4.0",
     "react-dom": "^19.0.0",
     "storybook": "10.1.2",
-    "tailwind-merge": "3.3.1",
     "tailwindcss": "^4.1.0",
     "tsdown": "0.20.3",
     "typescript": "5.9.2",
