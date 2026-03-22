@@ -36,7 +36,7 @@ export function Countdown({
   }
 
   return (
-    <Text className={className} tabularNums>
+    <Text className={className} tabularNums suppressHydrationWarning>
       {display}
     </Text>
   );
