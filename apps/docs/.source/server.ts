@@ -1,7 +1,8 @@
 // @ts-nocheck
-import * as __fd_glob_7 from "../content/docs/primitives/receipt.mdx?collection=docs"
-import * as __fd_glob_6 from "../content/docs/primitives/ranking.mdx?collection=docs"
-import * as __fd_glob_5 from "../content/docs/primitives/price.mdx?collection=docs"
+import * as __fd_glob_8 from "../content/docs/primitives/receipt.mdx?collection=docs"
+import * as __fd_glob_7 from "../content/docs/primitives/ranking.mdx?collection=docs"
+import * as __fd_glob_6 from "../content/docs/primitives/price.mdx?collection=docs"
+import * as __fd_glob_5 from "../content/docs/primitives/feedback.mdx?collection=docs"
 import * as __fd_glob_4 from "../content/docs/primitives/countdown.mdx?collection=docs"
 import * as __fd_glob_3 from "../content/docs/blocks/index.mdx?collection=docs"
 import * as __fd_glob_2 from "../content/docs/blocks/auction.mdx?collection=docs"
@@ -15,4 +16,4 @@ const create = server<typeof Config, import("fumadocs-mdx/runtime/types").Intern
   }
 }>({"doc":{"passthroughs":["extractedReferences"]}});
 
-export const docs = await create.docs("docs", "content/docs", {"meta.json": __fd_glob_0, }, {"index.mdx": __fd_glob_1, "blocks/auction.mdx": __fd_glob_2, "blocks/index.mdx": __fd_glob_3, "primitives/countdown.mdx": __fd_glob_4, "primitives/price.mdx": __fd_glob_5, "primitives/ranking.mdx": __fd_glob_6, "primitives/receipt.mdx": __fd_glob_7, });
+export const docs = await create.docs("docs", "content/docs", {"meta.json": __fd_glob_0, }, {"index.mdx": __fd_glob_1, "blocks/auction.mdx": __fd_glob_2, "blocks/index.mdx": __fd_glob_3, "primitives/countdown.mdx": __fd_glob_4, "primitives/feedback.mdx": __fd_glob_5, "primitives/price.mdx": __fd_glob_6, "primitives/ranking.mdx": __fd_glob_7, "primitives/receipt.mdx": __fd_glob_8, });

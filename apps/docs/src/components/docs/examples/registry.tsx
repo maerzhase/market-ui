@@ -16,6 +16,9 @@ import { CountdownLiveToClosedExample } from "./countdown/live-to-closed.example
 import { CountdownProgressExample } from "./countdown/progress.example";
 import { CountdownSemanticExample } from "./countdown/semantic.example";
 import { CountdownUsageExample } from "./countdown/usage.example";
+import { FeedbackChainedExample } from "./feedback/chained.example";
+import { FeedbackPositionsExample } from "./feedback/positions.example";
+import { FeedbackUsageExample } from "./feedback/usage.example";
 import { PriceAbbreviatedExample } from "./price/abbreviated.example";
 import { PriceBasicExample } from "./price/basic.example";
 import { PriceCryptoExample } from "./price/crypto.example";
@@ -133,6 +136,22 @@ export const exampleRegistry: ExampleRegistry = {
   "countdown/expired": {
     Component: CountdownExpiredExample,
     code: readCode("./countdown/expired.example.tsx"),
+  },
+  "feedback/usage": {
+    Component: FeedbackUsageExample,
+    code: readCode("./feedback/usage.example.tsx"),
+    minHeight: 120,
+  },
+  "feedback/chained": {
+    Component: FeedbackChainedExample,
+    code: readCode("./feedback/chained.example.tsx"),
+    minHeight: 120,
+  },
+  "feedback/positions": {
+    Component: FeedbackPositionsExample,
+    code: readCode("./feedback/positions.example.tsx"),
+    maxWidth: 560,
+    minHeight: 220,
   },
   "receipt/usage": {
     Component: ReceiptUsageExample,

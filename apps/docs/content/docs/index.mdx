@@ -45,14 +45,14 @@ import "@m3000/market/styles.css";
 Then import and use the components:
 
 ```tsx
-import { Price, Countdown, Ranking, Receipt } from "@m3000/market";
+import { Price, Feedback, Countdown, Ranking, Receipt } from "@m3000/market";
 
 function MyComponent() {
   return (
-    <Price value={12345} decimals={2}>
-      <Price.Symbol>$</Price.Symbol>
-      <Price.Value />
-    </Price>
+    <Feedback.Root show>
+      <button>Submit</button>
+      <Feedback.Content>Saved</Feedback.Content>
+    </Feedback.Root>
   );
 }
 ```
@@ -74,6 +74,7 @@ This will copy the component source code directly into your project, giving you 
 Building blocks for marketplace UIs:
 
 - [**Price**](/docs/primitives/price) - Format cryptocurrency and fiat prices with customizable precision
+- [**Feedback**](/docs/primitives/feedback) - Attach animated inline feedback to buttons and other triggers
 - [**Ranking**](/docs/primitives/ranking) - Render already-sorted ranked items with group boundaries
 - [**Countdown**](/docs/primitives/countdown) - Countdown timer with semantic labels
 - [**Receipt**](/docs/primitives/receipt) - Build order summaries with items, taxes, and totals

@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { AuctionComingSoonTeaser } from "@/components/ui/auction-coming-soon-teaser";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
+import { FeedbackDemo } from "@/components/ui/demos/feedback-demo";
 import { LandingReceipt } from "@/components/ui/landing-receipt";
 
 interface DemoBid {
@@ -145,6 +146,13 @@ const COMPONENTS = [
       "Locale-aware currency formatting with flexible symbols and bigint precision.",
     href: "/docs/primitives/price",
     demo: <PriceDemo />,
+  },
+  {
+    name: "Feedback",
+    description:
+      "Attach animated status messages to buttons and other triggers with composable positioning.",
+    href: "/docs/primitives/feedback",
+    demo: <FeedbackDemo />,
   },
   {
     name: "Ranking",

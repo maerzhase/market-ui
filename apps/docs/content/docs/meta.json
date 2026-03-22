@@ -4,6 +4,7 @@
 		"index",
 		"---Primitives---",
 		"primitives/price",
+		"primitives/feedback",
 		"primitives/ranking",
 		"primitives/countdown",
 		"primitives/receipt",

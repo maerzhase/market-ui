@@ -1,0 +1,67 @@
+---
+title: Feedback
+description: Show lightweight animated feedback relative to a trigger with composable placement and content transitions.
+---
+
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
+
+## Installation
+
+{/*prettier-ignore*/}
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/feedback.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="feedback/usage" />
+
+`Feedback` pairs a trigger element with animated contextual messaging. Render `Feedback.Content` inside `Feedback.Root`, and control visibility with the `show` prop.
+
+## Examples
+
+### Chained Messages
+
+Use `contentKey` when the message changes while feedback is visible so the content transition replays cleanly.
+
+<ComponentExample name="feedback/chained" />
+
+### Different Positions
+
+Place the feedback above, below, left, or right of the trigger with the `position` prop.
+
+<ComponentExample name="feedback/positions" />
+
+## API Reference
+
+### Feedback.Root
+
+Wraps the trigger and provides visibility, placement, and transition settings to `Feedback.Content`.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | required | Trigger element and `Feedback.Content` |
+| `show` | `boolean` | `false` | Controls whether the feedback is shown |
+| `position` | `"bottom" \| "top" \| "left" \| "right"` | `"bottom"` | Positions the feedback relative to the trigger |
+| `className` | `string` | none | Additional classes for the root wrapper |
+| `transition` | `{ stiffness?: number; damping?: number }` | `{ stiffness: 300, damping: 20 }` | Spring config for the container animation |
+
+### Feedback.Content
+
+Renders the animated feedback message. This component must be used within `Feedback.Root`.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | required | Content displayed in the feedback bubble |
+| `className` | `string` | none | Additional classes for the positioned container |
+| `contentKey` | `string \| number` | derived from `children` | Stable key used to animate between different messages |
+| `mode` | `"crossfade" \| "slide-up" \| "slide-down"` | `"slide-up"` | Controls how content inside the bubble transitions |
