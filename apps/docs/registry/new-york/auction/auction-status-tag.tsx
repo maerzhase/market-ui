@@ -51,7 +51,7 @@ export function AuctionStatusTag({
           <span className="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-75" />
           <span className="relative inline-flex size-2 rounded-full bg-success" />
         </span>
-        <Text size="1">
+        <Text size="1" suppressHydrationWarning>
           {showCountdown && countdownTo ? (
             <>
               Live - <Countdown to={countdownTo} />
@@ -67,7 +67,7 @@ export function AuctionStatusTag({
   if (state === "upcoming" && opensAt) {
     return (
       <Tag className={tagClassName}>
-        <Text size="1">
+        <Text size="1" suppressHydrationWarning>
           {showCountdown && countdownTo ? (
             <>
               Opens in <Countdown to={countdownTo} />
@@ -87,7 +87,7 @@ export function AuctionStatusTag({
           className="size-2.5 shrink-0 rounded-full bg-muted-foreground"
           aria-hidden
         />
-        <Text>Closed - ended {formatDateTime(endsAt)}</Text>
+        <Text suppressHydrationWarning>Closed - ended {formatDateTime(endsAt)}</Text>
       </Tag>
     );
   }

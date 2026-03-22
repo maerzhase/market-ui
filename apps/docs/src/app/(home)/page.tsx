@@ -107,7 +107,7 @@ function CountdownDemo() {
     <div className="flex h-full w-full items-center justify-center text-center">
       <Countdown to={new Date(Date.now() + 86400000 * 3)}>
         {({ timeString, isExpired }) => (
-          <span className="text-3 font-mono">
+          <span className="text-3 font-mono" suppressHydrationWarning>
             {isExpired ? "Expired" : timeString}
           </span>
         )}
