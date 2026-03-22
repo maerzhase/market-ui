@@ -244,17 +244,36 @@ export function AuctionRankings({
       if (previewRef.current && scrollContainerRef.current) {
         const container = scrollContainerRef.current;
         const preview = previewRef.current;
+        const stickyDivider =
+          container.querySelector<HTMLElement>("[data-ranking-group-divider]");
+        const stickyOffset = stickyDivider?.offsetHeight ?? 0;
 
         const containerRect = container.getBoundingClientRect();
         const previewRect = preview.getBoundingClientRect();
+        const visibleTop = containerRect.top + stickyOffset;
+        const visibleBottom = containerRect.bottom;
 
-        const isAbove = previewRect.top < containerRect.top;
-        const isBelow = previewRect.bottom > containerRect.bottom;
+        const isAbove = previewRect.top < visibleTop;
+        const isBelow = previewRect.bottom > visibleBottom;
 
         if (justStartedBidding || isAbove || isBelow) {
-          preview.scrollIntoView({
-            behavior: "instant",
-            block: "center",
+          let targetScrollTop = container.scrollTop;
+
+          if (justStartedBidding) {
+            const visibleHeight = container.clientHeight - stickyOffset;
+            targetScrollTop +=
+              previewRect.top -
+              visibleTop -
+              (visibleHeight - previewRect.height) / 2;
+          } else if (isAbove) {
+            targetScrollTop += previewRect.top - visibleTop;
+          } else if (isBelow) {
+            targetScrollTop += previewRect.bottom - visibleBottom;
+          }
+
+          container.scrollTo({
+            top: Math.max(0, targetScrollTop),
+            behavior: "auto",
           });
         }
       }
@@ -265,7 +284,7 @@ export function AuctionRankings({
     });
 
     return () => cancelAnimationFrame(frameId);
-  }, [showPreview, isBiddingActive]);
+  }, [showPreview, isBiddingActive, previewIndex]);
 
   const { lockedBidId, lockedBidOriginalIndex } = useMemo(() => {
     if (lockedBid === null)

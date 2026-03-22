@@ -47,6 +47,7 @@ export function Header({ variant = "site" }: HeaderProps) {
 										key={link.href}
 										color="ghost"
 										size="sm"
+										nativeButton={false}
 										className={cn(
 											variant === "docs" &&
 												"text-muted-foreground hover:text-foreground",
@@ -69,6 +70,7 @@ export function Header({ variant = "site" }: HeaderProps) {
 									key={link.href}
 									color="ghost"
 									size="sm"
+									nativeButton={false}
 									active={isActive}
 									className={cn(
 										variant === "docs" &&

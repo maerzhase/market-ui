@@ -100,6 +100,11 @@ const COMPONENT_MAPPINGS: ComponentMapping[] = [
 		dest: "framed-image",
 		files: ["FramedImage.tsx"],
 	},
+	{
+		source: "components/primitives",
+		dest: "framed-image",
+		files: ["MorphDialog.tsx"],
+	},
 
 	// Blocks
 	{

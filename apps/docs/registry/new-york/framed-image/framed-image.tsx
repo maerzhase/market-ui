@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useRef, useState } from "react";
-import { cn, springs, transitions } from "@/lib/cn";
+import { motion } from "motion/react";
+import { cn } from "@/lib/cn";
+import { MorphDialog } from "../MorphDialog";
 
 export interface FramedImageProps {
   src: string;
@@ -15,66 +15,37 @@ export function FramedImage({
   alt,
   className,
 }: FramedImageProps): React.ReactElement {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleExpand = useCallback(() => {
-    setIsExpanded(true);
-  }, []);
-
-  const handleCollapse = useCallback(() => {
-    setIsExpanded(false);
-  }, []);
-
   return (
-    <>
-      <div
-        ref={containerRef}
-        className={cn(
-          "relative h-full min-h-0 w-full min-w-0 flex-1 rounded-md bg-accent",
-          className,
-        )}
-      >
+    <MorphDialog
+      className={cn(
+        "relative h-full min-h-0 w-full min-w-0 flex-1 rounded-md bg-accent",
+        className,
+      )}
+      triggerClassName="h-full w-full"
+      popupClassName="flex items-center justify-center"
+      popupAriaLabel={alt ?? "Expanded image preview"}
+      contentClosesDialog
+      trigger={
         <div className="absolute inset-0 flex items-center justify-center p-5">
-          <motion.div
-            layout
-            transition={springs.quick}
-            className={cn(
-              "flex items-center justify-center",
-              isExpanded ? "fixed inset-0 z-50" : "h-full w-full",
-            )}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <motion.img
-              layout
-              src={src}
-              alt={alt ?? ""}
-              className="cursor-pointer object-contain"
-              style={
-                isExpanded
-                  ? { maxHeight: "90vh", maxWidth: "90vw", borderRadius: 8 }
-                  : { maxHeight: "100%", maxWidth: "100%", borderRadius: 4 }
-              }
-              onClick={isExpanded ? handleCollapse : handleExpand}
-              whileHover={isExpanded ? undefined : { scale: 1.02 }}
-              transition={springs.quick}
-            />
-          </motion.div>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={transitions.fade}
-            className="fixed inset-0 z-40 backdrop-blur-sm select-none"
-            onClick={handleCollapse}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <motion.img
+            src={src}
+            alt={alt ?? ""}
+            className="h-full w-full cursor-pointer object-contain"
+            whileHover={{ scale: 1.02 }}
           />
-        )}
-      </AnimatePresence>
-    </>
+        </div>
+      }
+      content={
+        <div className="flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={alt ?? ""}
+            className="block max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
+          />
+        </div>
+      }
+    />
   );
 }

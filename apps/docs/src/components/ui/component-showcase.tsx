@@ -11,6 +11,9 @@ interface ComponentShowcaseProps {
   children: ReactNode;
   variant?: "default" | "large";
   className?: string;
+  disabled?: boolean;
+  badgeLabel?: string;
+  allowDemoPointerEvents?: boolean;
 }
 
 export function ComponentShowcase({
@@ -20,43 +23,78 @@ export function ComponentShowcase({
   children,
   variant = "default",
   className,
+  disabled = false,
+  badgeLabel,
+  allowDemoPointerEvents = false,
 }: ComponentShowcaseProps) {
   const isLarge = variant === "large";
+  const statusLabel = badgeLabel ?? "Soon";
+  const rootClassName = cn(
+    "group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card transition-all",
+    isLarge && "col-span-2",
+    disabled
+      ? "cursor-default border-border/80 bg-card/80 shadow-sm"
+      : "hover:border-primary/50 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    className,
+  );
 
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 justify-between",
-        isLarge && "col-span-2",
-        className,
-      )}
-    >
-      {/* Demo Area - non-selectable, non-interactive */}
+  const content = (
+    <>
+      {/* Demo Area - non-selectable by default */}
       <div
         role="presentation"
         className={cn(
-          "pointer-events-none flex select-none items-center justify-center bg-muted/30 p-4",
+          "flex flex-1 select-none items-center justify-center bg-muted/30 p-4",
+          !allowDemoPointerEvents && "pointer-events-none",
           isLarge ? "min-h-32" : "min-h-24",
         )}
       >
-        <div className="w-full max-w-xs">{children}</div>
+        <div
+          className={cn(
+            "flex h-full w-full items-center justify-center",
+            isLarge ? "max-w-4xl" : "max-w-xs",
+          )}
+        >
+          {children}
+        </div>
       </div>
 
       {/* Content */}
       <div className="border-t border-border bg-background p-4">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start gap-4">
           <div className="flex-1">
-            <h3 className="font-semibold text-foreground">{name}</h3>
-            <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-foreground">{name}</h3>
+              {disabled && (
+                <span className="rounded-full border border-amber-300/60 bg-amber-100/70 px-2 py-0.5 text-[0.66rem] font-semibold tracking-[0.12em] text-amber-800 uppercase">
+                  {statusLabel}
+                </span>
+              )}
+            </div>
+            <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
               {description}
             </p>
           </div>
-          <span className="shrink-0 rounded-md bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground">
-            View →
-          </span>
         </div>
       </div>
+    </>
+  );
+
+  if (disabled) {
+    return (
+      <article
+        aria-disabled="true"
+        data-disabled="true"
+        className={rootClassName}
+      >
+        {content}
+      </article>
+    );
+  }
+
+  return (
+    <Link href={href} className={rootClassName}>
+      {content}
     </Link>
   );
 }

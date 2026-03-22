@@ -175,6 +175,7 @@ export function FullAuctionExample() {
 }
 
 export {
+	AuctionBiddingPanel,
 	AuctionBidForm,
 	AuctionDetails,
 	AuctionDetailsBody,

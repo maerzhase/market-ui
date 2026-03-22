@@ -45,9 +45,6 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
       scale: 1.01,
       moveDuration: 110,
       disabled: prefersReducedMotion,
-      idleRotateX: 2.8,
-      idleRotateY: -5.2,
-      idleRotateZ: 0.45,
       glowX: "50%",
       glowY: "35%",
       transformRef: cardRef,
@@ -59,7 +56,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
       <div className="absolute inset-x-10 top-8 -z-10 hidden h-48 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.68),rgba(255,255,255,0))] blur-3xl sm:block" />
       <div className="absolute inset-x-8 bottom-0 -z-10 hidden h-28 rounded-full bg-[radial-gradient(circle,rgba(180,72,68,0.26),rgba(180,72,68,0))] blur-3xl sm:block" />
 
-      <div className="relative perspective-[1000px] perspective-origin-center">
+      <div className="relative perspective-[1200px] perspective-origin-center">
         <div className="flex justify-center py-4">
           <div
             ref={interactiveRef}

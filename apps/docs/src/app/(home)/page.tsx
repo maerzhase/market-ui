@@ -10,6 +10,7 @@ import {
   Text,
 } from "@m3000/market";
 import Link from "next/link";
+import { AuctionComingSoonTeaser } from "@/components/ui/auction-coming-soon-teaser";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
 import { LandingReceipt } from "@/components/ui/landing-receipt";
 
@@ -24,22 +25,21 @@ const DEMO_BIDS: DemoBid[] = [
   { id: "2", name: "Bob", score: 880 },
   { id: "3", name: "Charlie", score: 820 },
   { id: "4", name: "Diana", score: 790 },
-  { id: "5", name: "Eve", score: 750 },
 ];
 
 function PriceDemo() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-center tabular-nums">
       <Price value={12345} decimals={2}>
         <Price.Symbol>$</Price.Symbol>
         <Price.Value />
       </Price>
-      <Price value={500000000000000000n} decimals={18} maxDecimals={4}>
-        <Price.Value /> <Price.Symbol>ETH</Price.Symbol>
-      </Price>
       <Price value={250000000n} decimals={2} abbreviate>
         <Price.Symbol>$</Price.Symbol>
         <Price.Value />
+      </Price>
+      <Price value={500000000000000000n} decimals={18} maxDecimals={4}>
+        <Price.Value /> <Price.Symbol>Ξ</Price.Symbol>
       </Price>
     </div>
   );
@@ -54,6 +54,28 @@ function RankingDemo() {
         boundaries={[2]}
         labels={["Top", "Others"]}
       >
+        <Ranking.Slot slotKey="projected-ranking" atIndex={2}>
+          {({ rank }) => (
+            <>
+              <div className="bg-muted/45 px-3 py-2">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Text size="2" color="tertiary" className="w-8 shrink-0">
+                      #{rank}
+                    </Text>
+                    <Text size="2" color="secondary">
+                      Your projected ranking
+                    </Text>
+                  </div>
+                  <Text size="2" color="secondary">
+                    845
+                  </Text>
+                </div>
+              </div>
+              <Separator orientation="horizontal" />
+            </>
+          )}
+        </Ranking.Slot>
         <Ranking.Group>
           <Ranking.GroupDivider />
           <Ranking.GroupItem>
@@ -82,13 +104,15 @@ function RankingDemo() {
 
 function CountdownDemo() {
   return (
-    <Countdown to={new Date(Date.now() + 86400000 * 3)}>
-      {({ timeString, isExpired }) => (
-        <span className="text-3 font-mono">
-          {isExpired ? "Expired" : timeString}
-        </span>
-      )}
-    </Countdown>
+    <div className="flex h-full w-full items-center justify-center text-center">
+      <Countdown to={new Date(Date.now() + 86400000 * 3)}>
+        {({ timeString, isExpired }) => (
+          <span className="text-3 font-mono">
+            {isExpired ? "Expired" : timeString}
+          </span>
+        )}
+      </Countdown>
+    </div>
   );
 }
 
@@ -118,28 +142,28 @@ const COMPONENTS = [
   {
     name: "Price",
     description:
-      "Format cryptocurrency and fiat prices with customizable precision, symbols, and localization.",
+      "Locale-aware currency formatting with flexible symbols and bigint precision.",
     href: "/docs/primitives/price",
     demo: <PriceDemo />,
   },
   {
     name: "Ranking",
     description:
-      "Render already-sorted ranked items with group boundaries, custom dividers, and inserted slots.",
+      "Render sorted items as grouped lists with configurable boundaries, dividers, and slots.",
     href: "/docs/primitives/ranking",
     demo: <RankingDemo />,
   },
   {
     name: "Countdown",
     description:
-      "Countdown timer with semantic labels, progress bars, and custom rendering.",
+      "Build countdowns with semantic labels, progress indicators, and full rendering control.",
     href: "/docs/primitives/countdown",
     demo: <CountdownDemo />,
   },
   {
     name: "Receipt",
     description:
-      "Build order summaries with items, taxes, fees, and dynamic totals.",
+      "Build receipts declaratively with automatic subtotals, totals, taxes, and fees.",
     href: "/docs/primitives/receipt",
     demo: <ReceiptDemo />,
   },
@@ -164,7 +188,11 @@ export default function Home() {
               Components for building transactions, auctions, and marketplace mechanics.
             </p>
             <div className="relative z-10 mt-7 flex items-center gap-4">
-              <Button color="tertiary" render={<Link href="/docs" />}>
+              <Button
+                color="tertiary"
+                nativeButton={false}
+                render={<Link href="/docs" />}
+              >
                 Browse Docs
               </Button>
               <Link
@@ -185,9 +213,17 @@ export default function Home() {
       {/* Component Grid */}
       <section className="pt-4 pb-24">
         <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-8 text-3xl font-semibold tracking-tight">
-            Components
-          </h2>
+          <div className="mb-10 text-center">
+            <div className="border-primary/20 bg-background/75 text-primary inline-flex rounded-full border px-4 py-1.5 text-[0.68rem] font-semibold tracking-[0.22em] uppercase backdrop-blur">
+              Primitives
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Foundational pieces for marketplace interfaces.
+            </h2>
+            <p className="text-muted-foreground mx-auto mt-4 max-w-2xl">
+              Components for formatting value, time, ranking, and transactional detail with a consistent visual language.
+            </p>
+          </div>
           <div className="grid gap-6 sm:grid-cols-2">
             {COMPONENTS.map((component) => (
               <ComponentShowcase
@@ -203,35 +239,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Complex UI Section */}
-      <section className="border-border bg-muted/30 border-t py-24">
+      {/* Blocks Section */}
+      <section className="border-t border-border py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-semibold tracking-tight">
-              Complex UI Components
+          <div className="mb-10 text-center">
+            <div className="border-primary/20 bg-background/75 text-primary inline-flex rounded-full border px-4 py-1.5 text-[0.68rem] font-semibold tracking-[0.22em] uppercase backdrop-blur">
+              Marketplace flows
+            </div>
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Composable interfaces for marketplace interactions.
             </h2>
             <p className="text-muted-foreground mx-auto mt-4 max-w-2xl">
-              Built from primitives, our complex components provide complete
-              solutions for real-world marketplace applications.
+              Blocks layer primitives into declarative, production-ready flows.
             </p>
           </div>
-          <ComponentShowcase
-            name="Auction"
-            description="A complete auction interface with bid rankings, live previews, stepped bidding, and responsive layouts."
-            href="/docs/blocks/auction"
-            variant="large"
-            className="border-primary/20"
-          >
-            <div className="flex items-center justify-center">
-              <Text color="secondary" size="2" className="text-center">
-                Live Auction Interface
-                <br />
-                <span className="text-1 text-muted-foreground">
-                  See Storybook for interactive demo
+          <div className="space-y-12">
+            <div>
+              <div className="mb-3 flex items-center justify-center gap-3">
+                <h3 className="text-xl font-semibold tracking-tight">Auction</h3>
+                <span className="inline-flex rounded-full border border-amber-300/70 bg-amber-100/80 px-3 py-1 text-[0.68rem] font-semibold tracking-[0.12em] text-amber-800 uppercase">
+                  Coming Soon
                 </span>
-              </Text>
+              </div>
+              <AuctionComingSoonTeaser />
             </div>
-          </ComponentShowcase>
+
+          </div>
         </div>
       </section>
 
