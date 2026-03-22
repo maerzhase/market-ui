@@ -34,8 +34,6 @@ interface RankingContextValue<T> {
   boundaries: number[];
   labels: string[];
   getKey: (item: T) => string;
-  registerSlot: (spec: SlotSpec) => void;
-  unregisterSlot: (key: string) => void;
 }
 
 interface GroupContextValue<T> {
@@ -111,18 +109,18 @@ interface SlotProps {
 }
 
 function Slot({
-  slotKey,
-  atIndex,
-  children,
+  slotKey: _slotKey,
+  atIndex: _atIndex,
+  children: _children,
 }: SlotProps): React.ReactElement | null {
-  const { registerSlot, unregisterSlot } = useRanking();
-
-  React.useEffect(() => {
-    registerSlot({ key: slotKey, atIndex, children });
-    return () => unregisterSlot(slotKey);
-  }, [slotKey, atIndex, children, registerSlot, unregisterSlot]);
-
   return null;
+}
+
+function isElementOfType<P>(
+  child: React.ReactNode,
+  component: React.ComponentType<P>,
+): child is React.ReactElement<P> {
+  return React.isValidElement(child) && child.type === component;
 }
 
 interface RankingProps<T> {
@@ -142,23 +140,27 @@ function RankingRoot<T>({
   labels = [],
   className,
 }: RankingProps<T>): React.ReactElement {
-  const [slots, setSlots] = React.useState<Map<string, SlotSpec>>(new Map());
+  const childArray = React.Children.toArray(children);
 
-  const registerSlot = React.useCallback((spec: SlotSpec) => {
-    setSlots((prev) => {
-      const next = new Map(prev);
-      next.set(spec.key, spec);
-      return next;
-    });
-  }, []);
+  const emptyChild = childArray.find((child) => isElementOfType(child, Empty));
 
-  const unregisterSlot = React.useCallback((key: string) => {
-    setSlots((prev) => {
-      const next = new Map(prev);
-      next.delete(key);
-      return next;
-    });
-  }, []);
+  const slots = childArray.flatMap((child) => {
+    if (!isElementOfType(child, Slot)) {
+      return [];
+    }
+
+    return [
+      {
+        key: child.props.slotKey,
+        atIndex: child.props.atIndex,
+        children: child.props.children,
+      } satisfies SlotSpec,
+    ];
+  });
+
+  const otherChildren = childArray.filter(
+    (child) => !isElementOfType(child, Empty) && !isElementOfType(child, Slot),
+  );
 
   const entries = React.useMemo<ListEntry<T>[]>(() => {
     const result: ListEntry<T>[] = items.map((item) => ({
@@ -167,9 +169,7 @@ function RankingRoot<T>({
       key: getKey(item),
     }));
 
-    const sortedSlots = Array.from(slots.values()).sort(
-      (a, b) => a.atIndex - b.atIndex,
-    );
+    const sortedSlots = [...slots].sort((a, b) => a.atIndex - b.atIndex);
 
     let offset = 0;
     for (const spec of sortedSlots) {
@@ -182,16 +182,6 @@ function RankingRoot<T>({
 
     return result;
   }, [items, slots, getKey]);
-
-  const childArray = React.Children.toArray(children);
-
-  const emptyChild = childArray.find(
-    (child) => React.isValidElement(child) && child.type === Empty,
-  );
-
-  const otherChildren = childArray.filter(
-    (child) => !React.isValidElement(child) || child.type !== Empty,
-  );
 
   if (entries.length === 0) {
     return (
@@ -216,8 +206,6 @@ function RankingRoot<T>({
           boundaries,
           labels,
           getKey: getKey as (item: unknown) => string,
-          registerSlot,
-          unregisterSlot,
         }}
       >
         {otherChildren}
@@ -408,6 +396,7 @@ function GroupDivider({
   if (children) {
     return (
       <div
+        data-ranking-group-divider
         className={cn("sticky top-0 bg-background", className)}
         style={{ zIndex: 10 + groupIndex }}
       >
@@ -418,6 +407,7 @@ function GroupDivider({
 
   return (
     <div
+      data-ranking-group-divider
       className={cn("sticky top-0 bg-background", className)}
       style={{ zIndex: 10 + groupIndex }}
     >
