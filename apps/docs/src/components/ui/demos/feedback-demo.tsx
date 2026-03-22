@@ -48,11 +48,7 @@ export function FeedbackDemo() {
         <Button className="w-full" loading={!!message}>
           Submit payment
         </Button>
-        <Feedback.Content
-          contentKey={message ?? "idle"}
-          className="w-full"
-          mode="crossfade"
-        >
+        <Feedback.Content className="w-full" mode="crossfade">
           <div className="bg-foreground text-background mt-2 w-full rounded-md px-3 py-1.5 text-center text-sm font-medium shadow-sm">
             {message}
           </div>

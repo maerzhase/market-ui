@@ -25,15 +25,9 @@ import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
 
 <ComponentExample name="feedback/usage" />
 
-`Feedback` pairs a trigger element with animated contextual messaging. Render `Feedback.Content` inside `Feedback.Root`, and control visibility with the `show` prop.
+`Feedback` pairs a trigger element with animated contextual messaging. Render `Feedback.Content` inside `Feedback.Root`, and control visibility with the `show` prop. The same pattern also works for simple chained status updates, moving from an in-progress message to a confirmed state while the same trigger stays visible.
 
 ## Examples
-
-### Chained Messages
-
-Use `contentKey` when the message changes while feedback is visible so the content transition replays cleanly.
-
-<ComponentExample name="feedback/chained" />
 
 ### Different Positions
 
