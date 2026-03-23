@@ -30,8 +30,7 @@ export function AuctionBidInput({
     setBidValue,
     formatPrice,
     currencySymbol,
-    formatInputValue,
-    parseInputValue,
+    inputDecimals,
   } = useAuctionContext();
 
   const effectiveMinBid =
@@ -110,8 +109,7 @@ export function AuctionBidInput({
           onChange={setBidValue}
           min={effectiveMinBid}
           getTickSize={getTickSize}
-          formatValue={formatInputValue}
-          parseValue={parseInputValue}
+          decimals={inputDecimals}
           disabled={isAuctionEnded}
           snapToTick="nearest"
         >

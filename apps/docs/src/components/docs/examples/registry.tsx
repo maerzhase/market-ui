@@ -22,6 +22,7 @@ import { PriceAbbreviatedExample } from "./price/abbreviated.example";
 import { PriceBasicExample } from "./price/basic.example";
 import { PriceCryptoExample } from "./price/crypto.example";
 import { PriceCustomRenderingExample } from "./price/custom-rendering.example";
+import { PriceFixedPrecisionExample } from "./price/fixed-precision.example";
 import { PriceLocaleExample } from "./price/locale.example";
 import { RankingBasicExample } from "./ranked-list/basic.example";
 import { RankingEmptyExample } from "./ranked-list/empty.example";
@@ -35,6 +36,11 @@ import { ReceiptFullExample } from "./receipt/full.example";
 import { ReceiptManualValuesExample } from "./receipt/manual-values.example";
 import { ReceiptPrecisionOverridesExample } from "./receipt/precision-overrides.example";
 import { ReceiptUsageExample } from "./receipt/usage.example";
+import { SteppedInputBasicExample } from "./stepped-input/basic.example";
+import { SteppedInputCustomValueExample } from "./stepped-input/custom-value.example";
+import { SteppedInputDynamicTickExample } from "./stepped-input/dynamic-tick.example";
+import { SteppedInputPriceExample } from "./stepped-input/price.example";
+import { SteppedInputSnapToTickExample } from "./stepped-input/snap-to-tick.example";
 
 export interface ExampleDefinition {
   Component: ComponentType;
@@ -70,6 +76,10 @@ export const exampleRegistry: ExampleRegistry = {
     Component: PriceCustomRenderingExample,
     code: readCode("./price/custom-rendering.example.tsx"),
   },
+  "price/fixed-precision": {
+    Component: PriceFixedPrecisionExample,
+    code: readCode("./price/fixed-precision.example.tsx"),
+  },
   "price/abbreviated": {
     Component: PriceAbbreviatedExample,
     code: readCode("./price/abbreviated.example.tsx"),
@@ -81,6 +91,37 @@ export const exampleRegistry: ExampleRegistry = {
   "price/locale": {
     Component: PriceLocaleExample,
     code: readCode("./price/locale.example.tsx"),
+  },
+  "stepped-input/basic": {
+    Component: SteppedInputBasicExample,
+    code: readCode("./stepped-input/basic.example.tsx"),
+    maxWidth: 480,
+    allowPointerEvents: true,
+  },
+  "stepped-input/price": {
+    Component: SteppedInputPriceExample,
+    code: readCode("./stepped-input/price.example.tsx"),
+    maxWidth: 480,
+    allowPointerEvents: true,
+  },
+  "stepped-input/custom-value": {
+    Component: SteppedInputCustomValueExample,
+    code: readCode("./stepped-input/custom-value.example.tsx"),
+    maxWidth: 480,
+    allowPointerEvents: true,
+  },
+  "stepped-input/dynamic-tick": {
+    Component: SteppedInputDynamicTickExample,
+    code: readCode("./stepped-input/dynamic-tick.example.tsx"),
+    maxWidth: 520,
+    allowPointerEvents: true,
+  },
+  "stepped-input/snap-to-tick": {
+    Component: SteppedInputSnapToTickExample,
+    code: readCode("./stepped-input/snap-to-tick.example.tsx"),
+    maxWidth: 560,
+    allowPointerEvents: true,
+    align: "start",
   },
   "ranking/usage": {
     Component: RankingUsageExample,

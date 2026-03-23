@@ -11,6 +11,7 @@ export type {
   PriceValueProps,
 } from "./Price";
 export { formatPrice, Price } from "./Price";
+export { PriceInput } from "./PriceInput";
 export type {
   ReceiptDiscountProps,
   ReceiptFeeProps,
@@ -31,7 +32,7 @@ export { Scale, useScale } from "./Scale";
 export { Separator } from "./Separator";
 export type { SkeletonElement, SkeletonProps } from "./Skeleton";
 export { Skeleton } from "./Skeleton";
-export { SteppedInput } from "./SteppedInput";
+export { CursorGrowIcon, SteppedInput } from "./SteppedInput";
 export type { TabsContextType } from "./Tabs";
 export { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./Tabs";
 export type { TagElement, TagProps } from "./Tag";

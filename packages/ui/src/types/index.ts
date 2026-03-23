@@ -131,10 +131,8 @@ export interface AuctionFormatters {
   formatTime?: (date: Date) => string;
   /** Currency symbol to display alongside prices. Default: "USD" */
   currencySymbol?: string;
-  /** Convert internal bigint value to display number for input. Default: divide by 10^decimals */
-  formatInputValue?: (value: bigint) => number;
-  /** Convert display number back to internal bigint value. Default: multiply by 10^decimals */
-  parseInputValue?: (value: number) => bigint;
+  /** Number of decimal places used when editing bigint-backed prices. */
+  inputDecimals?: number;
 }
 
 // ─── Internal Rankable Bid ──────────────────────────────────────────────────

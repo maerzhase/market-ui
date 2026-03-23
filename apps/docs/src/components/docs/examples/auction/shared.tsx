@@ -82,8 +82,7 @@ export const dollarFormatters: AuctionFormatters = {
 			maximumFractionDigits: 2,
 		}),
 	currencySymbol: "$",
-	formatInputValue: (value) => Number(value) / 100,
-	parseInputValue: (value) => BigInt(Math.round(value * 100)),
+	inputDecimals: 2,
 };
 
 export function AuctionShell({

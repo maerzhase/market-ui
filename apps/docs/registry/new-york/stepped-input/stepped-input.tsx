@@ -6,8 +6,8 @@ import { cn } from "@/lib/cn";
 
 interface SteppedInputContextValue {
   value: bigint;
-  displayValue: number;
-  format: Intl.NumberFormatOptions;
+  inputValue: number;
+  step: number;
   disabled: boolean;
 }
 
@@ -22,20 +22,20 @@ function useSteppedInput(): SteppedInputContextValue {
   return context;
 }
 
-const defaultFormatOptions: Intl.NumberFormatOptions = {
-  style: "currency",
-  currency: "USD",
-};
-
 type SnapToTickMode = "up" | "down" | "nearest";
 
-/**
- * Rounds a value to the tick grid based on the specified mode.
- * @param value - The value to snap
- * @param tickSize - The tick size to snap to
- * @param mode - How to round: 'up' (ceiling), 'down' (floor), or 'nearest'
- * @param min - Optional minimum value (snapped value won't go below this)
- */
+function getScale(decimals: number): number {
+  return 10 ** decimals;
+}
+
+function toInputValue(value: bigint, decimals: number): number {
+  return Number(value) / getScale(decimals);
+}
+
+function fromInputValue(value: number, decimals: number): bigint {
+  return BigInt(Math.round(value * getScale(decimals)));
+}
+
 function snapValueToTick(
   value: bigint,
   tickSize: bigint,
@@ -63,7 +63,6 @@ function snapValueToTick(
       break;
   }
 
-  // Ensure we don't snap below minimum
   if (min !== undefined && snapped < min) {
     snapped = min;
   }
@@ -77,19 +76,10 @@ interface RootProps {
   min?: bigint;
   max?: bigint;
   getTickSize: (currentValue: bigint) => bigint;
-  formatValue?: (value: bigint) => number;
-  parseValue?: (value: number) => bigint;
+  decimals?: number;
   disabled?: boolean;
   className?: string;
-  format?: Intl.NumberFormatOptions;
   children: React.ReactNode;
-  /**
-   * Snap values to the tick grid on change.
-   * - 'up': Round up to the next tick
-   * - 'down': Round down to the previous tick
-   * - 'nearest': Round to the nearest tick
-   * - false/undefined: No snapping (default)
-   */
   snapToTick?: SnapToTickMode | false;
 }
 
@@ -99,36 +89,29 @@ function Root({
   min,
   max,
   getTickSize,
-  formatValue: formatValueFn = (v) => Number(v),
-  parseValue: parseValueFn = (v) => BigInt(Math.round(v)),
+  decimals = 0,
   disabled = false,
   className,
-  format = defaultFormatOptions,
   children,
   snapToTick = false,
 }: RootProps): React.ReactElement {
-  const displayValue = formatValueFn(value);
-  const step = formatValueFn(getTickSize(value));
+  const inputValue = toInputValue(value, decimals);
+  const step = toInputValue(getTickSize(value), decimals);
 
   const handleValueChange = React.useCallback(
     (val: number | null) => {
       if (val === null || val === undefined) return;
 
-      let newValue = parseValueFn(val);
+      let newValue = fromInputValue(val, decimals);
 
-      // Clamp to min first (before snapping)
       if (min !== undefined && newValue < min) {
         newValue = min;
       }
 
-      // Clamp to max
       if (max !== undefined && newValue > max) {
         newValue = max;
       }
 
-      // Apply tick snapping if enabled
-      // Use the tick size from the CURRENT value (before the change) to avoid
-      // snapping issues when crossing thresholds
       if (snapToTick) {
         const tickSize = getTickSize(value);
         newValue = snapValueToTick(newValue, tickSize, snapToTick, min);
@@ -136,28 +119,27 @@ function Root({
 
       onChange(newValue);
     },
-    [parseValueFn, snapToTick, getTickSize, min, max, onChange, value],
+    [decimals, snapToTick, getTickSize, min, max, onChange, value],
   );
 
   const contextValue: SteppedInputContextValue = React.useMemo(
     () => ({
       value,
-      displayValue,
-      format,
+      inputValue,
+      step,
       disabled,
     }),
-    [value, displayValue, format, disabled],
+    [value, inputValue, step, disabled],
   );
 
   return (
     <SteppedInputContext.Provider value={contextValue}>
       <NumberField.Root
-        value={displayValue}
+        value={inputValue}
         onValueChange={handleValueChange}
-        min={min !== undefined ? formatValueFn(min) : -Infinity}
-        max={max !== undefined ? formatValueFn(max) : Infinity}
+        min={min !== undefined ? toInputValue(min, decimals) : -Infinity}
+        max={max !== undefined ? toInputValue(max, decimals) : Infinity}
         step={step}
-        format={format}
         className={cn("w-full", className)}
         disabled={disabled}
       >
@@ -192,8 +174,8 @@ function Decrement({
   return (
     <NumberField.Decrement
       className={cn(
-        "flex size-10 items-center justify-center rounded-l-md border",
-        "border-r-0 border-input bg-muted text-foreground select-none",
+        "flex size-10 items-center justify-center rounded-l-md border-y border-l",
+        "border-input bg-muted text-foreground select-none",
         "hover:bg-accent-hover",
         "active:bg-accent-active",
         "disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
@@ -217,8 +199,8 @@ function Increment({
   return (
     <NumberField.Increment
       className={cn(
-        "flex size-10 items-center justify-center rounded-r-md border",
-        "border-l-0 border-input bg-muted text-foreground select-none",
+        "flex size-10 items-center justify-center rounded-r-md border-y border-r",
+        "border-input bg-muted text-foreground select-none",
         "hover:bg-accent-hover",
         "active:bg-accent-active",
         "disabled:cursor-not-allowed disabled:border-disabled disabled:bg-disabled disabled:text-disabled-foreground",
@@ -259,9 +241,8 @@ interface InputProps {
 function Input({ className }: InputProps): React.ReactElement {
   return (
     <NumberField.Input
-      readOnly
       className={cn(
-        "h-10 w-auto grow cursor-default border border-input px-4",
+        "h-10 w-auto grow border border-input bg-background px-4",
         "text-center text-2 text-foreground tabular-nums",
         "focus:ring-2 focus:ring-ring focus:outline-none focus:ring-inset",
         "disabled:cursor-not-allowed disabled:border-disabled disabled:text-disabled-foreground",
@@ -274,17 +255,19 @@ function Input({ className }: InputProps): React.ReactElement {
 interface ValueProps {
   children: (context: {
     value: bigint;
-    displayValue: number;
+    inputValue: number;
+    step: number;
+    disabled: boolean;
   }) => React.ReactNode;
   className?: string;
 }
 
 function Value({ children, className }: ValueProps): React.ReactElement {
-  const { value, displayValue } = useSteppedInput();
+  const { value, inputValue, step, disabled } = useSteppedInput();
   return (
     <div
       className={cn(
-        "relative flex h-10 grow items-center border border-input",
+        "relative flex h-10 grow items-center border border-input bg-background",
         "px-4",
         "focus-within:ring-2 focus-within:ring-ring focus-within:ring-inset",
         className,
@@ -292,7 +275,7 @@ function Value({ children, className }: ValueProps): React.ReactElement {
     >
       <NumberField.Input readOnly className="sr-only" />
       <div className="w-full text-center text-2 text-foreground tabular-nums">
-        {children({ value, displayValue })}
+        {children({ value, inputValue, step, disabled })}
       </div>
     </div>
   );

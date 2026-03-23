@@ -13,6 +13,7 @@ import Link from "next/link";
 import { AuctionComingSoonTeaser } from "@/components/ui/auction-coming-soon-teaser";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
 import { FeedbackDemo } from "@/components/ui/demos/feedback-demo";
+import { SteppedInputDemo } from "@/components/ui/demos/stepped-input-demo";
 import { LandingReceipt } from "@/components/ui/landing-receipt";
 
 interface DemoBid {
@@ -148,9 +149,23 @@ const COMPONENTS = [
     demo: <PriceDemo />,
   },
   {
+    name: "Price Input",
+    description:
+      "Tick-aware price entry with bigint-backed values, editable decimals, and composable rendering.",
+    href: "/docs/primitives/stepped-input",
+    demo: <SteppedInputDemo />,
+  },
+  {
+    name: "Countdown",
+    description:
+      "Build countdowns with semantic labels, progress indicators, and full rendering control.",
+    href: "/docs/primitives/countdown",
+    demo: <CountdownDemo />,
+  },
+  {
     name: "Feedback",
     description:
-      "Attach animated status messages to buttons and other triggers with composable positioning.",
+      "Attach animated feedback to UI triggers, with composable positioning and chaining.",
     href: "/docs/primitives/feedback",
     demo: <FeedbackDemo />,
   },
@@ -160,13 +175,6 @@ const COMPONENTS = [
       "Render sorted items as grouped lists with configurable boundaries, dividers, and slots.",
     href: "/docs/primitives/ranking",
     demo: <RankingDemo />,
-  },
-  {
-    name: "Countdown",
-    description:
-      "Build countdowns with semantic labels, progress indicators, and full rendering control.",
-    href: "/docs/primitives/countdown",
-    demo: <CountdownDemo />,
   },
   {
     name: "Receipt",
@@ -190,10 +198,10 @@ export default function Home() {
               Marketplace design system
             </div>
             <h1 className="text-foreground relative z-10 mt-5 max-w-3xl text-[2.5rem] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[2.75rem] md:text-[3rem] lg:text-[3.5rem]">
-              Interfaces shaped by price, time, and competition.
+              Build interfaces shaped by price, time, and competition.
             </h1>
-            <p className="text-muted-foreground relative z-10 mt-5 max-w-2xl text-base leading-7 md:text-lg">
-              Components for building transactions, auctions, and marketplace mechanics.
+            <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg">
+              Declarative components for transactions, auctions, and dynamic marketplace logic.”
             </p>
             <div className="relative z-10 mt-7 flex items-center gap-4">
               <Button

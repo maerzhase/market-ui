@@ -4,6 +4,7 @@
 		"index",
 		"---Primitives---",
 		"primitives/price",
+		"primitives/stepped-input",
 		"primitives/feedback",
 		"primitives/ranking",
 		"primitives/countdown",

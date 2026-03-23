@@ -51,6 +51,7 @@ export type { FramedImageProps } from "./components/primitives/framed-image";
 export { MorphDialog } from "./components/primitives/MorphDialog";
 export type { MorphDialogProps } from "./components/primitives/MorphDialog";
 export { Price, formatPrice } from "./components/primitives/Price";
+export { PriceInput } from "./components/primitives/PriceInput";
 export type {
   FormatPriceOptions,
   PriceProps,
@@ -84,7 +85,10 @@ export type {
   SkeletonElement,
   SkeletonProps,
 } from "./components/primitives/Skeleton";
-export { SteppedInput } from "./components/primitives/SteppedInput";
+export {
+  CursorGrowIcon,
+  SteppedInput,
+} from "./components/primitives/SteppedInput";
 export { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./components/primitives/Tabs";
 export type { TabsContextType } from "./components/primitives/Tabs";
 export { Tag } from "./components/primitives/Tag";

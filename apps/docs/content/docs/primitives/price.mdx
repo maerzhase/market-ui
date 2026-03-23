@@ -53,6 +53,12 @@ Compose `Price.Value` and `Price.Symbol` inside your own layout to control place
 
 <ComponentExample name="price/custom-rendering" />
 
+### Fixed Precision
+
+Combine `minDecimals` and `maxDecimals` when you want a stable number of visible decimal places, such as interactive crypto price inputs.
+
+<ComponentExample name="price/fixed-precision" />
+
 ## API Reference
 
 ### Price
@@ -63,6 +69,7 @@ The root component that provides context for price formatting.
 | ------------- | ---------------------------- | ---------- | ----------------------------------------------------- |
 | `value`       | `number \| bigint \| string` | required   | Raw value in the smallest unit to format              |
 | `decimals`    | `number`                     | required   | Number of decimal places represented by the raw value |
+| `minDecimals` | `number`                     | none       | Minimum decimal places to display                     |
 | `maxDecimals` | `number`                     | `decimals` | Maximum decimal places to display                     |
 | `abbreviate`  | `boolean`                    | `false`    | Abbreviate large numbers (K, M, B)                    |
 

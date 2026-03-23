@@ -11,6 +11,7 @@ export function PriceCustomRenderingExample() {
 			<Price
 				value={1234567n}
 				decimals={2}
+				minDecimals={2}
 				maxDecimals={2}
 				className="inline-flex items-baseline gap-1"
 			>

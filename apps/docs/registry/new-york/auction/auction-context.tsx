@@ -64,8 +64,7 @@ export interface AuctionContextValue {
   formatPrice: (priceValue: bigint) => string;
   formatTime: (date: Date) => string;
   currencySymbol: string;
-  formatInputValue: (value: bigint) => number;
-  parseInputValue: (value: number) => bigint;
+  inputDecimals: number;
 }
 
 export const AuctionContext: React.Context<AuctionContextValue | null> =
@@ -133,11 +132,7 @@ export function AuctionProvider({
   const formatPrice = formatters?.formatPrice ?? defaultFormatPrice;
   const formatTime = formatters?.formatTime ?? defaultFormatTime;
   const currencySymbol = formatters?.currencySymbol ?? "USD";
-  const formatInputValue =
-    formatters?.formatInputValue ?? ((v: bigint) => Number(v) / 1e18);
-  const parseInputValue =
-    formatters?.parseInputValue ??
-    ((v: number) => BigInt(Math.round(v * 1e18)));
+  const inputDecimals = formatters?.inputDecimals ?? 18;
 
   const isAuctionEnded = auction.endsAt
     ? Date.now() > auction.endsAt.getTime()
@@ -397,8 +392,7 @@ export function AuctionProvider({
     formatPrice,
     formatTime,
     currencySymbol,
-    formatInputValue,
-    parseInputValue,
+    inputDecimals,
   };
 
   return (

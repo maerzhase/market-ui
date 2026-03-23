@@ -74,8 +74,7 @@ function formatPrice(price: bigint) {
 const dollarFormatters = {
   formatPrice,
   currencySymbol: "$",
-  formatInputValue: (value: bigint) => Number(value) / 100,
-  parseInputValue: (value: number) => BigInt(Math.round(value * 100)),
+  inputDecimals: 2,
 };
 
 // ---------------------------------------------------------------------------

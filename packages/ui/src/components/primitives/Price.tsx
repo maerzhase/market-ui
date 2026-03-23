@@ -129,7 +129,25 @@ export type FormatPriceOptions = {
    * (trailing zeros stripped).
    */
   maxDecimals?: number;
+  /**
+   * Minimum decimal digits to display. Pads trailing zeros when needed.
+   */
+  minDecimals?: number;
 };
+
+function padMinimumDecimals(formatted: string, minDecimals: number): string {
+  if (minDecimals <= 0) return formatted;
+
+  const suffixMatch = formatted.match(/([KMB])$/);
+  const suffix = suffixMatch ? suffixMatch[1] : "";
+  const numericPart = suffix ? formatted.slice(0, -1) : formatted;
+  const [integerPart, fractionPart = ""] = numericPart.split(".");
+
+  if (fractionPart.length >= minDecimals) return formatted;
+
+  const paddedFraction = fractionPart.padEnd(minDecimals, "0");
+  return `${integerPart}.${paddedFraction}${suffix}`;
+}
 
 /**
  * Format a bigint price value into a human-readable string.
@@ -152,7 +170,13 @@ export function formatPrice(
     num.ceil(options.maxDecimals);
   }
 
-  return num.toString();
+  const formatted = num.toString();
+
+  if (typeof options?.minDecimals === "number") {
+    return padMinimumDecimals(formatted, options.minDecimals);
+  }
+
+  return formatted;
 }
 
 // ---------------------------------------------------------------------------
@@ -164,6 +188,7 @@ type PriceContextValue = {
   decimals: number;
   abbreviate: boolean;
   maxDecimals: number | undefined;
+  minDecimals: number | undefined;
 };
 
 const PriceContext = React.createContext<PriceContextValue | null>(null);
@@ -191,6 +216,8 @@ export interface PriceProps extends React.ComponentProps<"span"> {
   abbreviate?: boolean;
   /** Max decimal digits to show. Excess is ceiled (rounded up). */
   maxDecimals?: number;
+  /** Minimum decimal digits to show. Pads trailing zeros when needed. */
+  minDecimals?: number;
 }
 
 /**
@@ -215,13 +242,14 @@ function PriceRoot({
   decimals,
   abbreviate = false,
   maxDecimals,
+  minDecimals,
   children,
   className,
   ...props
 }: PriceProps): React.ReactElement {
   const ctx = useMemo<PriceContextValue>(
-    () => ({ value, decimals, abbreviate, maxDecimals }),
-    [value, decimals, abbreviate, maxDecimals],
+    () => ({ value, decimals, abbreviate, maxDecimals, minDecimals }),
+    [value, decimals, abbreviate, maxDecimals, minDecimals],
   );
 
   const hasChildren =
@@ -298,10 +326,18 @@ function PriceValue({
     const raw = formatPrice(ctx.value, ctx.decimals, {
       abbreviate: ctx.abbreviate,
       maxDecimals: ctx.maxDecimals,
+      minDecimals: ctx.minDecimals,
     });
     if (locale) return localizeFormatted(raw, locale);
     return raw;
-  }, [ctx.value, ctx.decimals, ctx.abbreviate, ctx.maxDecimals, locale]);
+  }, [
+    ctx.value,
+    ctx.decimals,
+    ctx.abbreviate,
+    ctx.maxDecimals,
+    ctx.minDecimals,
+    locale,
+  ]);
 
   return (
     <span className={className} {...props}>

@@ -161,14 +161,7 @@ export const EthereumPrice: StoryObj<typeof SteppedInput.Root> = {
           min={WEI_PER_ETH / BigInt(10)}
           max={WEI_PER_ETH * BigInt(100)}
           getTickSize={getTickSize}
-          formatValue={(v) => Number(v) / Number(WEI_PER_ETH)}
-          parseValue={(v) => BigInt(Math.round(v * Number(WEI_PER_ETH)))}
-          format={{
-            style: "currency",
-            currency: "USD",
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4,
-          }}
+          decimals={18}
         >
           <SteppedInput.Group>
             <SteppedInput.Decrement />
@@ -200,13 +193,7 @@ export const CustomValueDisplay: StoryObj<typeof SteppedInput.Root> = {
         min={WEI_PER_ETH / BigInt(10)}
         max={WEI_PER_ETH * BigInt(100)}
         getTickSize={getTickSize}
-        formatValue={(v) => Number(v) / Number(WEI_PER_ETH)}
-        parseValue={(v) => BigInt(Math.round(v * Number(WEI_PER_ETH)))}
-        format={{
-          style: "decimal",
-          minimumFractionDigits: 4,
-          maximumFractionDigits: 4,
-        }}
+        decimals={18}
       >
         <SteppedInput.Group>
           <SteppedInput.Decrement />
@@ -216,9 +203,9 @@ export const CustomValueDisplay: StoryObj<typeof SteppedInput.Root> = {
               <CursorGrowIcon />
             </SteppedInput.ScrubAreaCursor>
             <SteppedInput.Value>
-              {({ displayValue }) => (
+              {({ inputValue }) => (
                 <span className="font-mono text-success">
-                  {displayValue.toFixed(4)}
+                  {inputValue.toFixed(4)}
                 </span>
               )}
             </SteppedInput.Value>
@@ -239,9 +226,6 @@ export const SnapToTick: StoryObj<typeof SteppedInput.Root> = {
     const [valueNearest, setValueNearest] = React.useState(BigInt(1050)); // $10.50 -> snaps to $10
 
     const getTickSize = () => BigInt(1000); // $10 in cents
-    const formatValue = (v: bigint) => Number(v) / 100;
-    const parseValue = (v: number) => BigInt(Math.round(v * 100));
-
     return (
       <div className="flex flex-col gap-6">
         <div className="text-sm text-muted-foreground">
@@ -253,17 +237,15 @@ export const SnapToTick: StoryObj<typeof SteppedInput.Root> = {
             snapToTick=&quot;up&quot; (always round up)
           </span>
           <span className="text-xs text-muted-foreground">
-            Current: ${formatValue(valueUp).toFixed(2)}
+            Current: ${(Number(valueUp) / 100).toFixed(2)}
           </span>
           <SteppedInput.Root
             value={valueUp}
             onChange={setValueUp}
             min={BigInt(1000)}
             getTickSize={getTickSize}
-            formatValue={formatValue}
-            parseValue={parseValue}
+            decimals={2}
             snapToTick="up"
-            format={{ style: "currency", currency: "USD" }}
           >
             <SteppedInput.Group>
               <SteppedInput.Decrement />
@@ -283,17 +265,15 @@ export const SnapToTick: StoryObj<typeof SteppedInput.Root> = {
             snapToTick=&quot;down&quot; (always round down)
           </span>
           <span className="text-xs text-muted-foreground">
-            Current: ${formatValue(valueDown).toFixed(2)}
+            Current: ${(Number(valueDown) / 100).toFixed(2)}
           </span>
           <SteppedInput.Root
             value={valueDown}
             onChange={setValueDown}
             min={BigInt(1000)}
             getTickSize={getTickSize}
-            formatValue={formatValue}
-            parseValue={parseValue}
+            decimals={2}
             snapToTick="down"
-            format={{ style: "currency", currency: "USD" }}
           >
             <SteppedInput.Group>
               <SteppedInput.Decrement />
@@ -313,17 +293,15 @@ export const SnapToTick: StoryObj<typeof SteppedInput.Root> = {
             snapToTick=&quot;nearest&quot; (round to nearest)
           </span>
           <span className="text-xs text-muted-foreground">
-            Current: ${formatValue(valueNearest).toFixed(2)}
+            Current: ${(Number(valueNearest) / 100).toFixed(2)}
           </span>
           <SteppedInput.Root
             value={valueNearest}
             onChange={setValueNearest}
             min={BigInt(1000)}
             getTickSize={getTickSize}
-            formatValue={formatValue}
-            parseValue={parseValue}
+            decimals={2}
             snapToTick="nearest"
-            format={{ style: "currency", currency: "USD" }}
           >
             <SteppedInput.Group>
               <SteppedInput.Decrement />

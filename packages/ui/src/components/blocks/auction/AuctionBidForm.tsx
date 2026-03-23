@@ -24,8 +24,7 @@ export function AuctionBidFormRoot({
     setBidValue,
     formatPrice,
     currencySymbol,
-    formatInputValue,
-    parseInputValue,
+    inputDecimals,
     cancelBidding,
   } = useAuctionContext();
 
@@ -81,8 +80,7 @@ export function AuctionBidFormRoot({
           onChange={setBidValue}
           min={effectiveMinBid}
           getTickSize={getTickSize}
-          formatValue={formatInputValue}
-          parseValue={parseInputValue}
+          decimals={inputDecimals}
           disabled={isAuctionEnded}
           snapToTick="nearest"
         >
