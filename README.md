@@ -1,8 +1,6 @@
 # @m3000/market
 
-A small monorepo for the `@m3000/market` component library and its documentation site.
-
-The goal here is straightforward: build a focused set of reusable marketplace UI components, document them well, and keep the developer experience tidy while the project is still taking shape.
+Design system to build interfaces shaped by price, time, and competition.
 
 ## What's in the repo
 
