@@ -1,4 +1,4 @@
-# Trading UI
+# @m3000/market
 
 A small monorepo for the `@m3000/market` component library and its documentation site.
 
