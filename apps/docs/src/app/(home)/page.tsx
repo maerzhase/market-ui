@@ -201,7 +201,7 @@ export default function Home() {
               Build interfaces shaped by price, time, and competition.
             </h1>
             <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg">
-              Declarative components for transactions, auctions, and dynamic marketplace logic.”
+              Declarative components for transactions, auctions, and dynamic marketplace logic.
             </p>
             <div className="relative z-10 mt-7 flex items-center gap-4">
               <Button
