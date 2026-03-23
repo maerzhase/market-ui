@@ -1,41 +1,34 @@
-# @m3000/market
+# Trading UI
 
-Market UI Components for marketplace applications.
+A small monorepo for the `@m3000/market` component library and its documentation site.
 
-## Installation
+The goal here is straightforward: build a focused set of reusable marketplace UI components, document them well, and keep the developer experience tidy while the project is still taking shape.
+
+## What's in the repo
+
+- `packages/ui` – the `@m3000/market` component package
+- `apps/docs` – the Next.js documentation site for the library
+
+## Getting started
 
 ```bash
-npm install @m3000/market
+pnpm install
+pnpm dev
 ```
 
-### Peer Dependencies
+Useful commands:
 
-This package requires the following peer dependencies:
-
-- `react` (^19.0.0)
-- `react-dom` (^19.0.0)
-- `tailwindcss` (^4.1.0)
-
-Optional peer dependencies:
-
-- `@types/react` (recommended for TypeScript)
-- `@types/react-dom` (recommended for TypeScript)
-
-## Usage
-
-```tsx
-import { Button, Auction, Tag } from "@m3000/market";
-import "@m3000/market/styles.css";
-
-function App() {
-  return (
-    <div>
-      <Button variant="primary">Place Bid</Button>
-      <Auction>{/* auction components */}</Auction>
-    </div>
-  );
-}
+```bash
+pnpm dev:docs      # run the docs app
+pnpm storybook     # run Storybook for the UI package
+pnpm build         # build all workspaces
+pnpm check         # lint, format, and typecheck
+pnpm fix           # apply lint + format fixes
 ```
+
+## Workspace notes
+
+The UI package is published as `@m3000/market`. The docs app consumes that package directly from the workspace, which keeps component development and documentation close together.
 
 ## License
 
