@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "framed-image",
+  "type": "registry:component",
+  "title": "FramedImage",
+  "description": "Image component with frame and loading states.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/framed-image/framed-image.tsx",
+      "content": "\"use client\";\n\nimport { motion } from \"motion/react\";\nimport { cn } from \"@/lib/cn\";\nimport { MorphDialog } from \"../MorphDialog\";\n\nexport interface FramedImageProps {\n  src: string;\n  alt?: string;\n  className?: string;\n}\n\nexport function FramedImage({\n  src,\n  alt,\n  className,\n}: FramedImageProps): React.ReactElement {\n  return (\n    <MorphDialog\n      className={cn(\n        \"relative h-full min-h-0 w-full min-w-0 flex-1 rounded-md bg-accent\",\n        className,\n      )}\n      triggerClassName=\"h-full w-full\"\n      popupClassName=\"flex items-center justify-center\"\n      popupAriaLabel={alt ?? \"Expanded image preview\"}\n      contentClosesDialog\n      trigger={\n        <div className=\"absolute inset-0 flex items-center justify-center p-5\">\n          {/* eslint-disable-next-line @next/next/no-img-element */}\n          <motion.img\n            src={src}\n            alt={alt ?? \"\"}\n            className=\"h-full w-full cursor-pointer object-contain\"\n            whileHover={{ scale: 1.02 }}\n          />\n        </div>\n      }\n      content={\n        <div className=\"flex items-center justify-center\">\n          {/* eslint-disable-next-line @next/next/no-img-element */}\n          <img\n            src={src}\n            alt={alt ?? \"\"}\n            className=\"block max-h-[90vh] max-w-[90vw] rounded-lg object-contain\"\n          />\n        </div>\n      }\n    />\n  );\n}\n",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/new-york/lib/cn.ts",
+      "content": "import { type ClassValue, clsx } from \"clsx\";\nimport { extendTailwindMerge } from \"tailwind-merge\";\n\n// Primitive color scale (Radix-style 1-12 naming)\nconst PRIMITIVE_COLORS = [\n  \"grey-1\",\n  \"grey-2\",\n  \"grey-3\",\n  \"grey-4\",\n  \"grey-5\",\n  \"grey-6\",\n  \"grey-7\",\n  \"grey-8\",\n  \"grey-9\",\n  \"grey-10\",\n  \"grey-11\",\n  \"grey-12\",\n  \"white\",\n  \"black\",\n  \"current\",\n  \"transparent\",\n];\n\n// Semantic color tokens (shadcn-style naming)\nconst SEMANTIC_COLORS = [\n  \"background\",\n  \"foreground\",\n  \"muted\",\n  \"muted-foreground\",\n  \"card\",\n  \"card-foreground\",\n  \"popover\",\n  \"popover-foreground\",\n  \"primary\",\n  \"primary-hover\",\n  \"primary-foreground\",\n  \"secondary\",\n  \"secondary-hover\",\n  \"secondary-foreground\",\n  \"accent\",\n  \"accent-hover\",\n  \"accent-active\",\n  \"accent-foreground\",\n  \"border\",\n  \"input\",\n  \"ring\",\n  \"disabled\",\n  \"disabled-foreground\",\n  \"destructive\",\n  \"destructive-hover\",\n  \"destructive-foreground\",\n  \"destructive-muted\",\n  \"destructive-muted-foreground\",\n  \"success\",\n  \"success-hover\",\n  \"success-foreground\",\n  \"success-muted\",\n  \"success-muted-foreground\",\n  \"warning\",\n  \"warning-hover\",\n  \"warning-foreground\",\n  \"warning-muted\",\n  \"warning-muted-foreground\",\n  \"separator\",\n];\n\nconst THEME_COLORS = [...PRIMITIVE_COLORS, ...SEMANTIC_COLORS];\n\nconst customTwMerge = extendTailwindMerge({\n  extend: {\n    classGroups: {\n      leading: [\n        \"leading-0\",\n        \"leading-1\",\n        \"leading-2\",\n        \"leading-3\",\n        \"leading-4\",\n        \"leading-5\",\n        \"leading-6\",\n        \"leading-7\",\n        \"leading-8\",\n        \"leading-9\",\n      ],\n      \"font-size\": [\n        \"text-1\",\n        \"text-2\",\n        \"text-3\",\n        \"text-4\",\n        \"text-5\",\n        \"text-6\",\n        \"text-7\",\n        \"text-8\",\n        \"text-9\",\n      ],\n      \"text-color\": [{ text: THEME_COLORS }],\n      \"bg-color\": [{ bg: THEME_COLORS }],\n      \"border-color\": [{ border: THEME_COLORS }],\n    },\n  },\n});\n\nexport function cn(...inputs: ClassValue[]): string {\n  return customTwMerge(clsx(inputs));\n}\n",
+      "type": "registry:lib"
+    }
+  ]
+}

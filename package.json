@@ -1,73 +1,30 @@
 {
-  "name": "@m3000/market",
+  "name": "@m3000/market-monorepo",
   "version": "0.0.0",
-  "dependencies": {
-    "@base-ui/react": "1.2.0",
-    "class-variance-authority": "0.7.1",
-    "clsx": "2.1.1",
-    "motion": "12.35.2",
-    "tailwind-merge": "3.3.1"
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:docs": "turbo run dev --filter=@m3000/docs",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "format": "turbo run format",
+    "format:fix": "turbo run format:fix",
+    "check": "turbo run lint format typecheck",
+    "fix": "turbo run lint:fix format:fix",
+    "typecheck": "turbo run typecheck",
+    "quality": "turbo run quality",
+    "storybook": "turbo run storybook --filter=@m3000/ui",
+    "build:storybook": "turbo run build:storybook --filter=@m3000/ui"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
-    "@storybook/addon-a11y": "10.1.2",
-    "@storybook/addon-docs": "10.1.2",
-    "@storybook/addon-themes": "10.1.2",
-    "@storybook/react": "10.1.2",
-    "@storybook/react-vite": "10.1.2",
-    "@tailwindcss/postcss": "4.1.11",
-    "@tsconfig/vite-react": "7.0.2",
-    "@types/node": "22.14.1",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.3",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "react-docgen-typescript": "2.4.0",
-    "storybook": "10.1.2",
-    "tsdown": "0.20.3",
-    "typescript": "5.9.2",
-    "typescript-eslint": "8.46.4",
-    "vite-tsconfig-paths": "5.1.4"
+    "turbo": "^2.5.0"
   },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./styles.css": "./src/styles/index.css"
-  },
-  "files": [
-    "dist",
-    "src",
-    "!src/stories"
-  ],
-  "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwindcss": "^4.1.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": false
-    },
-    "@types/react": {
-      "optional": true
-    },
-    "@types/react-dom": {
-      "optional": true
-    }
-  },
-  "private": true,
-  "scripts": {
-    "build": "tsdown",
-    "build-storybook": "storybook build",
-    "check-types": "tsc --noEmit",
-    "dev": "tsdown --watch",
-    "storybook": "storybook dev -p 6007",
-    "lint": "biome check",
-    "format": "biome format --write",
-    "format:tw": "prettier --write \"**/*.{ts,tsx}\""
-  },
-  "sideEffects": false,
-  "type": "module"
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=20"
+  }
 }

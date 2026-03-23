@@ -1,0 +1,81 @@
+---
+title: Countdown
+description: Countdown timer with semantic labels, progress bars, and custom rendering.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Installation
+
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/countdown.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="countdown/usage" />
+
+`Countdown` renders a formatted time string out of the box when you pass a target `Date`.
+
+## Examples
+
+### Custom Render
+
+Use the render prop when you want to control typography, color, or surrounding UI.
+
+<ComponentExample name="countdown/custom-render" />
+
+### Semantic Labels
+
+Show different text based on expired state.
+
+<ComponentExample name="countdown/semantic" />
+
+### Show When Expired
+
+Display time since expiration with `showWhenExpired`.
+
+<ComponentExample name="countdown/expired" />
+
+### Live To Closed
+
+Show how the render prop can switch labels and styling when the countdown crosses zero.
+
+<ComponentExample name="countdown/live-to-closed" />
+
+### With Progress
+
+Combine `remainingMs` with your own UI to build progress bars and timed flows.
+
+<ComponentExample name="countdown/progress" />
+
+## API Reference
+
+### Countdown
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `to` | `Date` | required | Target date for the countdown |
+| `showWhenExpired` | `boolean` | `false` | Continue showing time after expiration |
+| `stopOnExpired` | `boolean` | `false` | Stop updating once the countdown reaches zero |
+| `className` | `string` | `undefined` | Class name for the default text output |
+| `children` | `(state: UseCountdownResult) => ReactNode` | `undefined` | Optional custom render function |
+
+### UseCountdownResult
+
+The state object passed to the render function.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `timeString` | `string \| null` | Formatted time string for the current countdown state |
+| `remainingMs` | `number \| null` | Milliseconds remaining until the target date |
+| `isExpired` | `boolean` | Whether the countdown has expired |

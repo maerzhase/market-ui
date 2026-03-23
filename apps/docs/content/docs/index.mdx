@@ -1,0 +1,87 @@
+---
+title: Getting Started
+description: A collection of beautifully crafted React components for marketplace applications.
+---
+
+import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
+
+## Introduction
+
+**@m3000/market** is a collection of market UI components designed for marketplace applications. It includes primitives for displaying prices, rankings, countdowns, and receipts, plus pre-assembled **Blocks** for complete marketplace user flows.
+
+## Installation
+
+<Tabs items={['pnpm', 'npm', 'yarn', 'bun']}>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="npm">
+    ```bash
+    npm install @m3000/market
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add @m3000/market
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add @m3000/market
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+Import the styles in your app's entry point:
+
+```tsx title="app/layout.tsx"
+import "@m3000/market/styles.css";
+```
+
+Then import and use the components:
+
+```tsx
+import { Price, Feedback, Countdown, Ranking, Receipt } from "@m3000/market";
+
+function MyComponent() {
+  return (
+    <Feedback.Root show>
+      <button>Submit</button>
+      <Feedback.Content>Saved</Feedback.Content>
+    </Feedback.Root>
+  );
+}
+```
+
+## Copy-Paste with shadcn CLI
+
+You can also add individual components to your project using the shadcn CLI:
+
+```bash
+pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+```
+
+This will copy the component source code directly into your project, giving you full control over customization.
+
+## Components
+
+### Primitives
+
+Building blocks for marketplace UIs:
+
+- [**Price**](/docs/primitives/price) - Format cryptocurrency and fiat prices with customizable precision
+- [**Feedback**](/docs/primitives/feedback) - Attach animated inline feedback to buttons and other triggers
+- [**Ranking**](/docs/primitives/ranking) - Render already-sorted ranked items with group boundaries
+- [**Countdown**](/docs/primitives/countdown) - Countdown timer with semantic labels
+- [**Receipt**](/docs/primitives/receipt) - Build order summaries with items, taxes, and totals
+
+### Blocks
+
+Pre-assembled declarative interfaces built from primitives for marketplace user flows:
+
+- [**Blocks Overview**](/docs/blocks) - Learn how Blocks package full user flows from composable primitives
+- <span className="font-semibold text-muted-foreground underline decoration-muted-foreground/40 decoration-dotted underline-offset-4">Auction</span> <span className="ml-2 inline-flex rounded-full border border-amber-300/70 bg-amber-100/75 px-2 py-0.5 text-[0.62rem] font-semibold tracking-[0.12em] text-amber-800 uppercase align-middle">Soon</span> - Complete auction interface with bid rankings and forms

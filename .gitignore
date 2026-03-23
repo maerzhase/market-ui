@@ -17,6 +17,10 @@
 
 # debug
 .pnpm-debug.log*
+nvim-verbose.log
+
+# task runners
+.turbo
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -27,3 +31,13 @@
 # ai
 .cursor
 .agents
+
+# monorepo
+.next/
+.vercel/
+.output/
+.cache/
+
+# packages build output
+packages/*/dist/
+packages/*/.turbo/
