@@ -74,10 +74,44 @@ importers:
         version: 5.9.2
 
   packages/ui:
-    devDependencies:
+    dependencies:
       '@base-ui/react':
         specifier: 1.2.0
         version: 1.2.0(@types/react@19.2.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@base-ui/utils':
+        specifier: 0.2.5
+        version: 0.2.5(@types/react@19.2.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@floating-ui/core':
+        specifier: ^1.7.3
+        version: 1.7.5
+      '@floating-ui/dom':
+        specifier: ^1.7.4
+        version: 1.7.6
+      '@floating-ui/react-dom':
+        specifier: ^2.1.6
+        version: 2.1.8(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@floating-ui/utils':
+        specifier: ^0.2.10
+        version: 0.2.11
+      class-variance-authority:
+        specifier: 0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      motion:
+        specifier: 12.35.2
+        version: 12.35.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      reselect:
+        specifier: ^5.1.1
+        version: 5.1.1
+      tabbable:
+        specifier: ^6.4.0
+        version: 6.4.0
+      tailwind-merge:
+        specifier: 3.3.1
+        version: 3.3.1
+    devDependencies:
       '@biomejs/biome':
         specifier: 2.2.0
         version: 2.2.0
@@ -111,15 +145,6 @@ importers:
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.2)
-      class-variance-authority:
-        specifier: 0.7.1
-        version: 0.7.1
-      clsx:
-        specifier: 2.1.1
-        version: 2.1.1
-      motion:
-        specifier: 12.35.2
-        version: 12.35.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: ^19.0.0
         version: 19.2.4
@@ -132,9 +157,6 @@ importers:
       storybook:
         specifier: 10.1.2
         version: 10.1.2(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      tailwind-merge:
-        specifier: 3.3.1
-        version: 3.3.1
       tailwindcss:
         specifier: ^4.1.0
         version: 4.2.1
