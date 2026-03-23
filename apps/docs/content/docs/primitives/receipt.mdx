@@ -1,0 +1,171 @@
+---
+title: Receipt
+description: Build order summaries with items, taxes, fees, and dynamic totals using smallest-unit integers with `bigint`.
+---
+
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
+
+## Installation
+
+{/*prettier-ignore*/}
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/receipt.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="receipt/usage" />
+
+`Receipt` is built on the same price rendering model as `Price`: pass smallest-unit integer values as `number`, `string`, or `bigint`, set the decimal precision once, and let `Receipt.Price` define the shared formatting template.
+
+## Examples
+
+### Adjustments And Tax
+
+Shows discounts, fees, computed tax from `rate`, and section separators.
+
+<ComponentExample name="receipt/adjustments" />
+
+### Manual Values
+
+Use explicit values when your backend already provides the subtotal, tax, or final amount.
+
+<ComponentExample name="receipt/manual-values" />
+
+### Custom Price Rendering
+
+Customize the default receipt-wide price template and override the rendering for an individual line item when needed.
+
+<ComponentExample name="receipt/custom-price-rendering" />
+
+### Precision And Abbreviation
+
+Mix input precisions, control visible decimal places, and abbreviate large values while keeping a symbol-after-value layout.
+
+<ComponentExample name="receipt/precision-overrides" />
+
+### Full Receipt
+
+Complete receipt with header metadata, adjustments, tax, total, and footer copy.
+
+<ComponentExample name="receipt/full" />
+
+## API Reference
+
+### Receipt
+
+The root component that provides context for price calculations.
+
+| Prop       | Type     | Default | Description                                             |
+| ---------- | -------- | ------- | ------------------------------------------------------- |
+| `decimals` | `number` | `6`     | Default number of decimal places used by receipt values |
+
+### Receipt.Price
+
+Defines how prices are formatted throughout the receipt.
+
+| Prop          | Type        | Default    | Description                                   |
+| ------------- | ----------- | ---------- | --------------------------------------------- |
+| `maxDecimals` | `number`    | `decimals` | Maximum decimal places to display             |
+| `abbreviate`  | `boolean`   | `false`    | Abbreviate large values with `K`, `M`, or `B` |
+| `children`    | `ReactNode` | required   | Price formatting (Symbol + Value)             |
+
+### Receipt.Header
+
+Renders the receipt header section. Accepts standard `div` props and `className`.
+
+### Receipt.Item
+
+Adds an item to the receipt.
+
+| Prop          | Type                         | Default                     | Description                               |
+| ------------- | ---------------------------- | --------------------------- | ----------------------------------------- |
+| `label`       | `string`                     | required                    | Item description                          |
+| `value`       | `number \| bigint \| string` | required                    | Raw value in the smallest unit            |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for this row            |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display         |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row        |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row |
+
+### Receipt.Separator
+
+Visual separator between sections. Accepts the same props as `Separator`.
+
+### Receipt.Subtotal
+
+Displays the subtotal of all items.
+
+| Prop          | Type                         | Default                     | Description                                |
+| ------------- | ---------------------------- | --------------------------- | ------------------------------------------ |
+| `label`       | `string`                     | `"Subtotal"`                | Row label                                  |
+| `value`       | `number \| bigint \| string` | computed                    | Override the computed subtotal             |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for the subtotal display |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display          |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row         |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row  |
+
+### Receipt.Discount
+
+Applies a discount (subtracted from total).
+
+| Prop          | Type                         | Default                     | Description                               |
+| ------------- | ---------------------------- | --------------------------- | ----------------------------------------- |
+| `label`       | `string`                     | required                    | Discount description                      |
+| `value`       | `number \| bigint \| string` | required                    | Discount amount                           |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for this row            |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display         |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row        |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row |
+
+### Receipt.Fee
+
+Adds a fee (added to total).
+
+| Prop          | Type                         | Default                     | Description                               |
+| ------------- | ---------------------------- | --------------------------- | ----------------------------------------- |
+| `label`       | `string`                     | required                    | Fee description                           |
+| `value`       | `number \| bigint \| string` | required                    | Fee amount                                |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for this row            |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display         |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row        |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row |
+
+### Receipt.Tax
+
+Calculates and displays tax.
+
+| Prop          | Type                         | Default                     | Description                                                   |
+| ------------- | ---------------------------- | --------------------------- | ------------------------------------------------------------- |
+| `label`       | `string`                     | `"Tax"`                     | Row label                                                     |
+| `value`       | `number \| bigint \| string` | computed                    | Use an explicit tax amount instead of calculating from `rate` |
+| `rate`        | `number`                     | none                        | Tax rate (e.g. `0.1` for 10%) used when `value` is omitted    |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for this row                                |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display                             |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row                            |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row                     |
+
+### Receipt.Total
+
+Displays the final total including all items, fees, discounts, and tax.
+
+| Prop          | Type                         | Default                     | Description                               |
+| ------------- | ---------------------------- | --------------------------- | ----------------------------------------- |
+| `label`       | `string`                     | `"Total"`                   | Row label                                 |
+| `value`       | `number \| bigint \| string` | computed                    | Override the computed total               |
+| `decimals`    | `number`                     | `Receipt.decimals`          | Decimal precision for this row            |
+| `maxDecimals` | `number`                     | `Receipt.Price.maxDecimals` | Maximum decimal places to display         |
+| `abbreviate`  | `boolean`                    | `Receipt.Price.abbreviate`  | Override abbreviation for this row        |
+| `children`    | `ReactNode`                  | `Receipt.Price` template    | Override the price rendering for this row |
+
+### Receipt.Footer
+
+Renders the receipt footer section. Accepts standard `div` props and `className`.

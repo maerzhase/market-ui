@@ -1,0 +1,90 @@
+---
+title: Price
+description: Format fiat and crypto prices from smallest-unit integers with `bigint`, precision controls, and customizable rendering.
+---
+
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
+
+## Installation
+
+{/*prettier-ignore*/}
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="price/basic" />
+
+`Price` formats raw smallest-unit values and accepts `number`, `string`, and `bigint`.
+
+## Examples
+
+### With Abbreviation
+
+Large numbers are automatically abbreviated (K, M, B).
+
+<ComponentExample name="price/abbreviated" />
+
+### High Decimal Precision
+
+Supports any currency, including those that use high-precision decimal values. For example, Ethereum values may be stored in wei (the smallest unit) and displayed using up to 18 decimal places.
+
+<ComponentExample name="price/crypto" />
+
+### Custom Locale
+
+Apply locale-specific grouping and decimal separators with `Price.Value`.
+
+<ComponentExample name="price/locale" />
+
+### Customized Rendering
+
+Compose `Price.Value` and `Price.Symbol` inside your own layout to control placement, emphasis, and surrounding UI.
+
+<ComponentExample name="price/custom-rendering" />
+
+### Fixed Precision
+
+Combine `minDecimals` and `maxDecimals` when you want a stable number of visible decimal places, such as interactive crypto price inputs.
+
+<ComponentExample name="price/fixed-precision" />
+
+## API Reference
+
+### Price
+
+The root component that provides context for price formatting.
+
+| Prop          | Type                         | Default    | Description                                           |
+| ------------- | ---------------------------- | ---------- | ----------------------------------------------------- |
+| `value`       | `number \| bigint \| string` | required   | Raw value in the smallest unit to format              |
+| `decimals`    | `number`                     | required   | Number of decimal places represented by the raw value |
+| `minDecimals` | `number`                     | none       | Minimum decimal places to display                     |
+| `maxDecimals` | `number`                     | `decimals` | Maximum decimal places to display                     |
+| `abbreviate`  | `boolean`                    | `false`    | Abbreviate large numbers (K, M, B)                    |
+
+### Price.Value
+
+Renders the formatted price value. Pass `locale` when you want localized separators and grouping.
+
+| Prop     | Type     | Default | Description                  |
+| -------- | -------- | ------- | ---------------------------- |
+| `locale` | `string` | none    | Locale for number formatting |
+
+### Price.Symbol
+
+Renders the currency symbol.
+
+| Prop       | Type        | Default  | Description           |
+| ---------- | ----------- | -------- | --------------------- |
+| `children` | `ReactNode` | required | The symbol to display |

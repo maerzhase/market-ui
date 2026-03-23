@@ -1,0 +1,160 @@
+---
+title: Ranking
+description: Render sorted items as grouped lists.
+---
+
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
+
+## Installation
+
+{/*prettier-ignore*/}
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/ranking.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+`Ranking` is a renderer for sorted data. It does not sort items for you, so pass `items` in the exact order you want them displayed. Group boundaries are created from entry indices.
+
+Use `Ranking.Slot` to insert items at `atIndex` before groups render. Slot placement affects the position of subsequent items.
+
+<ComponentExample name="ranking/usage" />
+
+## Examples
+
+### Empty
+
+Use `Ranking.Empty` when there are no ranked items to render.
+
+<ComponentExample name="ranking/empty" />
+
+### Custom Group
+
+Use custom group headers when the groups need more than a default divider.
+
+<ComponentExample name="ranking/custom-group" />
+
+### Static Slot
+
+Insert fixed content at a specific ranked index. Preview rows work especially well here.
+
+<ComponentExample name="ranking/static-slot" />
+
+### Dynamic Slot
+
+Slots can be moved within the groups dynamically when the inserted content depends on its resolved rank or group.
+
+<ComponentExample name="ranking/dynamic-slot" />
+
+## API Reference
+
+### Ranking.Root
+
+Provides ranking context and renders grouped ranked data.
+
+| Prop         | Type                  | Default     | Description                                                   |
+| ------------ | --------------------- | ----------- | ------------------------------------------------------------- |
+| `items`      | `T[]`                 | required    | Already-sorted items to display                               |
+| `getKey`     | `(item: T) => string` | required    | Function to get a unique key for each item                    |
+| `boundaries` | `number[]`            | `[]`        | Entry indices where groups should split                       |
+| `labels`     | `string[]`            | `[]`        | Labels for each rendered group                                |
+| `className`  | `string`              | `undefined` | Class name for the outer container, including the empty state |
+
+### Ranking.Empty
+
+Renders fallback content when there are no items and no slots.
+
+| Prop        | Type        | Default     | Description                              |
+| ----------- | ----------- | ----------- | ---------------------------------------- |
+| `children`  | `ReactNode` | required    | Empty-state content                      |
+| `className` | `string`    | `undefined` | Class name for the empty-state container |
+
+### Ranking.Slot
+
+Registers content at a specific entry index.
+
+| Prop       | Type                                           | Default  | Description                                                                 |
+| ---------- | ---------------------------------------------- | -------- | --------------------------------------------------------------------------- |
+| `slotKey`  | `string`                                       | required | Stable key for the inserted slot                                            |
+| `atIndex`  | `number`                                       | required | Entry index where the slot should be inserted                               |
+| `children` | `ReactNode \| (ctx: SlotContext) => ReactNode` | required | Static content or a render function that receives the resolved slot context |
+
+### Ranking.Group
+
+Renders each group as an ordered list.
+
+| Prop        | Type        | Default     | Description                                                             |
+| ----------- | ----------- | ----------- | ----------------------------------------------------------------------- |
+| `children`  | `ReactNode` | required    | Group content, typically `Ranking.GroupDivider` and `Ranking.GroupItem` |
+| `className` | `string`    | `undefined` | Class name for each rendered ordered list                               |
+
+### Ranking.GroupDivider
+
+Renders the label/header for each group.
+
+| Prop        | Type                                   | Default     | Description                          |
+| ----------- | -------------------------------------- | ----------- | ------------------------------------ |
+| `children`  | `({ label, groupIndex }) => ReactNode` | `undefined` | Optional custom divider renderer     |
+| `className` | `string`                               | `undefined` | Class name for the divider container |
+
+### Ranking.GroupItem
+
+Renders each ranked entry as a list item.
+
+| Prop        | Type        | Default     | Description                                      |
+| ----------- | ----------- | ----------- | ------------------------------------------------ |
+| `children`  | `ReactNode` | required    | Item content, typically `Ranking.GroupItemValue` |
+| `className` | `string`    | `undefined` | Class name for each rendered list item           |
+
+### Ranking.GroupItemValue
+
+Render-prop component that receives the item and item context.
+
+| Prop       | Type                                                    | Description     |
+| ---------- | ------------------------------------------------------- | --------------- |
+| `children` | `(item: T, ctx: GroupItemContextValue<T>) => ReactNode` | Render function |
+
+### Ranking.GroupItemIndex
+
+Renders the resolved rank for the current item.
+
+| Prop        | Type                                               | Default     | Description                           |
+| ----------- | -------------------------------------------------- | ----------- | ------------------------------------- |
+| `children`  | `({ globalIndex, rank, groupIndex }) => ReactNode` | `undefined` | Optional custom index renderer        |
+| `className` | `string`                                           | `undefined` | Class name for the default index text |
+
+### SlotContext
+
+The context passed to `Ranking.Slot` when `children` is a render function.
+
+| Property         | Type      | Description                                    |
+| ---------------- | --------- | ---------------------------------------------- |
+| `globalIndex`    | `number`  | Zero-based entry index in the rendered ranking |
+| `groupIndex`     | `number`  | Zero-based group index                         |
+| `rank`           | `number`  | One-based displayed rank                       |
+| `rankInGroup`    | `number`  | One-based position inside the current group    |
+| `isFirstInGroup` | `boolean` | Whether the slot is first in its group         |
+| `isLastInGroup`  | `boolean` | Whether the slot is last in its group          |
+| `isLastItem`     | `boolean` | Whether the slot is the final rendered entry   |
+
+### GroupItemContextValue
+
+| Property         | Type      | Description                                    |
+| ---------------- | --------- | ---------------------------------------------- |
+| `item`           | `T`       | The current item                               |
+| `globalIndex`    | `number`  | Zero-based entry index in the rendered ranking |
+| `groupIndex`     | `number`  | Zero-based group index                         |
+| `rank`           | `number`  | One-based displayed rank                       |
+| `rankInGroup`    | `number`  | One-based position inside the current group    |
+| `isFirstInGroup` | `boolean` | Whether the item is first in its group         |
+| `isLastInGroup`  | `boolean` | Whether the item is last in its group          |
+| `isLastItem`     | `boolean` | Whether the item is the final rendered entry   |

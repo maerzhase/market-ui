@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@m3000/market/styles.css";
+@import "fumadocs-ui/style.css";
+@import "./fumadocs-theme.css";
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}

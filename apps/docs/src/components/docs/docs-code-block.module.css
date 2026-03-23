@@ -1,0 +1,65 @@
+.surface {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background-color: color-mix(in srgb, var(--color-muted) 30%, transparent);
+}
+
+.embedded {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.viewport {
+  overflow: auto;
+  padding: 0.875rem 1rem;
+  background: transparent;
+}
+
+.pre {
+  min-width: max-content;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.surface :global([data-rehype-pretty-code-figure]),
+.surface :global(figure.shiki) {
+  margin: 0;
+}
+
+.surface :global([data-rehype-pretty-code-figure] > div[role="region"]),
+.surface :global(figure.shiki > div[role="region"]) {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.surface :global(pre),
+.surface :global([data-rehype-pretty-code-figure] pre),
+.surface :global([data-rehype-pretty-code-figure] > div[role="region"] pre),
+.surface :global(figure.shiki pre) {
+  margin: 0;
+  padding: 0 !important;
+  overflow: visible;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.surface :global(pre > *) {
+  display: flex;
+  flex-direction: column;
+}
+
+.surface :global(code),
+.surface :global(code *) {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: 0;
+}

@@ -1,0 +1,136 @@
+---
+title: Price Input
+description: Composable stepped price input for bigint-backed values, dynamic tick sizes, and custom price rendering.
+---
+
+import { Tab, Tabs } from "@/components/docs/mdx-installation-tabs";
+
+## Installation
+
+{/*prettier-ignore*/}
+<Tabs items={['Package', 'CLI']}>
+  <Tab value="Package">
+    ```bash
+    pnpm add @m3000/market
+    ```
+  </Tab>
+  <Tab value="CLI">
+    ```bash
+    pnpm dlx shadcn@latest add https://m3000.market/r/stepped-input.json
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+<ComponentExample name="stepped-input/price" />
+
+`PriceInput` is the recommended API for price entry. It wraps the lower-level `SteppedInput` primitive with sensible decimal behavior for smallest-unit values like cents or wei, while preserving the same composable controls.
+
+## Examples
+
+### Price Input
+
+Use `PriceInput` when your source of truth is stored in the smallest unit, such as cents or wei.
+
+<ComponentExample name="stepped-input/price" />
+
+### Price Rendering
+
+Use `PriceInput.Value` when you want the input to display a fully formatted price, while keeping the control in charge of stepping and dragging.
+
+<ComponentExample name="stepped-input/custom-value" />
+
+### Dynamic Tick Sizes
+
+Provide `getTickSize` as a function of the current value when the allowed bid increment changes across price bands.
+
+<ComponentExample name="stepped-input/dynamic-tick" />
+
+### Snap To Tick
+
+Set `snapToTick` to keep typed or dragged prices aligned to the valid tick grid using `"up"`, `"down"`, or `"nearest"` behavior.
+
+<ComponentExample name="stepped-input/snap-to-tick" />
+
+### Raw Numeric Input
+
+If you need the lower-level primitive without the price-focused wrapper, the plain editable `SteppedInput` is still available.
+
+<ComponentExample name="stepped-input/basic" />
+
+## API Reference
+
+### SteppedInput.Root
+
+The controlled root that owns the current price value, valid range, decimal scaling, and stepping rules.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `value` | `bigint` | required | Current raw price value |
+| `onChange` | `(value: bigint) => void` | required | Called with the next raw price value |
+| `min` | `bigint` | none | Minimum allowed raw value |
+| `max` | `bigint` | none | Maximum allowed raw value |
+| `getTickSize` | `(currentValue: bigint) => bigint` | required | Returns the valid price increment for the current raw value |
+| `decimals` | `number` | `0` | Scales bigint price values for editing as decimal numbers |
+| `disabled` | `boolean` | `false` | Disables all controls and interactions |
+| `className` | `string` | none | Additional classes for the root |
+| `children` | `ReactNode` | required | Compound children rendered inside the number field |
+| `snapToTick` | `"up" \| "down" \| "nearest" \| false` | `false` | Snaps changes to the current tick grid |
+
+### SteppedInput.Group
+
+Wraps the controls for the decrement button, scrub area, and increment button.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | required | The grouped stepped input controls |
+| `className` | `string` | none | Additional classes for the group |
+
+### SteppedInput.Decrement
+
+Button that decreases the current value by the active tick size.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | `"-"` | Button content |
+| `className` | `string` | none | Additional classes for the decrement button |
+
+### SteppedInput.Increment
+
+Button that increases the current value by the active tick size.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | `"+"` | Button content |
+| `className` | `string` | none | Additional classes for the increment button |
+
+### SteppedInput.ScrubArea
+
+Interactive region that supports dragging and contains either `SteppedInput.Input` or `SteppedInput.Value`.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `ReactNode` | required | Scrubbable content |
+| `className` | `string` | none | Additional classes for the scrub area |
+
+### SteppedInput.ScrubAreaCursor
+
+Optional drag handle rendered inside `SteppedInput.ScrubArea`. This is the right place for a cursor icon or short hint text.
+
+### SteppedInput.Input
+
+Editable input element styled for the default price-entry presentation.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `className` | `string` | none | Additional classes for the input |
+
+### SteppedInput.Value
+
+Custom value renderer for cases where the display should follow your own price formatting, including `Price`-style output for smallest-unit values.
+
+| Prop | Type | Default | Description |
+| ------------- | ------------- | ------------- | ------------- |
+| `children` | `({ value, inputValue, step, disabled }) => ReactNode` | required | Render function receiving the raw value plus current editable input state |
+| `className` | `string` | none | Additional classes for the value container |

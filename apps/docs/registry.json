@@ -1,0 +1,321 @@
+{
+	"$schema": "https://ui.shadcn.com/schema/registry.json",
+	"name": "m3000-market",
+	"homepage": "https://m3000.market",
+	"items": [
+		{
+			"name": "price",
+			"type": "registry:component",
+			"title": "Price",
+			"description": "Format cryptocurrency and fiat prices with customizable precision, symbols, and localization.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/price/price.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "countdown",
+			"type": "registry:component",
+			"title": "Countdown",
+			"description": "Countdown timer with semantic labels, progress bars, and custom rendering.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/countdown/countdown.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/countdown/use-countdown.ts",
+					"type": "registry:hook"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "ranking",
+			"type": "registry:component",
+			"title": "Ranking",
+			"description": "Render already-sorted ranked items as ordered groups, with index-based grouping and inserted slots.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/ranking/ranking.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "receipt",
+			"type": "registry:component",
+			"title": "Receipt",
+			"description": "Build order summaries with items, taxes, fees, and dynamic totals.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"registryDependencies": ["price"],
+			"files": [
+				{
+					"path": "registry/new-york/receipt/receipt.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "button",
+			"type": "registry:component",
+			"title": "Button",
+			"description": "A button component with multiple variants and sizes.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/button/button.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "text",
+			"type": "registry:component",
+			"title": "Text",
+			"description": "Typography component with semantic styles.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/text/text.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "separator",
+			"type": "registry:component",
+			"title": "Separator",
+			"description": "Visual separator between sections.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/separator/separator.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "skeleton",
+			"type": "registry:component",
+			"title": "Skeleton",
+			"description": "Loading skeleton placeholder.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/skeleton/skeleton.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"type": "registry:component",
+			"title": "Tag",
+			"description": "Status tag with semantic colors.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/tag/tag.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "tabs",
+			"type": "registry:component",
+			"title": "Tabs",
+			"description": "Tab component with compound pattern.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/tabs/tabs.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "feedback",
+			"type": "registry:component",
+			"title": "Feedback",
+			"description": "Feedback provider with toast notifications.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/feedback/feedback.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "scale",
+			"type": "registry:component",
+			"title": "Scale",
+			"description": "Scale/slider component for range inputs.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/scale/scale.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "stepped-input",
+			"type": "registry:component",
+			"title": "SteppedInput",
+			"description": "Number input with step controls.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/stepped-input/stepped-input.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "framed-image",
+			"type": "registry:component",
+			"title": "FramedImage",
+			"description": "Image component with frame and loading states.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "registry/new-york/framed-image/framed-image.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		},
+		{
+			"name": "auction",
+			"type": "registry:block",
+			"title": "Auction",
+			"description": "Complete auction interface with bid rankings, live previews, and stepped bidding.",
+			"dependencies": ["clsx", "tailwind-merge", "motion"],
+			"registryDependencies": [
+				"price",
+				"countdown",
+				"ranking",
+				"button",
+				"text",
+				"tag",
+				"stepped-input",
+				"framed-image"
+			],
+			"files": [
+				{
+					"path": "registry/new-york/auction/auction.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-context.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-layout.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-artwork.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-info.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-rankings.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-bid-form.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-bid-input.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-status-tag.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-your-bids.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-your-bid-card.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/auction/auction-suggested-bids.tsx",
+					"type": "registry:component"
+				},
+				{
+					"path": "registry/new-york/lib/cn.ts",
+					"type": "registry:lib"
+				}
+			]
+		}
+	]
+}
