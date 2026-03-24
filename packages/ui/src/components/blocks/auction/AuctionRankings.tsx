@@ -78,6 +78,7 @@ function BidRow({
           size="1"
           color="tertiary"
           className="min-w-9 text-right tabular-nums"
+          suppressHydrationWarning
         >
           {timeShort}
         </Text>

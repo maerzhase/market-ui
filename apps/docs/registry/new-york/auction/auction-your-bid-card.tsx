@@ -56,7 +56,12 @@ export function AuctionYourBidCard({
         <Text size="1" color="tertiary">
           Rank #{rank ?? "-"}
         </Text>
-        <Text size="1" color="tertiary" className="tabular-nums">
+        <Text
+          size="1"
+          color="tertiary"
+          className="tabular-nums"
+          suppressHydrationWarning
+        >
           {formatDateTime(bid.createdAt)}
         </Text>
       </div>
@@ -83,7 +88,12 @@ export function AuctionYourBidCard({
         </div>
       </div>
       {bid.status === "claimed" ? (
-        <Text size="1" color="tertiary" className="mt-2">
+        <Text
+          size="1"
+          color="tertiary"
+          className="mt-2"
+          suppressHydrationWarning
+        >
           Claimed {bid.claimedAt ? formatDateTime(bid.claimedAt) : ""}
         </Text>
       ) : bid.isWinning && bid.status === "active" && onClaim ? (
