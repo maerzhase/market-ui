@@ -377,7 +377,7 @@ export function AuctionRankings({
           <Text color="tertiary">No activity</Text>
         </Ranking.Empty>
         <Ranking.Group>
-          <Ranking.GroupDivider />
+          <Ranking.GroupDivider className="rounded-xl" />
           <Ranking.GroupItem>
             <Ranking.GroupItemValue>
               {(bid: AuctionBid, context) => {

@@ -137,7 +137,7 @@ export function AuctionBiddingPanel({
   return (
     <div
       className={cn(
-        "shrink-0 border-t border-border bg-background p-6",
+        "shrink-0 border-t border-border bg-background p-6 rounded-xl",
         className,
       )}
     >
