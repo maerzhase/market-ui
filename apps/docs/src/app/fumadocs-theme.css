@@ -25,3 +25,82 @@
 .dark {
   --color-fd-overlay: rgba(0, 0, 0, 0.7);
 }
+
+.docs-prose {
+  color: var(--color-foreground);
+}
+
+.docs-prose > :first-child {
+  margin-top: 0;
+}
+
+.docs-prose [data-installation-tabs] [data-slot="tabs-panel"] {
+  margin-top: 0;
+}
+
+.docs-prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.docs-prose code[data-language] {
+  color: inherit;
+}
+
+.landing-receipt-shell::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 8px;
+  height: 3px;
+  background: var(--receipt-paper);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.landing-receipt-shell::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -11px;
+  height: 20px;
+  background: var(--receipt-paper);
+  pointer-events: none;
+  z-index: 0;
+  clip-path: polygon(
+    0 0,
+    3.333% 100%,
+    6.666% 0,
+    10% 100%,
+    13.333% 0,
+    16.666% 100%,
+    20% 0,
+    23.333% 100%,
+    26.666% 0,
+    30% 100%,
+    33.333% 0,
+    36.666% 100%,
+    40% 0,
+    43.333% 100%,
+    46.666% 0,
+    50% 100%,
+    53.333% 0,
+    56.666% 100%,
+    60% 0,
+    63.333% 100%,
+    66.666% 0,
+    70% 100%,
+    73.333% 0,
+    76.666% 100%,
+    80% 0,
+    83.333% 100%,
+    86.666% 0,
+    90% 100%,
+    93.333% 0,
+    96.666% 100%,
+    100% 0,
+    100% 0,
+    0 0
+  );
+}

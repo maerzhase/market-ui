@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "fumadocs-ui/style.css";
 @import "@m3000/market/styles.css";
 @import "./fumadocs-theme.css";
 
@@ -11,4 +10,11 @@ body {
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
+}
+
+mark {
+  background-color: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: inherit;
+  border-radius: 0.2rem;
+  padding-inline: 0.1rem;
 }

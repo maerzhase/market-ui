@@ -2,25 +2,21 @@
 
 import { Button } from "@m3000/market";
 import { IconSearch } from "@tabler/icons-react";
-import { useSearchContext } from "fumadocs-ui/contexts/search";
+import { useDocsSearchDialog } from "@/components/layout/docs-search";
 
 interface HeaderSearchProps {
   variant?: "site" | "docs";
 }
 
 export function HeaderSearch(_: HeaderSearchProps) {
-  const { enabled, hotKey, setOpenSearch } = useSearchContext();
-
-  if (!enabled) {
-    return null;
-  }
+  const { hotKey, setOpen } = useDocsSearchDialog();
 
   return (
     <Button
       type="button"
       color="secondary"
       size="sm"
-      onClick={() => setOpenSearch(true)}
+      onClick={() => setOpen(true)}
       aria-label="Open search"
     >
       <IconSearch aria-hidden className="size-4" />
@@ -28,9 +24,9 @@ export function HeaderSearch(_: HeaderSearchProps) {
         {hotKey.map((key, index) => (
           <kbd
             key={index}
-            className="border-0"
+            className="rounded border border-border bg-background px-1.5 py-0.5 text-[0.7rem] text-muted-foreground"
           >
-            {key.display}
+            {key}
           </kbd>
         ))}
       </span>

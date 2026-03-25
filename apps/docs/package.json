@@ -21,7 +21,6 @@
     "@tabler/icons-react": "^3.34.1",
     "fumadocs-core": "^16.6.17",
     "fumadocs-mdx": "^14.2.10",
-    "fumadocs-ui": "^16.6.17",
     "next": "^16.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
