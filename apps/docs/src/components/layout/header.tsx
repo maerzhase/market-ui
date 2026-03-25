@@ -216,12 +216,12 @@ function MobileHeaderMenu({
 export function Header({ variant = "site", docsTree }: HeaderProps) {
 	const containerClassName =
 		variant === "docs"
-			? "sticky top-0 z-40 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm"
-			: "sticky top-0 z-50 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm";
+			? "sticky top-0 z-40 h-14 w-full shrink-0 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm"
+			: "sticky top-0 z-50 h-14 w-full shrink-0 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm";
 	const innerClassName =
 		variant === "docs"
-			? "flex h-14 w-full min-w-0 items-center justify-between gap-3 px-4 md:px-6"
-			: "mx-auto flex h-14 max-w-[97rem] min-w-0 items-center justify-between gap-3 px-4 md:px-6";
+			? "flex h-full w-full min-w-0 items-center justify-between gap-3 px-4 md:px-6"
+			: "mx-auto flex h-full max-w-[97rem] min-w-0 items-center justify-between gap-3 px-4 md:px-6";
 
 	return (
 		<header className={containerClassName}>
