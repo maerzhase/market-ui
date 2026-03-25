@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteLinks, siteTitle, siteVersion } from "@/app/layout.config";
 import { HeaderSearch } from "@/components/layout/header-search";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 type HeaderVariant = "site" | "docs";
 
@@ -35,6 +36,7 @@ export function Header({ variant = "site" }: HeaderProps) {
 
 				<div className="flex items-center gap-2">
 					<HeaderSearch variant={variant} />
+					<ThemeToggle />
 
 					<nav className="flex items-center gap-2">
 						{siteLinks.map((link) => {

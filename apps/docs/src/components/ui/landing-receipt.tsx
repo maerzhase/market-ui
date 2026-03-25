@@ -68,7 +68,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
               className="relative w-full will-change-transform"
             >
               <div className="relative pb-4 shadow-[0_22px_36px_rgba(118,42,40,0.18)] sm:shadow-[0_28px_48px_rgba(118,42,40,0.16)]">
-              <div className="relative overflow-hidden bg-[#fffaf2] px-5 pt-5 pb-12 text-stone-900 selection:bg-stone-900 selection:text-[#fffaf2] sm:px-6 sm:pt-7 sm:pb-14">
+                <div className="relative overflow-hidden bg-[#fffaf2] px-5 pt-5 pb-12 text-stone-900 selection:bg-stone-900 selection:text-[#fffaf2] sm:px-6 sm:pt-7 sm:pb-14">
                   <div
                     aria-hidden
                     className="pointer-events-none absolute inset-0 opacity-85 mix-blend-screen"
@@ -79,10 +79,10 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                   />
                   <div className="bg-position-center pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(32,24,18,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(32,24,18,0.02)_1px,transparent_1px)] bg-size-[12px_12px] opacity-35" />
 
-                <Receipt
-                  decimals={2}
-                  className="relative gap-3 font-mono text-[0.72rem] sm:gap-4 sm:text-[0.78rem] [&_.text-foreground]:text-stone-950 [&_.text-muted-foreground]:text-stone-700 [&>div]:tracking-[0.16em] sm:[&>div]:tracking-[0.18em]"
-                >
+                  <Receipt
+                    decimals={2}
+                    className="relative gap-3 font-mono text-[0.72rem] sm:gap-4 sm:text-[0.78rem] [&_.text-foreground]:text-stone-950 [&_.text-muted-foreground]:text-stone-700 [&>div]:tracking-[0.16em] sm:[&>div]:tracking-[0.18em]"
+                  >
                     <Receipt.Price maxDecimals={2}>
                       <Price.Symbol>$</Price.Symbol>
                       <Price.Value />
@@ -135,20 +135,20 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                       <span>Delivery</span>
                       <span className="text-stone-950">Arrives Tue, Mar 24</span>
                     </Receipt.Footer>
-                    <Receipt.Footer className="pt-2 text-center text-sm font-black tracking-[0.08em] text-stone-950 uppercase italic sm:pt-3 sm:text-[2rem]">
+                    <Receipt.Footer className="pt-2 text-center text-sm font-black tracking-[0.08em] text-stone-950 uppercase italic sm:pt-3">
                       @m3000/market
                     </Receipt.Footer>
-                </Receipt>
-              </div>
-
-              <svg
-                aria-hidden
-                viewBox="0 0 200 20"
-                preserveAspectRatio="none"
-                className="absolute inset-x-0 -bottom-px h-5 w-full fill-[#fffaf2]"
-              >
-                <path d="M0 0H200V4L193.33 20L186.67 4L180 20L173.33 4L166.67 20L160 4L153.33 20L146.67 4L140 20L133.33 4L126.67 20L120 4L113.33 20L106.67 4L100 20L93.33 4L86.67 20L80 4L73.33 20L66.67 4L60 20L53.33 4L46.67 20L40 4L33.33 20L26.67 4L20 20L13.33 4L6.67 20L0 4Z" />
-              </svg>
+                  </Receipt>
+                </div>
+                <div className="w-full h-5 bg-[#fffaf2] absolute bottom-0" />
+                <svg
+                  aria-hidden
+                  viewBox="0 0 200 20"
+                  preserveAspectRatio="none"
+                  className="absolute inset-x-0 -bottom-5 h-5 w-full fill-[#fffaf2]"
+                >
+                  <path d="M0 0H200V4L193.33 20L186.67 4L180 20L173.33 4L166.67 20L160 4L153.33 20L146.67 4L140 20L133.33 4L126.67 20L120 4L113.33 20L106.67 4L100 20L93.33 4L86.67 20L80 4L73.33 20L66.67 4L60 20L53.33 4L46.67 20L40 4L33.33 20L26.67 4L20 20L13.33 4L6.67 20L0 4Z" />
+                </svg>
               </div>
             </div>
           </div>

@@ -1,41 +1,23 @@
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
-import { baseOptions } from "@/app/layout.config";
-import { DocsSidebarSeparator } from "@/components/layout/docs-sidebar-separator";
+import { DocsSidebar } from "@/components/layout/docs-sidebar";
 import { Header } from "@/components/layout/header";
 import { source } from "@/lib/source";
 
 export default function Layout({ children }: { children: ReactNode }) {
+	const tree = source.getPageTree();
+
 	return (
-		<>
+		<div className="flex min-h-screen flex-col">
 			<Header variant="docs" />
-			<DocsLayout
-				{...baseOptions}
-				containerProps={{
-					className: "[--fd-banner-height:--spacing(14)]",
-				}}
-				tree={source.getPageTree()}
-				nav={{
-					...baseOptions.nav,
-					enabled: false,
-					title: () => null,
-				}}
-				searchToggle={{
-					enabled: false,
-				}}
-				themeSwitch={{
-					enabled: false,
-				}}
-				sidebar={{
-					collapsible: false,
-					tabs: false,
-					components: {
-						Separator: DocsSidebarSeparator,
-					},
-				}}
-			>
-				{children}
-			</DocsLayout>
-		</>
+			<div className="mx-auto flex w-full max-w-[97rem] flex-1 flex-col gap-6 px-4 py-6 md:px-6 lg:flex-row lg:items-start">
+				<div className="lg:hidden">
+					<DocsSidebar tree={tree} mobile />
+				</div>
+				<aside className="hidden w-72 shrink-0 lg:sticky lg:top-20 lg:block">
+					<DocsSidebar tree={tree} />
+				</aside>
+				<div className="min-w-0 flex-1">{children}</div>
+			</div>
+		</div>
 	);
 }
