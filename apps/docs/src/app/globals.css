@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "@m3000/market/styles.css";
 @import "fumadocs-ui/style.css";
+@import "@m3000/market/styles.css";
 @import "./fumadocs-theme.css";
 
 html,

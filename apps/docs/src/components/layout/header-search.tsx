@@ -1,14 +1,14 @@
 "use client";
 
-import { Button, cn } from "@m3000/market";
+import { Button } from "@m3000/market";
 import { IconSearch } from "@tabler/icons-react";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 
-
 interface HeaderSearchProps {
+  variant?: "site" | "docs";
 }
 
-export function HeaderSearch(props: HeaderSearchProps) {
+export function HeaderSearch(_: HeaderSearchProps) {
   const { enabled, hotKey, setOpenSearch } = useSearchContext();
 
   if (!enabled) {
@@ -24,7 +24,7 @@ export function HeaderSearch(props: HeaderSearchProps) {
       aria-label="Open search"
     >
       <IconSearch aria-hidden className="size-4" />
-      <span className="inline-flex items-center gap-1 md:ml-1">
+      <span className="hidden items-center gap-1 md:ml-1 md:inline-flex">
         {hotKey.map((key, index) => (
           <kbd
             key={index}
