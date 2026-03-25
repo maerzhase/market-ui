@@ -8,11 +8,8 @@ export default function Layout({ children }: { children: ReactNode }) {
 
 	return (
 		<div className="flex min-h-screen flex-col">
-			<Header variant="docs" />
+			<Header variant="docs" docsTree={tree} />
 			<div className="mx-auto flex w-full max-w-[97rem] flex-1 flex-col gap-6 px-4 py-6 md:px-6 lg:flex-row lg:items-start">
-				<div className="lg:hidden">
-					<DocsSidebar tree={tree} mobile />
-				</div>
 				<aside className="hidden w-72 shrink-0 lg:sticky lg:top-20 lg:block">
 					<DocsSidebar tree={tree} />
 				</aside>

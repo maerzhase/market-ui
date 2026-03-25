@@ -4,7 +4,9 @@ import { Text, cn } from "@m3000/market";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import type { MouseEventHandler } from "react";
+
+const groupTitleClassName = "px-3 text-xs font-medium text-foreground";
 
 function nodeKey(node: Node, index: number): string {
 	if ("url" in node) return node.url;
@@ -27,19 +29,35 @@ function nodeContainsCurrentPath(node: Node, pathname: string): boolean {
 	return node.children.some((child) => nodeContainsCurrentPath(child, pathname));
 }
 
+function shouldRenderNode(
+	node: Node,
+	depth: number,
+	variant: "sidebar" | "drawer",
+): boolean {
+	if (variant === "drawer" && node.type === "page" && depth === 0 && node.url === "/docs") {
+		return false;
+	}
+
+	return true;
+}
+
 function SidebarNode({
 	node,
 	pathname,
 	depth,
+	onLinkClick,
+	variant,
 }: {
 	node: Node;
 	pathname: string;
 	depth: number;
+	onLinkClick?: MouseEventHandler<HTMLAnchorElement>;
+	variant?: "sidebar" | "drawer";
 }) {
 	if (node.type === "separator") {
 		return (
-			<div className="pt-4 pb-2">
-				<Text size="1" className="px-3 text-muted-foreground uppercase tracking-[0.16em]">
+			<div className={cn(variant === "drawer" ? "pt-6 pb-2" : "pt-4 pb-2")}>
+				<Text size="1" className={groupTitleClassName}>
 					{node.name}
 				</Text>
 			</div>
@@ -51,8 +69,10 @@ function SidebarNode({
 		return (
 			<Link
 				href={node.url}
+				onClick={onLinkClick}
 				className={cn(
-					"block rounded-xl px-3 py-2 text-sm transition-colors",
+					"block text-sm transition-colors",
+					variant === "drawer" ? "rounded-lg px-3 py-2.5" : "rounded-xl px-3 py-2",
 					isActive
 						? "bg-primary/10 font-medium text-primary"
 						: "text-muted-foreground hover:bg-accent/50 hover:text-foreground",
@@ -69,7 +89,10 @@ function SidebarNode({
 	return (
 		<details open={isOpen} className="group">
 			<summary
-				className="cursor-pointer list-none rounded-xl px-3 py-2 text-sm font-medium text-foreground marker:hidden hover:bg-accent/40"
+				className={cn(
+					"cursor-pointer list-none text-sm font-medium text-foreground marker:hidden hover:bg-accent/40",
+					variant === "drawer" ? "rounded-lg px-3 py-2.5" : "rounded-xl px-3 py-2",
+				)}
 				style={{ paddingLeft: `${depth * 0.75 + 0.75}rem` }}
 			>
 				<div className="flex items-center justify-between gap-2">
@@ -81,56 +104,68 @@ function SidebarNode({
 			</summary>
 			<div className="mt-1 space-y-1">
 				{node.index ? (
-					<SidebarNode node={node.index} pathname={pathname} depth={depth + 1} />
-				) : null}
-				{node.children.map((child, index) => (
 					<SidebarNode
-						key={nodeKey(child, index)}
-						node={child}
+						node={node.index}
 						pathname={pathname}
 						depth={depth + 1}
+						onLinkClick={onLinkClick}
+						variant={variant}
 					/>
-				))}
+				) : null}
+					{node.children
+						.filter((child) => shouldRenderNode(child, depth + 1, variant ?? "sidebar"))
+					.map((child, index) => (
+						<SidebarNode
+							key={nodeKey(child, index)}
+							node={child}
+							pathname={pathname}
+							depth={depth + 1}
+							onLinkClick={onLinkClick}
+							variant={variant}
+						/>
+					))}
 			</div>
 		</details>
 	);
 }
 
-export function DocsSidebar({
+export function DocsSidebarContent({
 	tree,
-	mobile = false,
+	onLinkClick,
+	variant = "sidebar",
 }: {
 	tree: Root;
-	mobile?: boolean;
+	onLinkClick?: MouseEventHandler<HTMLAnchorElement>;
+	variant?: "sidebar" | "drawer";
 }) {
 	const pathname = usePathname();
-	const content: ReactNode = (
+
+	return (
 		<div className="space-y-1">
-			{tree.children.map((node, index) => (
+				{tree.children
+					.filter((node) => shouldRenderNode(node, 0, variant))
+				.map((node, index) => (
 				<SidebarNode
 					key={nodeKey(node, index)}
 					node={node}
 					pathname={pathname}
 					depth={0}
+					onLinkClick={onLinkClick}
+					variant={variant}
 				/>
-			))}
+				))}
 		</div>
 	);
+}
 
-	if (mobile) {
-		return (
-			<details className="rounded-2xl border border-border bg-card">
-				<summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium text-foreground marker:hidden">
-					Browse documentation
-				</summary>
-				<div className="border-t border-border p-3">{content}</div>
-			</details>
-		);
-	}
-
+export function DocsSidebar({
+	tree,
+}: {
+	tree: Root;
+}) {
 	return (
 		<nav className="rounded-2xl border border-border bg-card p-3" aria-label="Docs sidebar">
-			{content}
+			<DocsSidebarContent tree={tree} />
 		</nav>
 	);
 }
