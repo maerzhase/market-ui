@@ -20,7 +20,11 @@ export function AuctionLayout({
 
   return (
     <div
-      className={cn("grid overflow-hidden", "lg:grid-cols-2", className)}
+      className={cn(
+        "grid overflow-hidden grid-rows-[minmax(0,1fr)_minmax(0,1fr)]",
+        "lg:grid-cols-2 lg:grid-rows-1",
+        className,
+      )}
       style={{ height: heightStyle }}
     >
       {children}
@@ -61,7 +65,9 @@ export function AuctionDetailsHeader({
   className,
 }: AuctionDetailsHeaderProps): React.ReactElement {
   return (
-    <div className={cn("flex grow flex-col p-6", className)}>{children}</div>
+    <div className={cn("flex min-h-0 grow flex-col p-6", className)}>
+      {children}
+    </div>
   );
 }
 
@@ -75,7 +81,12 @@ export function AuctionDetailsBody({
   className,
 }: AuctionDetailsBodyProps): React.ReactElement {
   return (
-    <div className={cn("min-h-0 flex-1 overflow-y-auto p-6", className)}>
+    <div
+      className={cn(
+        "hidden p-6 lg:block lg:min-h-0 lg:flex-1 lg:overflow-y-auto",
+        className,
+      )}
+    >
       {children}
     </div>
   );
