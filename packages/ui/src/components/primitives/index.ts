@@ -1,6 +1,7 @@
 export type { ButtonElement, ButtonProps } from "./Button";
 export { Button, buttonVariants } from "./Button";
 export * from "./countdown";
+export { Drawer, type DrawerProps } from "./Drawer";
 export { Feedback } from "./Feedback";
 export * from "./framed-image";
 export { MorphDialog, type MorphDialogProps } from "./MorphDialog";

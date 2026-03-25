@@ -45,6 +45,8 @@ export { Button, buttonVariants } from "./components/primitives/Button";
 export type { ButtonElement, ButtonProps } from "./components/primitives/Button";
 export { Countdown } from "./components/primitives/countdown/Countdown";
 export * from "./components/primitives/countdown";
+export { Drawer } from "./components/primitives/Drawer";
+export type { DrawerProps } from "./components/primitives/Drawer";
 export { Feedback } from "./components/primitives/Feedback";
 export { FramedImage } from "./components/primitives/framed-image";
 export type { FramedImageProps } from "./components/primitives/framed-image";
