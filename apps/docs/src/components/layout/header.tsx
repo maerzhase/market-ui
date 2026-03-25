@@ -216,24 +216,24 @@ function MobileHeaderMenu({
 export function Header({ variant = "site", docsTree }: HeaderProps) {
 	const containerClassName =
 		variant === "docs"
-			? "sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-sm"
-			: "sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm";
+			? "sticky top-0 z-40 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm"
+			: "sticky top-0 z-50 border-b border-border bg-background/95 sm:bg-background/80 sm:backdrop-blur-sm";
 	const innerClassName =
 		variant === "docs"
-			? "flex h-14 w-full items-center justify-between px-4 md:px-6"
-			: "mx-auto flex h-14 max-w-[97rem] items-center justify-between px-4 md:px-6";
+			? "flex h-14 w-full min-w-0 items-center justify-between gap-3 px-4 md:px-6"
+			: "mx-auto flex h-14 max-w-[97rem] min-w-0 items-center justify-between gap-3 px-4 md:px-6";
 
 	return (
 		<header className={containerClassName}>
 			<div className={innerClassName}>
-				<Link href="/" className="flex items-center gap-2">
-					<span className="font-semibold">{siteTitle}</span>
-					<span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+				<Link href="/" className="flex min-w-0 items-center gap-2 overflow-hidden">
+					<span className="truncate font-semibold">{siteTitle}</span>
+					<span className="hidden rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary min-[375px]:inline-flex">
 						{siteVersion}
 					</span>
 				</Link>
 
-				<div className="flex items-center gap-2">
+				<div className="flex shrink-0 items-center gap-2">
 					<HeaderSearch variant={variant} />
 					<ThemeToggle />
 					<HeaderNavLinks
