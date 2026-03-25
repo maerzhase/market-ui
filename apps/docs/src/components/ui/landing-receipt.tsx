@@ -52,7 +52,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
   );
 
   return (
-    <div className={cn("relative mx-auto w-full px-4 sm:px-0", className)}>
+    <div className={cn("relative mx-auto w-full px-2 sm:px-0", className)}>
       <div className="absolute inset-x-10 top-8 -z-10 hidden h-48 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.68),rgba(255,255,255,0))] blur-3xl sm:block" />
       <div className="absolute inset-x-8 bottom-0 -z-10 hidden h-28 rounded-full bg-[radial-gradient(circle,rgba(180,72,68,0.26),rgba(180,72,68,0))] blur-3xl sm:block" />
 

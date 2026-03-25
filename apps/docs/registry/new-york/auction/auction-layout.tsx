@@ -76,20 +76,20 @@ export function AuctionDetailsHeader({
       className={cn(
         "flex min-h-0 grow flex-col p-6",
         isBiddingActive &&
-          [
-            "overflow-hidden",
-            "[&>*:nth-child(n+3):not(:last-child)]:hidden",
-            "[&>*:last-child]:pointer-events-none",
-            "[&>*:last-child]:absolute",
-            "[&>*:last-child]:inset-x-6",
-            "[&>*:last-child]:bottom-6",
-            "[&>*:last-child]:top-28",
-            "[&>*:last-child]:min-h-0",
-            "[&>*:last-child]:overflow-hidden",
-            "lg:[&>*:nth-child(n+3):not(:last-child)]:block",
-            "lg:[&>*:last-child]:pointer-events-auto",
-            "lg:[&>*:last-child]:static",
-          ].join(" "),
+        [
+          "overflow-hidden",
+          "[&>*:nth-child(n+3):not(:last-child)]:hidden",
+          "[&>*:last-child]:pointer-events-none",
+          "[&>*:last-child]:absolute",
+          "[&>*:last-child]:inset-x-6",
+          "[&>*:last-child]:bottom-6",
+          "[&>*:last-child]:top-28",
+          "[&>*:last-child]:min-h-0",
+          "[&>*:last-child]:overflow-hidden",
+          "lg:[&>*:nth-child(n+3):not(:last-child)]:block",
+          "lg:[&>*:last-child]:pointer-events-auto",
+          "lg:[&>*:last-child]:static",
+        ].join(" "),
         className,
       )}
     >
@@ -153,7 +153,7 @@ export function AuctionRankingsContainer({
       className={cn(
         "grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto]",
         isBiddingActive &&
-          "absolute inset-x-0 bottom-0 top-24 z-20 overflow-hidden rounded-t-[1.75rem] border-t border-border bg-background/95 shadow-2xl backdrop-blur-sm lg:static lg:rounded-none lg:border-t-0 lg:bg-transparent lg:shadow-none lg:backdrop-blur-none",
+        "absolute inset-x-0 bottom-0 top-0 z-20 overflow-hidden rounded-t-[1.75rem] border-t border-border bg-background/95 shadow-2xl backdrop-blur-sm lg:static lg:rounded-none lg:border-t-0 lg:bg-transparent lg:shadow-none lg:backdrop-blur-none",
         className,
       )}
     >
