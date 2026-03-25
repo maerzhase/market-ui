@@ -193,7 +193,7 @@ export default function Home() {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(251,205,193,0.55),transparent_32%),radial-gradient(circle_at_78%_22%,rgba(255,178,164,0.32),transparent_28%),linear-gradient(180deg,rgba(252,248,245,0.92),rgba(252,248,245,0.65))]" />
 
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-6 py-8 md:grid-cols-2 md:gap-12 lg:gap-16">
-          <div className="relative z-10">
+          <div className="relative z-10 min-w-0">
             <div className="border-primary/20 bg-background/85 text-primary inline-flex rounded-full border px-4 py-1.5 text-[0.72rem] font-semibold tracking-[0.24em] whitespace-nowrap uppercase shadow-sm backdrop-blur">
               Marketplace design system
             </div>
@@ -203,7 +203,7 @@ export default function Home() {
             <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg">
               Declarative components for transactions, auctions, and dynamic marketplace logic.
             </p>
-            <div className="relative z-10 mt-7 flex items-center gap-4">
+            <div className="relative z-10 mt-7 flex flex-wrap items-center gap-4">
               <Button
                 color="tertiary"
                 nativeButton={false}
@@ -220,7 +220,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-96 md:mx-0 md:justify-self-end">
+          <div className="relative mx-auto w-full max-w-[24rem] md:mx-0 md:justify-self-end">
             <LandingReceipt />
           </div>
         </div>
