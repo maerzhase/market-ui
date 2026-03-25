@@ -77,18 +77,15 @@ export function AuctionDetailsHeader({
         "flex min-h-0 grow flex-col p-6",
         isBiddingActive &&
         [
-          "overflow-hidden",
-          "[&>*:nth-child(n+3):not(:last-child)]:hidden",
-          "[&>*:last-child]:pointer-events-none",
-          "[&>*:last-child]:absolute",
-          "[&>*:last-child]:inset-x-6",
-          "[&>*:last-child]:bottom-6",
-          "[&>*:last-child]:top-28",
-          "[&>*:last-child]:min-h-0",
-          "[&>*:last-child]:overflow-hidden",
-          "lg:[&>*:nth-child(n+3):not(:last-child)]:block",
-          "lg:[&>*:last-child]:pointer-events-auto",
-          "lg:[&>*:last-child]:static",
+          "max-lg:overflow-hidden",
+          "max-lg:[&>*:nth-child(n+3):not(:last-child)]:hidden",
+          "max-lg:[&>*:last-child]:pointer-events-none",
+          "max-lg:[&>*:last-child]:absolute",
+          "max-lg:[&>*:last-child]:inset-x-6",
+          "max-lg:[&>*:last-child]:bottom-6",
+          "max-lg:[&>*:last-child]:top-28",
+          "max-lg:[&>*:last-child]:min-h-0",
+          "max-lg:[&>*:last-child]:overflow-hidden",
         ].join(" "),
         className,
       )}
@@ -153,7 +150,7 @@ export function AuctionRankingsContainer({
       className={cn(
         "grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto]",
         isBiddingActive &&
-        "absolute inset-x-0 bottom-0 top-0 z-20 overflow-hidden rounded-t-[1.75rem] border-t border-border bg-background/95 shadow-2xl backdrop-blur-sm lg:static lg:rounded-none lg:border-t-0 lg:bg-transparent lg:shadow-none lg:backdrop-blur-none",
+        "max-lg:absolute max-lg:inset-x-0 max-lg:bottom-0 max-lg:top-0 max-lg:z-20 max-lg:overflow-hidden max-lg:rounded-t-[1.75rem] max-lg:border-t max-lg:border-border max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur-sm",
         className,
       )}
     >
