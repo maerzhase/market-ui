@@ -64,6 +64,14 @@ export function MorphDialog({
     [isControlled, onOpenChange],
   );
 
+  const handleBackdropClick = useCallback(() => {
+    handleOpenChange(false, {} as OpenChangeDetails);
+  }, [handleOpenChange]);
+
+  const handleContentClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  }, []);
+
   return (
     <LayoutGroup id={layoutId}>
       <Dialog.Root open={isOpen} onOpenChange={handleOpenChange} modal={modal}>
@@ -88,10 +96,11 @@ export function MorphDialog({
         <Dialog.Portal>
           <Dialog.Backdrop
             className={cn(
-              "fixed inset-0 z-60 backdrop-blur-sm transition-opacity duration-150 ease-out",
+              "fixed inset-0 z-60 cursor-pointer backdrop-blur-sm transition-opacity duration-150 ease-out",
               isOpen ? "opacity-100" : "opacity-0",
               backdropClassName,
             )}
+            onClick={handleBackdropClick}
           />
 
           <Dialog.Popup
@@ -99,6 +108,7 @@ export function MorphDialog({
             initialFocus={initialFocus}
             finalFocus={finalFocus}
             className="fixed inset-0 z-70 flex items-center justify-center p-5 outline-none sm:p-8"
+            onClick={handleBackdropClick}
           >
             <AnimatePresence initial={false}>
               {isOpen ? (
@@ -111,6 +121,7 @@ export function MorphDialog({
                   exit={prefersReducedMotion ? { opacity: 0, scale: 0.98 } : undefined}
                   transition={prefersReducedMotion ? transitions.fade : springs.quick}
                   className={cn("pointer-events-auto max-h-[90vh] max-w-[90vw]", popupClassName)}
+                  onClick={handleContentClick}
                 >
                   {contentClosesDialog ? (
                     <Dialog.Close className="block cursor-pointer appearance-none border-0 bg-transparent p-0 text-left outline-none">
