@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Ranking, Separator, Text } from "@/components";
 import {
@@ -233,6 +234,19 @@ function AuctionStatus() {
   );
 }
 
+function AutoStartBidding() {
+  const { isBiddingActive, startBidding, setShowBidPreview } =
+    useAuctionContext();
+
+  useEffect(() => {
+    if (isBiddingActive) return;
+    startBidding();
+    setShowBidPreview(true);
+  }, [isBiddingActive, setShowBidPreview, startBidding]);
+
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // Multi-edition stories (20 editions of an art print)
 // ---------------------------------------------------------------------------
@@ -326,6 +340,77 @@ export const WithTopUp: StoryObj<typeof Auction> = {
           }}
           className="size-full overflow-hidden rounded-lg border border-border bg-background shadow-lg"
         >
+          <AuctionLayout>
+            <AuctionDetails>
+              <AuctionDetailsHeader>
+                <AuctionStatus />
+                <h2 className="mt-2 text-lg font-semibold">
+                  The Great Wave off Kanagawa
+                </h2>
+                <Text color="secondary">Katsushika Hokusai</Text>
+                <AuctionArtwork
+                  className="mt-4"
+                  src={EDITION_ARTWORK_URL}
+                  alt={EDITION_ARTWORK_ALT}
+                />
+              </AuctionDetailsHeader>
+              <AuctionDetailsBody>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Editions
+                    </Text>
+                    <Text size="2">20</Text>
+                  </div>
+                  <div className="flex justify-between">
+                    <Text size="2" color="tertiary">
+                      Reserve Price
+                    </Text>
+                    <Text size="2" tabularNums>
+                      $100.00
+                    </Text>
+                  </div>
+                  <Separator />
+                  <Text size="2" color="secondary">
+                    Bid on one of 20 limited edition prints. The top 20 bidders
+                    each win an edition.
+                  </Text>
+                </div>
+              </AuctionDetailsBody>
+            </AuctionDetails>
+            <AuctionRankingsContainer>
+              <AuctionRankings />
+              <AuctionBiddingPanel>
+                <AuctionBidForm.Root />
+              </AuctionBiddingPanel>
+            </AuctionRankingsContainer>
+          </AuctionLayout>
+        </Auction>
+      </div>
+    </div>
+  ),
+};
+
+export const MobileBiddingOverlay: StoryObj<typeof Auction> = {
+  render: () => (
+    <div className="h-screen w-full bg-muted p-4 lg:p-8">
+      <div className="mx-auto flex h-full max-w-sm items-center justify-center">
+        <Auction
+          auction={mockAuction}
+          bids={mockBids}
+          userBids={[]}
+          formatters={dollarFormatters}
+          onPlaceBid={async (price, qty) => {
+            console.log("Place bid:", price, "cents", qty);
+            return true;
+          }}
+          onTopUpBid={async (bidId, newPrice, value) => {
+            console.log("Top up:", bidId, newPrice, "cents", value);
+            return true;
+          }}
+          className="size-full max-h-180 overflow-hidden rounded-lg border border-border bg-background shadow-lg"
+        >
+          <AutoStartBidding />
           <AuctionLayout>
             <AuctionDetails>
               <AuctionDetailsHeader>
