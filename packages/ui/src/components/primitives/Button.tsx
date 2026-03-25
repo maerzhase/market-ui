@@ -1,4 +1,5 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
+import { IconLoader2 } from "@tabler/icons-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 import { cn } from "@/lib/cn";
@@ -153,24 +154,7 @@ export function Button({
     <>
       <span className="invisible contents">{children}</span>
       <span className="absolute inset-0 flex items-center justify-center">
-        <svg
-          className="size-4 animate-spin"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden
-        >
-          <title>Loading</title>
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            strokeDasharray="60"
-            strokeDashoffset="20"
-            strokeLinecap="round"
-          />
-        </svg>
+        <IconLoader2 aria-hidden className="size-4 animate-spin" />
       </span>
     </>
   ) : (

@@ -1,3 +1,4 @@
+import { IconArrowRight, IconPlus, IconStarFilled } from "@tabler/icons-react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "@/components/primitives";
 
@@ -106,76 +107,16 @@ export const IconSizes: StoryObj<typeof Button> = {
   render: () => (
     <div className="flex items-center gap-4">
       <Button size="icon-xs" color="secondary" aria-label="Add">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Plus icon</title>
-          <path d="M12 5v14" />
-          <path d="M5 12h14" />
-        </svg>
+        <IconPlus aria-hidden className="size-3.5" />
       </Button>
       <Button size="icon-sm" color="secondary" aria-label="Add">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Plus icon</title>
-          <path d="M12 5v14" />
-          <path d="M5 12h14" />
-        </svg>
+        <IconPlus aria-hidden className="size-4" />
       </Button>
       <Button size="icon" color="secondary" aria-label="Add">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Plus icon</title>
-          <path d="M12 5v14" />
-          <path d="M5 12h14" />
-        </svg>
+        <IconPlus aria-hidden className="size-4" />
       </Button>
       <Button size="icon-lg" color="secondary" aria-label="Add">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Plus icon</title>
-          <path d="M12 5v14" />
-          <path d="M5 12h14" />
-        </svg>
+        <IconPlus aria-hidden className="size-5" />
       </Button>
     </div>
   ),
@@ -240,41 +181,11 @@ export const WithIcon: StoryObj<typeof Button> = {
   render: () => (
     <div className="flex gap-4">
       <Button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Arrow icon</title>
-          <path d="M5 12h14" />
-          <path d="m12 5 7 7-7 7" />
-        </svg>
+        <IconArrowRight aria-hidden className="size-4" />
         With Icon
       </Button>
       <Button size="xs">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          role="img"
-        >
-          <title>Arrow icon</title>
-          <path d="M5 12h14" />
-          <path d="m12 5 7 7-7 7" />
-        </svg>
+        <IconArrowRight aria-hidden className="size-3" />
         XS with Icon
       </Button>
     </div>
@@ -364,64 +275,16 @@ export const AllSizes: StoryObj<typeof Button> = {
         <p className="mb-2 text-sm text-muted-foreground">Icon Buttons</p>
         <div className="flex items-end gap-2">
           <Button size="icon-xs" color="secondary" aria-label="Action">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              role="img"
-            >
-              <title>Star</title>
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <IconStarFilled aria-hidden className="size-3.5" />
           </Button>
           <Button size="icon-sm" color="secondary" aria-label="Action">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              role="img"
-            >
-              <title>Star</title>
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <IconStarFilled aria-hidden className="size-4" />
           </Button>
           <Button size="icon" color="secondary" aria-label="Action">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              role="img"
-            >
-              <title>Star</title>
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <IconStarFilled aria-hidden className="size-4" />
           </Button>
           <Button size="icon-lg" color="secondary" aria-label="Action">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              role="img"
-            >
-              <title>Star</title>
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
+            <IconStarFilled aria-hidden className="size-5" />
           </Button>
         </div>
       </div>
