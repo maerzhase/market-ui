@@ -1,0 +1,42 @@
+.docs-prose {
+  color: var(--color-foreground);
+}
+
+.docs-prose > :first-child {
+  margin-top: 0;
+}
+
+.docs-prose [data-installation-tabs] [data-slot="tabs-panel"] {
+  margin-top: 0;
+}
+
+.docs-prose pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.docs-prose code[data-language] {
+  color: inherit;
+}
+
+.docs-prose pre.shiki,
+.docs-prose code.shiki {
+  color: var(--shiki-light);
+  background-color: transparent;
+}
+
+.docs-prose pre.shiki span,
+.docs-prose code.shiki span {
+  color: var(--shiki-light);
+}
+
+.dark .docs-prose pre.shiki,
+.dark .docs-prose code.shiki {
+  color: var(--shiki-dark);
+}
+
+.dark .docs-prose pre.shiki span,
+.dark .docs-prose code.shiki span {
+  color: var(--shiki-dark);
+}
