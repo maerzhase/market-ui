@@ -173,5 +173,5 @@ The library uses a semantic color system compatible with Tailwind CSS:
 ## Links
 
 - Documentation: https://m3000.market/docs
-- GitHub: https://github.com/m3000/market
+- GitHub: https://github.com/maerzhase/market-ui
 - npm: https://npmjs.com/package/@m3000/market

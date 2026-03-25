@@ -14,7 +14,7 @@ export function HeaderSearch(_: HeaderSearchProps) {
   return (
     <Button
       type="button"
-      color="secondary"
+      color="tertiary"
       size="sm"
       onClick={() => setOpen(true)}
       aria-label="Open search"
