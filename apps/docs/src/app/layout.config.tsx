@@ -7,7 +7,7 @@ export const siteLinks = [
 		external: false,
 	},
 	{
-		href: "https://github.com/m3000/market",
+		href: "https://github.com/maerzhase/market-ui",
 		label: "GitHub",
 		external: true,
 	},
