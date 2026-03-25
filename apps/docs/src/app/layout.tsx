@@ -1,17 +1,7 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
+import { DocsSearchDialog } from "@/components/layout/search-dialog";
 import "./globals.css";
-
-const docsSearch =
-	process.env.NODE_ENV === "production"
-		? {
-				type: "static" as const,
-				api: "/search-index.json",
-			}
-		: {
-				type: "fetch" as const,
-				api: "/api/search",
-			};
 
 export const metadata: Metadata = {
 	title: "@m3000/market - Market UI Components",
@@ -30,7 +20,7 @@ export default function RootLayout({
 				<RootProvider
 					search={{
 						enabled: true,
-						options: docsSearch,
+						SearchDialog: DocsSearchDialog,
 					}}
 				>
 					{children}
