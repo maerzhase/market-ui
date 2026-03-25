@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "@m3000/market/styles.css";
-@import "./fumadocs-theme.css";
+@import "./docs-overrides.css";
 
 html,
 body {
