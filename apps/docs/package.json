@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@m3000/market": "workspace:*",
+    "@tabler/icons-react": "^3.34.1",
     "fumadocs-core": "^16.6.17",
     "fumadocs-mdx": "^14.2.10",
     "fumadocs-ui": "^16.6.17",
