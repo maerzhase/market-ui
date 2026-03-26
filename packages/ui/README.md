@@ -2,7 +2,10 @@
 
 Design system for building interfaces shaped by price, time, and competition.
 
-The package has two layers: **primitives** — buttons, price display, countdown timers, inputs, and more — and **auction blocks**, higher-level composed components for building bidding UIs with rankings, bid forms, and live status.
+The package has two layers:
+
+- **primitives**: buttons, price display, countdown timers, inputs, and more
+- **blocks**: higher-level composed components for e.g. auctions, purchase flows
 
 Built on React 19, Tailwind CSS 4, and Base UI.
 
@@ -78,7 +81,7 @@ import {
     <AuctionBidForm />
     <AuctionRankings />
   </AuctionLayout>
-</AuctionProvider>
+</AuctionProvider>;
 ```
 
 ## TypeScript
