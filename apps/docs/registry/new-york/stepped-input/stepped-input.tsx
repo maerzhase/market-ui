@@ -244,7 +244,7 @@ function Input({ className }: InputProps): React.ReactElement {
     <NumberField.Input
       className={cn(
         "h-10 w-auto grow border border-input bg-background px-4",
-        "text-center text-2 text-foreground tabular-nums",
+        "text-center text-sm leading-[21px] text-foreground tabular-nums",
         "focus:ring-2 focus:ring-ring focus:outline-none focus:ring-inset",
         "disabled:cursor-not-allowed disabled:border-disabled disabled:text-disabled-foreground",
         className,
@@ -275,7 +275,7 @@ function Value({ children, className }: ValueProps): React.ReactElement {
       )}
     >
       <NumberField.Input readOnly className="sr-only" />
-      <div className="w-full text-center text-2 text-foreground tabular-nums">
+      <div className="w-full text-center text-sm leading-[21px] text-foreground tabular-nums">
         {children({ value, inputValue, step, disabled })}
       </div>
     </div>

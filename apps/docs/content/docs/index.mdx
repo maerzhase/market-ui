@@ -34,7 +34,11 @@ import { Tab, Tabs } from '@/components/docs/mdx-installation-tabs';
   </Tab>
 </Tabs>
 
-## Usage
+## Styling
+
+You can either use the bundled library styles or provide the design tokens yourself.
+
+### Use the bundled styles
 
 Import the styles in your app's entry point:
 
@@ -42,7 +46,68 @@ Import the styles in your app's entry point:
 import "@m3000/market/styles.css";
 ```
 
-Then import and use the components:
+### Configure the tokens yourself
+
+If you already own your app theme, keep Tailwind v4 in your app stylesheet and define the tokens our components use:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant data-active (&[data-state~="active"]);
+@custom-variant data-open (&[data-state~="open"]);
+@custom-variant data-close (&[data-state~="close"]);
+@custom-variant data-disabled (&[data-state~="disabled"]);
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-active: var(--accent-active);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-disabled: var(--disabled);
+  --color-disabled-foreground: var(--disabled-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-muted: var(--destructive-muted);
+  --color-destructive-muted-foreground: var(--destructive-muted-foreground);
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-success-muted-foreground: var(--success-muted-foreground);
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-warning-muted-foreground: var(--warning-muted-foreground);
+  --color-separator: var(--separator);
+  --font-sans: var(--font-sans);
+}
+```
+
+Use Tailwind's default typography utilities for sizing. No custom `text-1` or `leading-1` scale is required.
+
+## Usage
+
+Import and use the components:
 
 ```tsx
 import { Price, Feedback, Countdown, Ranking, Receipt } from "@m3000/market";
@@ -66,22 +131,3 @@ pnpm dlx shadcn@latest add https://market.m3000.io/r/price.json
 ```
 
 This will copy the component source code directly into your project, giving you full control over customization.
-
-## Components
-
-### Primitives
-
-Building blocks for marketplace UIs:
-
-- [**Price**](/docs/primitives/price) - Format cryptocurrency and fiat prices with customizable precision
-- [**Feedback**](/docs/primitives/feedback) - Attach animated inline feedback to buttons and other triggers
-- [**Ranking**](/docs/primitives/ranking) - Render already-sorted ranked items with group boundaries
-- [**Countdown**](/docs/primitives/countdown) - Countdown timer with semantic labels
-- [**Receipt**](/docs/primitives/receipt) - Build order summaries with items, taxes, and totals
-
-### Blocks
-
-Pre-assembled declarative interfaces built from primitives for marketplace user flows:
-
-- [**Blocks Overview**](/docs/blocks) - Learn how Blocks package full user flows from composable primitives
-- <span className="font-semibold text-muted-foreground underline decoration-muted-foreground/40 decoration-dotted underline-offset-4">Auction</span> <span className="ml-2 inline-flex rounded-full border border-amber-300/70 bg-amber-100/75 px-2 py-0.5 text-[0.62rem] font-semibold tracking-[0.12em] text-amber-800 uppercase align-middle">Soon</span> - Complete auction interface with bid rankings and forms

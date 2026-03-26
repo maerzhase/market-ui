@@ -561,7 +561,7 @@ function ReceiptFooter({
 }: ReceiptFooterProps): React.ReactElement {
   return (
     <div
-      className={cn("text-1 text-muted-foreground pt-2 leading-1", className)}
+      className={cn("pt-2 text-xs leading-[18px] text-muted-foreground", className)}
       {...props}
     >
       {children}
@@ -667,7 +667,7 @@ function ReceiptRoot({
       <ReceiptPriceContext value={priceDefaults}>
         <div
           className={cn(
-            "text-2 text-foreground flex flex-col gap-2 leading-2",
+            "flex flex-col gap-2 text-sm leading-[21px] text-foreground",
             className,
           )}
           {...props}

@@ -14,7 +14,7 @@ export function CountdownProgressExample() {
 
 				return (
 					<div className="flex w-full flex-col gap-2">
-						<div className="flex items-center justify-between gap-4 text-2">
+						<div className="flex items-center justify-between gap-4 text-sm leading-[21px]">
 							<span className="text-muted-foreground">Time remaining</span>
 							<span className="font-mono">{timeString}</span>
 						</div>
