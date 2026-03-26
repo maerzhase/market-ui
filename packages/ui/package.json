@@ -10,7 +10,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./tokens.css": "./src/styles/tokens.css"
   },
   "sideEffects": [
     "*.css"
@@ -19,7 +20,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown && tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
+    "build": "tsdown && tailwindcss -i src/styles/index.css -o dist/styles.css --minify && tailwindcss -i src/styles/tokens.css -o dist/tokens.css --minify",
     "build:storybook": "storybook build",
     "build:watch": "tsdown --watch",
     "dev": "tsdown --watch",
@@ -86,6 +87,14 @@
     }
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./styles.css": "./dist/styles.css",
+      "./tokens.css": "./dist/tokens.css"
+    }
   }
 }
