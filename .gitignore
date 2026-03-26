@@ -31,6 +31,7 @@ nvim-verbose.log
 # ai
 .cursor
 .agents
+.claude
 
 # monorepo
 .next/
@@ -41,3 +42,4 @@ nvim-verbose.log
 # packages build output
 packages/*/dist/
 packages/*/.turbo/
+
