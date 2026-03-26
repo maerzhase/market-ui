@@ -150,7 +150,7 @@ Sub-components:
 Components can also be added via the shadcn CLI:
 
 ```bash
-pnpm dlx shadcn@latest add https://m3000.market/r/price.json
+pnpm dlx shadcn@latest add https://market.m3000.io/r/price.json
 ```
 
 This copies the component source code directly into your project.
@@ -172,6 +172,6 @@ The library uses a semantic color system compatible with Tailwind CSS:
 
 ## Links
 
-- Documentation: https://m3000.market/docs
+- Documentation: https://market.m3000.io/docs
 - GitHub: https://github.com/maerzhase/market-ui
 - npm: https://npmjs.com/package/@m3000/market
