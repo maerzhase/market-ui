@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/postcss";
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
@@ -14,6 +15,14 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: "react-docgen-typescript",
   },
+  viteFinal: (config) => ({
+    ...config,
+    css: {
+      postcss: {
+        plugins: [tailwindcss],
+      },
+    },
+  }),
 };
 
 export default config;
