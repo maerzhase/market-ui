@@ -20,9 +20,6 @@
     "dist",
     "src"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "tsdown",
     "build:storybook": "storybook build",
@@ -88,5 +85,8 @@
     "@types/react-dom": {
       "optional": true
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
