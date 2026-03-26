@@ -1,4 +1,5 @@
 @import "@m3000/market/tokens.css";
+@custom-variant dark (&:where(.dark, .dark *));
 @import "tailwindcss";
 @source "../**/*.{ts,tsx}";
 @source "../../../../packages/ui/src/**/*.{ts,tsx}";
