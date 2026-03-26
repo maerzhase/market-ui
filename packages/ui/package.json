@@ -59,7 +59,7 @@
     "@storybook/react": "10.1.2",
     "@storybook/react-vite": "10.1.2",
     "@tailwindcss/cli": "4.1.11",
-    "@tailwindcss/postcss": "4.1.11",
+    "@tailwindcss/postcss": "4.2.1",
     "@tsconfig/vite-react": "7.0.2",
     "@types/node": "22.14.1",
     "@types/react": "19.2.2",
