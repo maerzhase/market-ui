@@ -4,24 +4,31 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:storybook": "turbo run build:storybook --filter=@m3000/ui",
+    "check": "pnpm syncpack:lint && turbo run lint format typecheck",
+    "changeset": "changeset",
     "dev": "turbo run dev",
     "dev:docs": "turbo run dev --filter=@m3000/docs",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
+    "fix": "pnpm syncpack:fix && turbo run lint:fix format:fix",
     "format": "turbo run format",
     "format:fix": "turbo run format:fix",
-    "check": "turbo run lint format typecheck",
-    "fix": "turbo run lint:fix format:fix",
-    "typecheck": "turbo run typecheck",
-    "quality": "turbo run quality",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "release": "pnpm build && changeset publish",
     "storybook": "turbo run storybook --filter=@m3000/ui",
-    "build:storybook": "turbo run build:storybook --filter=@m3000/ui"
+    "syncpack:fix": "syncpack fix-mismatches && syncpack set-semver-ranges && pnpm syncpack:format",
+    "syncpack:format": "syncpack format && pnpm exec biome format --write package.json apps/docs/package.json packages/ui/package.json",
+    "syncpack:lint": "syncpack lint-semver-ranges && syncpack list-mismatches && ! rg -n --pcre2 '\"@m3000/[^\"]+\": \"(?!workspace:\\*)' package.json apps/docs/package.json packages/ui/package.json",
+    "typecheck": "turbo run typecheck",
+    "version-packages": "changeset version"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "turbo": "^2.5.0"
+    "@changesets/cli": "2.30.0",
+    "prettier": "3.8.1",
+    "prettier-plugin-tailwindcss": "0.7.2",
+    "syncpack": "13.0.4",
+    "turbo": "2.8.18"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
