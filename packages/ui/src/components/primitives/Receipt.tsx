@@ -160,7 +160,11 @@ function computeReceiptValues(
             ? scaleValue(explicitValue, descriptor.decimals, receiptDecimals)
             : descriptor.rate !== undefined
               ? computeTaxFromRate(
-                  scaleValue(subtotalAccumulator, receiptDecimals, descriptor.decimals),
+                  scaleValue(
+                    subtotalAccumulator,
+                    receiptDecimals,
+                    descriptor.decimals,
+                  ),
                   descriptor.decimals,
                   descriptor.rate,
                 )
@@ -262,9 +266,8 @@ function ReceiptItem({
   );
 }
 
-export interface ReceiptSeparatorProps extends React.ComponentProps<
-  typeof Separator
-> {}
+export interface ReceiptSeparatorProps
+  extends React.ComponentProps<typeof Separator> {}
 
 function ReceiptSeparator({
   className,
@@ -561,7 +564,10 @@ function ReceiptFooter({
 }: ReceiptFooterProps): React.ReactElement {
   return (
     <div
-      className={cn("pt-2 text-xs leading-[18px] text-muted-foreground", className)}
+      className={cn(
+        "pt-2 text-xs leading-[18px] text-muted-foreground",
+        className,
+      )}
       {...props}
     >
       {children}

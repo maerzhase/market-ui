@@ -245,8 +245,9 @@ export function AuctionRankings({
       if (previewRef.current && scrollContainerRef.current) {
         const container = scrollContainerRef.current;
         const preview = previewRef.current;
-        const stickyDivider =
-          container.querySelector<HTMLElement>("[data-ranking-group-divider]");
+        const stickyDivider = container.querySelector<HTMLElement>(
+          "[data-ranking-group-divider]",
+        );
         const stickyOffset = stickyDivider?.offsetHeight ?? 0;
 
         const containerRect = container.getBoundingClientRect();

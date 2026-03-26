@@ -3,5 +3,5 @@
 import { FullAuctionExample } from "./shared";
 
 export function AuctionUsageExample() {
-	return <FullAuctionExample />;
+  return <FullAuctionExample />;
 }

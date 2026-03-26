@@ -61,10 +61,7 @@ export function ComponentPreview({
       value={view}
       onValueChange={(value) => setView(value as "preview" | "code")}
       variant="segmented"
-      className={cn(
-        "my-6 gap-3",
-        className,
-      )}
+      className={cn("my-6 gap-3", className)}
     >
       <div>
         <TabsList
@@ -95,7 +92,7 @@ export function ComponentPreview({
               className={cn(
                 "w-full",
                 !allowPointerEvents &&
-                "pointer-events-none select-none [&>*]:pointer-events-auto [&>*]:select-auto",
+                  "pointer-events-none select-none [&>*]:pointer-events-auto [&>*]:select-auto",
               )}
               style={{ maxWidth: resolvedMaxWidth }}
             >

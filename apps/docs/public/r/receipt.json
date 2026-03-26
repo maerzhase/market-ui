@@ -4,13 +4,8 @@
   "type": "registry:component",
   "title": "Receipt",
   "description": "Build order summaries with items, taxes, fees, and dynamic totals.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge"
-  ],
-  "registryDependencies": [
-    "price"
-  ],
+  "dependencies": ["clsx", "tailwind-merge"],
+  "registryDependencies": ["price"],
   "files": [
     {
       "path": "registry/new-york/receipt/receipt.tsx",

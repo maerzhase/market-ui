@@ -76,17 +76,17 @@ export function AuctionDetailsHeader({
       className={cn(
         "flex min-h-0 grow flex-col p-6",
         isBiddingActive &&
-        [
-          "max-lg:overflow-hidden",
-          "max-lg:[&>*:nth-child(n+3):not(:last-child)]:hidden",
-          "max-lg:[&>*:last-child]:pointer-events-none",
-          "max-lg:[&>*:last-child]:absolute",
-          "max-lg:[&>*:last-child]:inset-x-6",
-          "max-lg:[&>*:last-child]:bottom-6",
-          "max-lg:[&>*:last-child]:top-28",
-          "max-lg:[&>*:last-child]:min-h-0",
-          "max-lg:[&>*:last-child]:overflow-hidden",
-        ].join(" "),
+          [
+            "max-lg:overflow-hidden",
+            "max-lg:[&>*:nth-child(n+3):not(:last-child)]:hidden",
+            "max-lg:[&>*:last-child]:pointer-events-none",
+            "max-lg:[&>*:last-child]:absolute",
+            "max-lg:[&>*:last-child]:inset-x-6",
+            "max-lg:[&>*:last-child]:bottom-6",
+            "max-lg:[&>*:last-child]:top-28",
+            "max-lg:[&>*:last-child]:min-h-0",
+            "max-lg:[&>*:last-child]:overflow-hidden",
+          ].join(" "),
         className,
       )}
     >
@@ -150,7 +150,7 @@ export function AuctionRankingsContainer({
       className={cn(
         "grid h-full min-h-0 grid-rows-[minmax(0,1fr)_auto]",
         isBiddingActive &&
-        "max-lg:absolute max-lg:inset-x-0 max-lg:bottom-0 max-lg:top-0 max-lg:z-20 max-lg:overflow-hidden max-lg:rounded-t-[1.75rem] max-lg:border-t max-lg:border-border max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur-sm",
+          "max-lg:absolute max-lg:inset-x-0 max-lg:bottom-0 max-lg:top-0 max-lg:z-20 max-lg:overflow-hidden max-lg:rounded-t-[1.75rem] max-lg:border-t max-lg:border-border max-lg:bg-background/95 max-lg:shadow-2xl max-lg:backdrop-blur-sm",
         className,
       )}
     >
@@ -168,12 +168,8 @@ export function AuctionBiddingPanel({
   children,
   className,
 }: AuctionBiddingPanelProps): React.ReactElement {
-  const {
-    isBiddingActive,
-    startBidding,
-    isAuctionEnded,
-    setShowBidPreview,
-  } = useAuctionContext();
+  const { isBiddingActive, startBidding, isAuctionEnded, setShowBidPreview } =
+    useAuctionContext();
 
   const handleStartBidding = () => {
     startBidding();

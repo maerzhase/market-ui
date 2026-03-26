@@ -19,26 +19,26 @@ const themeInitScript = `
 `;
 
 export const metadata: Metadata = {
-	title: "@m3000/market - Market UI Components",
-	description:
-		"A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
+  title: "@m3000/market - Market UI Components",
+  description:
+    "A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<head>
-				<script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-			</head>
-			<body className="min-h-screen bg-background text-foreground antialiased">
-				<ThemeProvider>
-					<DocsSearchProvider>{children}</DocsSearchProvider>
-				</ThemeProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider>
+          <DocsSearchProvider>{children}</DocsSearchProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

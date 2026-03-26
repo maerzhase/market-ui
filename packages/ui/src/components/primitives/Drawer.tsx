@@ -22,7 +22,9 @@ export interface DrawerProps {
   description?: React.ReactNode;
   side?: "left" | "right";
   modal?: React.ComponentProps<typeof DrawerPrimitive.Root>["modal"];
-  initialFocus?: React.ComponentProps<typeof DrawerPrimitive.Popup>["initialFocus"];
+  initialFocus?: React.ComponentProps<
+    typeof DrawerPrimitive.Popup
+  >["initialFocus"];
   finalFocus?: React.ComponentProps<typeof DrawerPrimitive.Popup>["finalFocus"];
   popupAriaLabel?: string;
 }
@@ -46,9 +48,7 @@ export function Drawer({
   popupAriaLabel,
 }: DrawerProps): React.ReactElement {
   const sideClassName =
-    side === "left"
-      ? "inset-y-0 left-0 h-full"
-      : "inset-y-0 right-0 h-full";
+    side === "left" ? "inset-y-0 left-0 h-full" : "inset-y-0 right-0 h-full";
   const swipeDirection = side === "left" ? "left" : "right";
 
   return (

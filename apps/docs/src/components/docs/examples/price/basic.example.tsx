@@ -3,10 +3,10 @@
 import { Price } from "@m3000/market";
 
 export function PriceBasicExample() {
-	return (
-		<Price value={12345n} decimals={2}>
-			<Price.Symbol>$</Price.Symbol>
-			<Price.Value />
-		</Price>
-	);
+  return (
+    <Price value={12345n} decimals={2}>
+      <Price.Symbol>$</Price.Symbol>
+      <Price.Value />
+    </Price>
+  );
 }

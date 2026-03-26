@@ -87,7 +87,9 @@ export function AuctionStatusTag({
           className="size-2.5 shrink-0 rounded-full bg-muted-foreground"
           aria-hidden
         />
-        <Text suppressHydrationWarning>Closed - ended {formatDateTime(endsAt)}</Text>
+        <Text suppressHydrationWarning>
+          Closed - ended {formatDateTime(endsAt)}
+        </Text>
       </Tag>
     );
   }
