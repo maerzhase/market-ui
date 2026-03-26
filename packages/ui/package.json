@@ -31,9 +31,6 @@
     "README.md",
     "CHANGELOG.md"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "tsdown && postcss ./src/styles/index.css -o ./dist/styles.css --minify",
     "build:storybook": "storybook build",
@@ -102,5 +99,8 @@
     "@types/react-dom": {
       "optional": true
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
