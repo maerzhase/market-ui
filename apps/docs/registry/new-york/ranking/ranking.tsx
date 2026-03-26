@@ -188,7 +188,7 @@ function RankingRoot<T>({
     return (
       <div className={className}>
         {emptyChild ? (
-          <>{emptyChild}</>
+          emptyChild
         ) : (
           <Empty>
             <Text color="tertiary">No items</Text>

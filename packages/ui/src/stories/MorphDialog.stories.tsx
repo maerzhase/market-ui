@@ -25,7 +25,7 @@ export const Uncontrolled: Story = {
         popupAriaLabel="Expanded artwork preview"
         trigger={
           <div className="overflow-hidden rounded-xl border border-border bg-accent shadow-sm">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* biome-ignore lint/performance/noImgElement: Storybook does not use next/image. */}
             <img
               src={ARTWORK_URL}
               alt="Girl with a Pearl Earring"
@@ -35,7 +35,7 @@ export const Uncontrolled: Story = {
         }
         content={
           <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {/* biome-ignore lint/performance/noImgElement: Storybook does not use next/image. */}
             <img
               src={ARTWORK_URL}
               alt="Girl with a Pearl Earring"
@@ -63,7 +63,7 @@ export const Controlled: Story = {
           popupAriaLabel="Expanded artwork preview"
           trigger={
             <div className="overflow-hidden rounded-xl border border-border bg-accent shadow-sm">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {/* biome-ignore lint/performance/noImgElement: Storybook does not use next/image. */}
               <img
                 src={ARTWORK_URL}
                 alt="Girl with a Pearl Earring"
@@ -73,7 +73,7 @@ export const Controlled: Story = {
           }
           content={
             <div className="overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {/* biome-ignore lint/performance/noImgElement: Storybook does not use next/image. */}
               <img
                 src={ARTWORK_URL}
                 alt="Girl with a Pearl Earring"

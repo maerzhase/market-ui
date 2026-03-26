@@ -46,6 +46,7 @@ function HeaderNavLinks({
                   "text-muted-foreground hover:text-foreground",
               )}
               render={
+                /* biome-ignore lint/a11y/useAnchorContent: the Button component renders the link label as anchor content. */
                 <a
                   href={link.href}
                   target="_blank"

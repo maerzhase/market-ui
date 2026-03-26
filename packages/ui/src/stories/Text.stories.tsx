@@ -123,36 +123,16 @@ export const TabularNumbers: StoryObj<typeof Text> = {
 export const AsHeading: StoryObj<typeof Text> = {
   render: () => (
     <div className="flex flex-col gap-4">
-      <Text
-        render={<h1 />}
-        size="8"
-        weight="semibold"
-        aria-label="Heading level 1"
-      >
+      <Text as="h1" size="8" weight="semibold" aria-label="Heading level 1">
         Heading 1
       </Text>
-      <Text
-        render={<h2 />}
-        size="7"
-        weight="semibold"
-        aria-label="Heading level 2"
-      >
+      <Text as="h2" size="7" weight="semibold" aria-label="Heading level 2">
         Heading 2
       </Text>
-      <Text
-        render={<h3 />}
-        size="6"
-        weight="medium"
-        aria-label="Heading level 3"
-      >
+      <Text as="h3" size="6" weight="medium" aria-label="Heading level 3">
         Heading 3
       </Text>
-      <Text
-        render={<h4 />}
-        size="5"
-        weight="medium"
-        aria-label="Heading level 4"
-      >
+      <Text as="h4" size="5" weight="medium" aria-label="Heading level 4">
         Heading 4
       </Text>
       <Text render={<p />} size="2">
@@ -208,7 +188,7 @@ export const PriceDisplay: StoryObj<typeof Text> = {
 export const AuctionInfo: StoryObj<typeof Text> = {
   render: () => (
     <div className="w-80 rounded-lg border border-border bg-background p-4">
-      <Text render={<h3 />} size="4" weight="medium" aria-label="Auction title">
+      <Text as="h3" size="4" weight="medium" aria-label="Auction title">
         Ranked Auction #42
       </Text>
       <Text render={<p />} size="2" color="secondary" className="mt-1">

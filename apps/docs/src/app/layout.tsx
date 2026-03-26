@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { DocsSearchProvider } from "@/components/layout/docs-search";
 import { ThemeProvider } from "@/components/layout/theme-toggle";
 import "./globals.css";
@@ -32,7 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <ThemeProvider>

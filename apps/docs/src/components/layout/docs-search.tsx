@@ -89,13 +89,24 @@ function HighlightedText({
   value: string;
   className?: string;
 }) {
+  const segments = value.split(/(<mark>.*?<\/mark>)/g);
+  const segmentCounts = new Map<string, number>();
+
   return (
-    <span
-      className={className}
-      dangerouslySetInnerHTML={{
-        __html: value,
-      }}
-    />
+    <span className={className}>
+      {segments.map((segment) => {
+        const count = (segmentCounts.get(segment) ?? 0) + 1;
+        segmentCounts.set(segment, count);
+
+        if (segment.startsWith("<mark>") && segment.endsWith("</mark>")) {
+          return (
+            <mark key={`${segment}-${count}`}>{segment.slice(6, -7)}</mark>
+          );
+        }
+
+        return segment;
+      })}
+    </span>
   );
 }
 

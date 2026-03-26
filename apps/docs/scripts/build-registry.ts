@@ -3,8 +3,14 @@
  * Transforms imports to use local paths instead of @m3000/market paths.
  */
 
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import { dirname, join } from "path";
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 
 const ROOT = join(import.meta.dirname, "..");
 const UI_SRC = join(ROOT, "..", "..", "packages", "ui", "src");
