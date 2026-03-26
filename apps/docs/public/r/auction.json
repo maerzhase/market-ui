@@ -4,11 +4,7 @@
   "type": "registry:block",
   "title": "Auction",
   "description": "Complete auction interface with bid rankings, live previews, and stepped bidding.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge",
-    "motion"
-  ],
+  "dependencies": ["clsx", "tailwind-merge", "motion"],
   "registryDependencies": [
     "price",
     "countdown",

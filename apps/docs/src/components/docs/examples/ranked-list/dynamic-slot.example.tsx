@@ -77,14 +77,14 @@ export function RankingDynamicSlotExample() {
           )}
         </Ranking.Slot>
         <Ranking.Group>
-        <Ranking.GroupDivider />
-        <Ranking.GroupItem>
-          <Ranking.GroupItemValue>
-            {(player: Player) => (
-              <div className="flex items-center justify-between px-4 py-2">
-                <div className="flex items-center gap-3">
-                  <Ranking.GroupItemIndex />
-                  <Text>{player.name}</Text>
+          <Ranking.GroupDivider />
+          <Ranking.GroupItem>
+            <Ranking.GroupItemValue>
+              {(player: Player) => (
+                <div className="flex items-center justify-between px-4 py-2">
+                  <div className="flex items-center gap-3">
+                    <Ranking.GroupItemIndex />
+                    <Text>{player.name}</Text>
                   </div>
                   <Text color="secondary">{player.score}</Text>
                 </div>

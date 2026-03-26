@@ -28,7 +28,10 @@ function Tabs({
 }: TabsProps): React.ReactElement {
   return (
     <TabsLayoutContext value={{ layout, variant }}>
-      <TabsPrimitive.Root className={cn("flex flex-col", className)} {...props} />
+      <TabsPrimitive.Root
+        className={cn("flex flex-col", className)}
+        {...props}
+      />
     </TabsLayoutContext>
   );
 }

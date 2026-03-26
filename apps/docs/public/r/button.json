@@ -4,10 +4,7 @@
   "type": "registry:component",
   "title": "Button",
   "description": "A button component with multiple variants and sizes.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge"
-  ],
+  "dependencies": ["clsx", "tailwind-merge"],
   "files": [
     {
       "path": "registry/new-york/button/button.tsx",

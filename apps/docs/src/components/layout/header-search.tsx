@@ -21,9 +21,9 @@ export function HeaderSearch(_: HeaderSearchProps) {
     >
       <IconSearch aria-hidden className="size-4" />
       <span className="hidden items-center gap-1 md:ml-1 md:inline-flex">
-        {hotKey.map((key, index) => (
+        {hotKey.map((key) => (
           <kbd
-            key={index}
+            key={key}
             className="rounded border border-border bg-background px-1.5 py-0.5 text-[0.7rem] text-muted-foreground"
           >
             {key}

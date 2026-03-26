@@ -1,15 +1,15 @@
 {
-	"title": "Documentation",
-	"pages": [
-		"index",
-		"---Primitives---",
-		"primitives/price",
-		"primitives/stepped-input",
-		"primitives/feedback",
-		"primitives/ranking",
-		"primitives/countdown",
-		"primitives/receipt",
-		"---Blocks---",
-		"blocks/auction"
-	]
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "---Primitives---",
+    "primitives/price",
+    "primitives/stepped-input",
+    "primitives/feedback",
+    "primitives/ranking",
+    "primitives/countdown",
+    "primitives/receipt",
+    "---Blocks---",
+    "blocks/auction"
+  ]
 }

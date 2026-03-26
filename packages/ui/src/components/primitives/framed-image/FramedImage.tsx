@@ -27,7 +27,7 @@ export function FramedImage({
       contentClosesDialog
       trigger={
         <div className="absolute inset-0 flex items-center justify-center p-5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* biome-ignore lint/performance/noImgElement: shared UI stays framework-agnostic. */}
           <motion.img
             src={src}
             alt={alt ?? ""}
@@ -38,7 +38,7 @@ export function FramedImage({
       }
       content={
         <div className="flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* biome-ignore lint/performance/noImgElement: shared UI stays framework-agnostic. */}
           <img
             src={src}
             alt={alt ?? ""}

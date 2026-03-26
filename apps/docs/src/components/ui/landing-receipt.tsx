@@ -39,8 +39,8 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
     };
   }, []);
 
-  const [{ ref: interactiveRef }, pointerHandlers] = use3dRotation<HTMLDivElement>(
-    {
+  const [{ ref: interactiveRef }, pointerHandlers] =
+    use3dRotation<HTMLDivElement>({
       maxRotation: 8.2,
       scale: 1.01,
       moveDuration: 110,
@@ -48,8 +48,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
       glowX: "50%",
       glowY: "35%",
       transformRef: cardRef,
-    },
-  );
+    });
 
   return (
     <div className={cn("relative mx-auto w-full px-2 sm:px-0", className)}>
@@ -133,7 +132,9 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                     <Receipt.Total className="pt-1 text-[0.74rem] font-semibold tracking-[0.2em] text-stone-950 uppercase sm:text-[0.8rem] sm:tracking-[0.22em]" />
                     <Receipt.Footer className="flex items-baseline justify-between gap-3 pt-1 text-[0.72rem] tracking-[0.16em] text-stone-700 uppercase sm:gap-4 sm:text-[0.78rem] sm:tracking-[0.18em]">
                       <span>Delivery</span>
-                      <span className="text-stone-950">Arrives Tue, Mar 24</span>
+                      <span className="text-stone-950">
+                        Arrives Tue, Mar 24
+                      </span>
                     </Receipt.Footer>
                     <Receipt.Footer className="pt-2 text-center text-sm font-black tracking-[0.08em] text-stone-950 uppercase italic sm:pt-3">
                       @m3000/market
@@ -147,6 +148,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                   preserveAspectRatio="none"
                   className="absolute inset-x-0 -bottom-5 h-5 w-full fill-[#fffaf2]"
                 >
+                  <title>Decorative torn receipt edge</title>
                   <path d="M0 0H200V4L193.33 20L186.67 4L180 20L173.33 4L166.67 20L160 4L153.33 20L146.67 4L140 20L133.33 4L126.67 20L120 4L113.33 20L106.67 4L100 20L93.33 4L86.67 20L80 4L73.33 20L66.67 4L60 20L53.33 4L46.67 20L40 4L33.33 20L26.67 4L20 20L13.33 4L6.67 20L0 4Z" />
                 </svg>
               </div>

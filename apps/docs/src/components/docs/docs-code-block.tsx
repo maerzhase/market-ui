@@ -34,11 +34,7 @@ export function DocsCodeBlock({
     <div
       data-docs-code-surface
       data-embedded={embedded ? "true" : undefined}
-      className={cn(
-        styles.surface,
-        embedded && styles.embedded,
-        className,
-      )}
+      className={cn(styles.surface, embedded && styles.embedded, className)}
     >
       <Button
         type="button"

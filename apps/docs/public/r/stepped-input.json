@@ -4,10 +4,7 @@
   "type": "registry:component",
   "title": "SteppedInput",
   "description": "Number input with step controls.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge"
-  ],
+  "dependencies": ["clsx", "tailwind-merge"],
   "files": [
     {
       "path": "registry/new-york/stepped-input/stepped-input.tsx",

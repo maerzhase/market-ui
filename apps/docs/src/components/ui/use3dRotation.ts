@@ -59,7 +59,9 @@ export function use3dRotation<T extends HTMLElement>({
 }: Use3DRotationOptions = {}): Use3DRotationResult<T> {
   const elementRef = useRef<T>(null);
   const rafRef = useRef<number | null>(null);
-  const nextTransformRef = useRef("rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)");
+  const nextTransformRef = useRef(
+    "rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)",
+  );
 
   const getTransformElement = useCallback(() => {
     return transformRef?.current ?? elementRef.current;
@@ -74,17 +76,20 @@ export function use3dRotation<T extends HTMLElement>({
     element.style.transform = nextTransformRef.current;
   }, [getTransformElement]);
 
-  const scheduleTransform = useCallback((transform: string) => {
-    nextTransformRef.current = transform;
-    if (rafRef.current !== null) {
-      return;
-    }
+  const scheduleTransform = useCallback(
+    (transform: string) => {
+      nextTransformRef.current = transform;
+      if (rafRef.current !== null) {
+        return;
+      }
 
-    rafRef.current = window.requestAnimationFrame(() => {
-      rafRef.current = null;
-      applyTransform();
-    });
-  }, [applyTransform]);
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = null;
+        applyTransform();
+      });
+    },
+    [applyTransform],
+  );
 
   const setGlowPosition = useCallback(
     (x: string, y: string) => {
@@ -136,7 +141,12 @@ export function use3dRotation<T extends HTMLElement>({
     (event: ReactPointerEvent<T>) => {
       const eventElement = elementRef.current;
       const element = getTransformElement();
-      if (!eventElement || !element || disabled || event.pointerType === "touch") {
+      if (
+        !eventElement ||
+        !element ||
+        disabled ||
+        event.pointerType === "touch"
+      ) {
         return;
       }
 
@@ -145,8 +155,14 @@ export function use3dRotation<T extends HTMLElement>({
         return;
       }
 
-      const x = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
-      const y = Math.min(1, Math.max(0, (event.clientY - rect.top) / rect.height));
+      const x = Math.min(
+        1,
+        Math.max(0, (event.clientX - rect.left) / rect.width),
+      );
+      const y = Math.min(
+        1,
+        Math.max(0, (event.clientY - rect.top) / rect.height),
+      );
 
       const centerX = x * 2 - 1;
       const centerY = y * 2 - 1;

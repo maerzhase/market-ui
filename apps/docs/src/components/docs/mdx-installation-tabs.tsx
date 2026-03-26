@@ -1,6 +1,12 @@
 "use client";
 
-import { Tab as DsTab, Tabs as DsTabs, TabsList, TabsPanel, cn } from "@m3000/market";
+import {
+  Tab as DsTab,
+  Tabs as DsTabs,
+  TabsList,
+  TabsPanel,
+  cn,
+} from "@m3000/market";
 import {
   Children,
   isValidElement,
@@ -28,8 +34,8 @@ export interface TabsProps {
 }
 
 function getTabs(children: ReactNode): ReactElement<TabProps>[] {
-  return Children.toArray(children).filter((child): child is ReactElement<TabProps> =>
-    isValidElement<TabProps>(child),
+  return Children.toArray(children).filter(
+    (child): child is ReactElement<TabProps> => isValidElement<TabProps>(child),
   );
 }
 
@@ -41,7 +47,8 @@ export function Tabs({
   children,
 }: TabsProps) {
   const tabs = useMemo(() => getTabs(children), [children]);
-  const labels = items ?? tabs.map((tab, index) => tab.props.value ?? `Tab ${index + 1}`);
+  const labels =
+    items ?? tabs.map((tab, index) => tab.props.value ?? `Tab ${index + 1}`);
   const firstLabel = labels[defaultIndex] ?? labels[0] ?? "";
   const [active, setActive] = useState(escapeValue(firstLabel));
 
@@ -50,14 +57,13 @@ export function Tabs({
       value={active}
       onValueChange={setActive}
       variant="segmented"
-      className={cn(
-        "my-6 gap-3",
-        className,
-      )}
+      className={cn("my-6 gap-3", className)}
       data-installation-tabs
     >
       {label ? (
-        <div className="px-4 pt-4 text-sm font-medium text-foreground">{label}</div>
+        <div className="px-4 pt-4 text-sm font-medium text-foreground">
+          {label}
+        </div>
       ) : null}
       <div>
         <TabsList
