@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "../**/*.{ts,tsx}";
+@source "../../content/**/*.mdx";
 @import "@m3000/market/styles.css";
 @import "./docs-overrides.css";
 
