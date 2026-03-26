@@ -1,5 +1,5 @@
 export const siteTitle = "@m3000/market";
-export const siteVersion = "v0.0.1";
+export const siteVersion = `v${process.env.NEXT_PUBLIC_PACKAGE_VERSION}`;
 export const siteLinks = [
   {
     href: "/docs",
