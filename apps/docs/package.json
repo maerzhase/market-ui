@@ -19,6 +19,7 @@
   "dependencies": {
     "@m3000/market": "workspace:*",
     "@tabler/icons-react": "3.40.0",
+    "@vercel/analytics": "2.0.1",
     "fumadocs-core": "16.6.17",
     "fumadocs-mdx": "14.2.10",
     "next": "16.2.0",
