@@ -10,18 +10,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./styles.css": "./src/styles/index.css",
-    "./stories/*": "./src/stories/*"
+    "./styles.css": "./dist/styles.css"
   },
   "sideEffects": [
     "*.css"
   ],
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown && tailwindcss -i src/styles/index.css -o dist/styles.css --minify",
     "build:storybook": "storybook build",
     "build:watch": "tsdown --watch",
     "dev": "tsdown --watch",
@@ -60,7 +58,8 @@
     "@storybook/addon-themes": "10.1.2",
     "@storybook/react": "10.1.2",
     "@storybook/react-vite": "10.1.2",
-    "@tailwindcss/postcss": "4.1.11",
+    "@tailwindcss/cli": "4.1.11",
+    "@tailwindcss/postcss": "4.2.1",
     "@tsconfig/vite-react": "7.0.2",
     "@types/node": "22.14.1",
     "@types/react": "19.2.2",
