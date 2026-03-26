@@ -4,36 +4,36 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --write .",
+    "dev": "next dev --turbopack",
     "format": "biome format .",
     "format:fix": "biome format --write .",
-    "typecheck": "tsc --noEmit",
-    "registry:copy": "tsx scripts/build-registry.ts",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "prebuild": "pnpm registry:copy",
     "registry:build": "pnpm registry:copy && shadcn build",
-    "prebuild": "pnpm registry:copy"
+    "registry:copy": "tsx scripts/build-registry.ts",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@m3000/market": "workspace:*",
-    "@tabler/icons-react": "^3.34.1",
-    "fumadocs-core": "^16.6.17",
-    "fumadocs-mdx": "^14.2.10",
-    "next": "^16.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@tabler/icons-react": "3.40.0",
+    "fumadocs-core": "16.6.17",
+    "fumadocs-mdx": "14.2.10",
+    "next": "16.2.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
-    "@types/mdx": "^2.0.13",
-    "@types/node": "^22.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "shadcn": "^2.10.0",
-    "tailwindcss": "^4.1.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.0.0"
+    "@types/mdx": "2.0.13",
+    "@types/node": "22.14.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.3",
+    "shadcn": "2.10.0",
+    "tailwindcss": "4.2.1",
+    "tsx": "4.21.0",
+    "typescript": "5.9.2"
   }
 }
