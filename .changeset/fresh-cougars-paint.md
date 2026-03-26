@@ -1,5 +1,5 @@
 ---
-"@m3000/market": minor
+"@m3000/market": patch
 ---
 
 Ship the initial shared package foundation, including exported formatting and tick-validation
