@@ -44,14 +44,6 @@ This repo uses Changesets to version and publish `@m3000/market` from `main`.
 4. When that branch lands on `main`, the Changesets GitHub Action opens or updates a release PR.
 5. Merging the release PR publishes the package to npm and commits the version/changelog updates back to `main`.
 
-### Release secrets
-
-Set these repository secrets in GitHub before using the release workflow:
-
-- `NPM_TOKEN`: npm automation token with publish access to `@m3000/market`
-
-The workflow passes that token through `NODE_AUTH_TOKEN` during publish, so no npm auth config needs to be committed to the repo.
-
 ## License
 
 MIT
