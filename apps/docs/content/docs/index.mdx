@@ -46,7 +46,16 @@ Import the styles in your app's entry point:
 import "@m3000/market/styles.css";
 ```
 
-### Configure the tokens yourself
+### Use the library theme with Tailwind
+
+If your app runs Tailwind v4, import the library's theme alongside it. This gives you the full design token set (colors, typography, variants) while keeping Tailwind in your own build:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "@m3000/market/theme.css";
+```
+
+### Bring your own tokens
 
 If you already own your app theme, keep Tailwind v4 in your app stylesheet and define the tokens our components use:
 
