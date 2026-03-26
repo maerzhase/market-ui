@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DocsSearchProvider } from "@/components/layout/docs-search";
 import { ThemeProvider } from "@/components/layout/theme-toggle";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
