@@ -1,5 +1,11 @@
 # @m3000/market
 
+## 0.0.2
+
+### Patch Changes
+
+- ddbc424: Improve bundle size and build styles
+
 ## 0.0.1
 
 ### Patch Changes
