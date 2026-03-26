@@ -12,7 +12,7 @@ importers:
         specifier: 2.2.0
         version: 2.2.0
       '@changesets/cli':
-        specifier: ^2.29.7
+        specifier: 2.30.0
         version: 2.30.0(@types/node@22.14.1)
       prettier:
         specifier: 3.8.1
