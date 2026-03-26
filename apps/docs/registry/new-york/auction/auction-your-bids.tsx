@@ -33,7 +33,7 @@ export function AuctionYourBids({
   return (
     <div className={className}>
       <Text
-        render={<h3 />}
+        as="h3"
         color="tertiary"
         className="mb-3 shrink-0"
         aria-label={`Your Bids (${userBids.length})`}

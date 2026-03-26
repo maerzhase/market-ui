@@ -4,10 +4,7 @@
   "type": "registry:component",
   "title": "Countdown",
   "description": "Countdown timer with semantic labels, progress bars, and custom rendering.",
-  "dependencies": [
-    "clsx",
-    "tailwind-merge"
-  ],
+  "dependencies": ["clsx", "tailwind-merge"],
   "files": [
     {
       "path": "registry/new-york/countdown/countdown.tsx",

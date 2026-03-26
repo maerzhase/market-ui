@@ -1,7 +1,12 @@
 "use client";
 
 import { Dialog } from "@base-ui/react/dialog";
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  LayoutGroup,
+  motion,
+  useReducedMotion,
+} from "motion/react";
 import type * as React from "react";
 import { useCallback, useId, useMemo, useState } from "react";
 import { cn, springs, transitions } from "@/lib/cn";
@@ -68,9 +73,12 @@ export function MorphDialog({
     handleOpenChange(false, {} as OpenChangeDetails);
   }, [handleOpenChange]);
 
-  const handleContentClick = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation();
-  }, []);
+  const handleContentClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+    },
+    [],
+  );
 
   return (
     <LayoutGroup id={layoutId}>
@@ -116,11 +124,22 @@ export function MorphDialog({
                   key="morph-dialog-content"
                   layout={!prefersReducedMotion}
                   layoutId={prefersReducedMotion ? undefined : layoutId}
-                  initial={prefersReducedMotion ? { opacity: 0, scale: 0.98 } : false}
+                  initial={
+                    prefersReducedMotion ? { opacity: 0, scale: 0.98 } : false
+                  }
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={prefersReducedMotion ? { opacity: 0, scale: 0.98 } : undefined}
-                  transition={prefersReducedMotion ? transitions.fade : springs.quick}
-                  className={cn("pointer-events-auto max-h-[90vh] max-w-[90vw]", popupClassName)}
+                  exit={
+                    prefersReducedMotion
+                      ? { opacity: 0, scale: 0.98 }
+                      : undefined
+                  }
+                  transition={
+                    prefersReducedMotion ? transitions.fade : springs.quick
+                  }
+                  className={cn(
+                    "pointer-events-auto max-h-[90vh] max-w-[90vw]",
+                    popupClassName,
+                  )}
                   onClick={handleContentClick}
                 >
                   {contentClosesDialog ? (

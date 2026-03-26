@@ -143,7 +143,9 @@ export const DynamicSlot: StoryObj<typeof Ranking.Root> = {
   render: () => {
     const [candidateScore, setCandidateScore] = useState(905);
     const insertionIndex = useMemo(() => {
-      const index = players.findIndex((player) => candidateScore >= player.score);
+      const index = players.findIndex(
+        (player) => candidateScore >= player.score,
+      );
       return index === -1 ? players.length : index;
     }, [candidateScore]);
 

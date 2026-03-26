@@ -42,7 +42,10 @@ export type {
   SuggestedBidContextValue,
 } from "./components/blocks/auction";
 export { Button, buttonVariants } from "./components/primitives/Button";
-export type { ButtonElement, ButtonProps } from "./components/primitives/Button";
+export type {
+  ButtonElement,
+  ButtonProps,
+} from "./components/primitives/Button";
 export { Countdown } from "./components/primitives/countdown/Countdown";
 export * from "./components/primitives/countdown";
 export { Drawer } from "./components/primitives/Drawer";
@@ -91,7 +94,13 @@ export {
   CursorGrowIcon,
   SteppedInput,
 } from "./components/primitives/SteppedInput";
-export { Tab, Tabs, TabsIndicator, TabsList, TabsPanel } from "./components/primitives/Tabs";
+export {
+  Tab,
+  Tabs,
+  TabsIndicator,
+  TabsList,
+  TabsPanel,
+} from "./components/primitives/Tabs";
 export type { TabsContextType } from "./components/primitives/Tabs";
 export { Tag } from "./components/primitives/Tag";
 export type { TagElement, TagProps } from "./components/primitives/Tag";

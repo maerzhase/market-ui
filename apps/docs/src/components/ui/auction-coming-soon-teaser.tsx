@@ -33,7 +33,8 @@ export function AuctionComingSoonTeaser({
         <div
           className={cn(
             "relative mx-auto h-[470px] w-full max-w-4xl overflow-visible",
-            tilted && "[transform:rotateX(2.2deg)_rotateY(-5.8deg)_rotateZ(0.35deg)]",
+            tilted &&
+              "[transform:rotateX(2.2deg)_rotateY(-5.8deg)_rotateZ(0.35deg)]",
           )}
         >
           <div className="origin-top scale-[0.88] overflow-visible">

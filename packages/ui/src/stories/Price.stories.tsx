@@ -69,7 +69,9 @@ export const Usdc: StoryObj<typeof Price> = {
       <Price value={15000000} decimals={6} maxDecimals={2}>
         <Price.Value /> <Price.Symbol>USDC</Price.Symbol>
       </Price>
-      <span className="text-xs text-muted-foreground">15 USDC (6 decimals)</span>
+      <span className="text-xs text-muted-foreground">
+        15 USDC (6 decimals)
+      </span>
     </div>
   ),
 };

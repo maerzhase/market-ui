@@ -52,6 +52,7 @@ function BidRow({
         </Text>
         <span className="flex min-w-0 items-center gap-3">
           {bid.bidder.avatarUrl && (
+            // biome-ignore lint/performance/noImgElement: shared UI stays framework-agnostic.
             <img
               src={bid.bidder.avatarUrl}
               alt=""
@@ -245,8 +246,9 @@ export function AuctionRankings({
       if (previewRef.current && scrollContainerRef.current) {
         const container = scrollContainerRef.current;
         const preview = previewRef.current;
-        const stickyDivider =
-          container.querySelector<HTMLElement>("[data-ranking-group-divider]");
+        const stickyDivider = container.querySelector<HTMLElement>(
+          "[data-ranking-group-divider]",
+        );
         const stickyOffset = stickyDivider?.offsetHeight ?? 0;
 
         const containerRect = container.getBoundingClientRect();
@@ -285,7 +287,7 @@ export function AuctionRankings({
     });
 
     return () => cancelAnimationFrame(frameId);
-  }, [showPreview, isBiddingActive, previewIndex]);
+  }, [showPreview, isBiddingActive]);
 
   const { lockedBidId, lockedBidOriginalIndex } = useMemo(() => {
     if (lockedBid === null)

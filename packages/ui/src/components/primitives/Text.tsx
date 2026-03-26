@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
-import type * as React from "react";
+import * as React from "react";
 import { cn } from "@/lib/cn";
 
 const textVariants = cva("font-sans", {
@@ -70,6 +70,7 @@ export interface TextProps
 export type TextElement = React.ComponentRef<"span">;
 
 export function Text({
+  as,
   className,
   align,
   size,
@@ -79,7 +80,7 @@ export function Text({
   render,
   ref,
   ...props
-}: TextProps): React.ReactElement {
+}: TextProps & { as?: React.ElementType }): React.ReactElement {
   const defaultProps: useRender.ElementProps<"span"> = {
     className: cn(
       textVariants({ align, size, weight, color, tabularNums }),
@@ -89,7 +90,7 @@ export function Text({
 
   const element = useRender({
     defaultTagName: "span",
-    render,
+    render: render ?? (as ? React.createElement(as) : undefined),
     props: mergeProps<"span">(defaultProps, props),
     ref: ref,
   });

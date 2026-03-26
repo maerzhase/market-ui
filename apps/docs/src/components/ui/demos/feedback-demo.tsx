@@ -41,7 +41,6 @@ export function FeedbackDemo() {
     };
   }, []);
 
-
   return (
     <div className="flex min-h-[6rem] w-full items-center justify-center">
       <Feedback.Root show={!!message} className="w-full max-w-[12rem]">

@@ -47,15 +47,15 @@ export function RankingCustomGroupExample() {
                     : "Still in it"}
               </Text>
             </div>
-            )}
-          </Ranking.GroupDivider>
-          <Ranking.GroupItem>
-            <Ranking.GroupItemValue>
-              {(team: Team, context) => (
-                <div className="flex items-center justify-between px-4 py-2">
-                  <div className="flex items-center gap-3">
-                    <Ranking.GroupItemIndex />
-                    <Text
+          )}
+        </Ranking.GroupDivider>
+        <Ranking.GroupItem>
+          <Ranking.GroupItemValue>
+            {(team: Team, context) => (
+              <div className="flex items-center justify-between px-4 py-2">
+                <div className="flex items-center gap-3">
+                  <Ranking.GroupItemIndex />
+                  <Text
                     className={
                       context.groupIndex === 0
                         ? "text-amber-700 dark:text-amber-300"
