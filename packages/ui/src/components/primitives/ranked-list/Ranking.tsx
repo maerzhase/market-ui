@@ -55,8 +55,9 @@ interface GroupItemContextValue<T> {
   isLastItem: boolean;
 }
 
-const RankingContext =
-  React.createContext<RankingContextValue<unknown> | null>(null);
+const RankingContext = React.createContext<RankingContextValue<unknown> | null>(
+  null,
+);
 
 function useRanking<T>(): RankingContextValue<T> {
   const context = React.useContext(RankingContext);
@@ -300,7 +301,8 @@ function GroupItem({
   children,
   className,
 }: GroupItemProps): React.ReactElement {
-  const { entries, startIndex, groupIndex, totalEntryCount } = useGroup<unknown>();
+  const { entries, startIndex, groupIndex, totalEntryCount } =
+    useGroup<unknown>();
   const { getKey } = useRanking<unknown>();
 
   return (

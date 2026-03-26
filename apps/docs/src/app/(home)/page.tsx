@@ -201,7 +201,8 @@ export default function Home() {
               Build interfaces shaped by price, time, and competition.
             </h1>
             <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg">
-              Declarative components for transactions, auctions, and dynamic marketplace logic.
+              Declarative components for transactions, auctions, and dynamic
+              marketplace logic.
             </p>
             <div className="relative z-10 mt-7 flex flex-wrap items-center gap-4">
               <Button
@@ -237,7 +238,8 @@ export default function Home() {
               Foundational pieces for marketplace interfaces.
             </h2>
             <p className="text-muted-foreground mx-auto mt-4 max-w-2xl">
-              Components for formatting value, time, ranking, and transactional detail with a consistent visual language.
+              Components for formatting value, time, ranking, and transactional
+              detail with a consistent visual language.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -272,14 +274,15 @@ export default function Home() {
           <div className="space-y-12">
             <div>
               <div className="mb-3 flex items-center justify-center gap-3">
-                <h3 className="text-xl font-semibold tracking-tight">Auction</h3>
+                <h3 className="text-xl font-semibold tracking-tight">
+                  Auction
+                </h3>
                 <span className="inline-flex rounded-full border border-amber-300/70 bg-amber-100/80 px-3 py-1 text-[0.68rem] font-semibold tracking-[0.12em] text-amber-800 uppercase">
                   Coming Soon
                 </span>
               </div>
               <AuctionComingSoonTeaser />
             </div>
-
           </div>
         </div>
       </section>

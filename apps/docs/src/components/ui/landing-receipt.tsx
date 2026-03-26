@@ -39,8 +39,8 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
     };
   }, []);
 
-  const [{ ref: interactiveRef }, pointerHandlers] = use3dRotation<HTMLDivElement>(
-    {
+  const [{ ref: interactiveRef }, pointerHandlers] =
+    use3dRotation<HTMLDivElement>({
       maxRotation: 8.2,
       scale: 1.01,
       moveDuration: 110,
@@ -48,8 +48,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
       glowX: "50%",
       glowY: "35%",
       transformRef: cardRef,
-    },
-  );
+    });
 
   return (
     <div className={cn("relative mx-auto w-full px-2 sm:px-0", className)}>
@@ -133,7 +132,9 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                     <Receipt.Total className="pt-1 text-[0.74rem] font-semibold tracking-[0.2em] text-stone-950 uppercase sm:text-[0.8rem] sm:tracking-[0.22em]" />
                     <Receipt.Footer className="flex items-baseline justify-between gap-3 pt-1 text-[0.72rem] tracking-[0.16em] text-stone-700 uppercase sm:gap-4 sm:text-[0.78rem] sm:tracking-[0.18em]">
                       <span>Delivery</span>
-                      <span className="text-stone-950">Arrives Tue, Mar 24</span>
+                      <span className="text-stone-950">
+                        Arrives Tue, Mar 24
+                      </span>
                     </Receipt.Footer>
                     <Receipt.Footer className="pt-2 text-center text-sm font-black tracking-[0.08em] text-stone-950 uppercase italic sm:pt-3">
                       @m3000/market

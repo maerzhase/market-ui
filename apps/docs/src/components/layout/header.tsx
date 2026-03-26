@@ -42,7 +42,8 @@ function HeaderNavLinks({
               size="sm"
               nativeButton={false}
               className={cn(
-                variant === "docs" && "text-muted-foreground hover:text-foreground",
+                variant === "docs" &&
+                  "text-muted-foreground hover:text-foreground",
               )}
               render={
                 <a
@@ -67,7 +68,8 @@ function HeaderNavLinks({
             nativeButton={false}
             active={isActive}
             className={cn(
-              variant === "docs" && "text-muted-foreground hover:text-foreground",
+              variant === "docs" &&
+                "text-muted-foreground hover:text-foreground",
             )}
             render={<Link href={link.href} onClick={onLinkClick} />}
           >
@@ -79,11 +81,7 @@ function HeaderNavLinks({
   );
 }
 
-function MobileHeaderMenu({
-  docsTree,
-}: {
-  docsTree?: Root;
-}) {
+function MobileHeaderMenu({ docsTree }: { docsTree?: Root }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -138,7 +136,8 @@ function MobileHeaderMenu({
                   onClick={() => setOpen(false)}
                   className={cn(
                     menuLinkClassName,
-                    pathname === "/" && "bg-primary/10 font-medium text-primary",
+                    pathname === "/" &&
+                      "bg-primary/10 font-medium text-primary",
                   )}
                 >
                   Home
@@ -194,7 +193,8 @@ function MobileHeaderMenu({
                   onClick={() => setOpen(false)}
                   className={cn(
                     menuLinkClassName,
-                    pathname === "/docs" && "bg-primary/10 font-medium text-primary",
+                    pathname === "/docs" &&
+                      "bg-primary/10 font-medium text-primary",
                   )}
                 >
                   Getting started
@@ -226,7 +226,10 @@ export function Header({ variant = "site", docsTree }: HeaderProps) {
   return (
     <header className={containerClassName}>
       <span className={innerClassName}>
-        <Link href="/" className="flex min-w-0 items-center gap-2 overflow-hidden">
+        <Link
+          href="/"
+          className="flex min-w-0 items-center gap-2 overflow-hidden"
+        >
           <span className="truncate font-semibold">{siteTitle}</span>
           <span className="hidden rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary min-[375px]:inline-flex">
             {siteVersion}

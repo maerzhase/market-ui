@@ -63,7 +63,7 @@ function normalizeExampleCode(raw: string) {
 
 function readCode(relativePath: string) {
   return normalizeExampleCode(
-    readFileSync(path.join(registryDir, relativePath), "utf8")
+    readFileSync(path.join(registryDir, relativePath), "utf8"),
   );
 }
 
