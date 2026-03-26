@@ -8,6 +8,23 @@ export const metadata: Metadata = {
   title: "@m3000/market - Market UI Components",
   description:
     "A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
+  openGraph: {
+    title: "@m3000/market - Market UI Components",
+    description:
+      "A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
+    images: [
+      {
+        url: "/api/og",
+        width: 1200,
+        height: 630,
+        alt: "@m3000/market - Marketplace design system",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/api/og"],
+  },
 };
 
 export default function RootLayout({
