@@ -7,15 +7,15 @@ import { cn } from "@/lib/cn";
 const textVariants = cva("font-sans", {
   variants: {
     size: {
-      "1": "text-1 leading-1",
-      "2": "text-2 leading-2",
-      "3": "text-3 leading-3",
-      "4": "text-4 leading-4",
-      "5": "text-5 leading-5",
-      "6": "text-6 leading-6",
-      "7": "text-7 leading-7",
-      "8": "text-8 leading-8",
-      "9": "text-9 leading-9",
+      "1": "text-xs leading-[18px]",
+      "2": "text-sm leading-[21px]",
+      "3": "text-base leading-6",
+      "4": "text-xl leading-7",
+      "5": "text-2xl leading-8",
+      "6": "text-[28px] leading-9",
+      "7": "text-[32px] leading-10",
+      "8": "text-[36px] leading-[44px]",
+      "9": "text-5xl leading-[56px]",
     },
     weight: {
       regular: "font-normal",

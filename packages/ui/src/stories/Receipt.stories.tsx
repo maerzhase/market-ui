@@ -27,7 +27,7 @@ export const Basic: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Order Summary</span>
+          <span className="text-xl font-semibold">Order Summary</span>
         </Receipt.Header>
         <Receipt.Item label="Item 1" value={1511n} />
         <Receipt.Item label="Item 2" value={2000n} />
@@ -50,7 +50,7 @@ export const WithSubtotal: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Order Summary</span>
+          <span className="text-xl font-semibold">Order Summary</span>
         </Receipt.Header>
         <Receipt.Item label="Item 1" value={1500000n} />
         <Receipt.Item label="Item 2" value={2000000n} />
@@ -72,7 +72,7 @@ export const WithDiscount: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Order Summary</span>
+          <span className="text-xl font-semibold">Order Summary</span>
         </Receipt.Header>
         <Receipt.Item label="Item 1" value={1500000n} />
         <Receipt.Item label="Item 2" value={2000000n} />
@@ -94,7 +94,7 @@ export const WithTax: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Receipt</span>
+          <span className="text-xl font-semibold">Receipt</span>
         </Receipt.Header>
         <Receipt.Item label="Subtotal" value={4000} />
         <Receipt.Tax rate={0.08} />
@@ -113,7 +113,7 @@ export const WithFee: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Order Summary</span>
+          <span className="text-xl font-semibold">Order Summary</span>
         </Receipt.Header>
         <Receipt.Item label="Item 1" value={1500000n} />
         <Receipt.Item label="Item 2" value={2000000n} />
@@ -135,8 +135,8 @@ export const FullReceipt: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header className="flex items-baseline justify-between">
-          <span className="text-4 font-semibold">Order #12345</span>
-          <span className="text-1 leading-1 text-muted-foreground">
+          <span className="text-xl font-semibold">Order #12345</span>
+          <span className="text-xs leading-[18px] text-muted-foreground">
             March 16, 2026
           </span>
         </Receipt.Header>
@@ -151,7 +151,7 @@ export const FullReceipt: StoryObj<typeof Receipt> = {
         <Receipt.Separator />
         <Receipt.Total />
         <Receipt.Footer>
-          <span className="text-center text-1 text-muted-foreground">
+          <span className="text-center text-xs text-muted-foreground">
             Thank you for your order!
           </span>
         </Receipt.Footer>
@@ -169,7 +169,7 @@ export const ManualTotals: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Invoice</span>
+          <span className="text-xl font-semibold">Invoice</span>
         </Receipt.Header>
         <Receipt.Item label="Consulting" value={500000} />
         <Receipt.Item label="Development" value={750000} />
@@ -189,7 +189,7 @@ export const EthReceipt: StoryObj<typeof Receipt> = {
           <Price.Value /> <Price.Symbol>ETH</Price.Symbol>
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">NFT Purchase</span>
+          <span className="text-xl font-semibold">NFT Purchase</span>
         </Receipt.Header>
         <Receipt.Item label="Base Price" value={500000000000000000n} />
         <Receipt.Item label="Royalty" value={25000000000000000n} />
@@ -209,7 +209,7 @@ export const PerItemOverride: StoryObj<typeof Receipt> = {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-4 font-semibold">Mixed Override</span>
+          <span className="text-xl font-semibold">Mixed Override</span>
         </Receipt.Header>
         <Receipt.Item label="Normal item" value={1500000n} />
         <Receipt.Item label="High precision" value={1234567n} maxDecimals={6} />

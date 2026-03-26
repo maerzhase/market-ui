@@ -8,7 +8,7 @@ export function CountdownLiveToClosedExample() {
 
   return (
     <div className="flex flex-col">
-      <div className="text-2 text-muted-foreground mb-4 flex gap-2 items-center">
+      <div className="mb-4 flex items-center gap-2 text-sm leading-[21px] text-muted-foreground">
         Watch the countdown expire after about 10 seconds.
         <Button onClick={() => setTargetDate(new Date(Date.now() + 10000))} color="ghost" size="sm">Reset</Button>
       </div>

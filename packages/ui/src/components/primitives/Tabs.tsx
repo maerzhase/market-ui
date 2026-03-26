@@ -102,7 +102,7 @@ function TabsIndicator({
 }
 
 const tabVariants = cva(
-  "relative rounded-xs font-sans text-2 leading-none whitespace-nowrap text-muted-foreground after:pointer-events-auto after:absolute after:z-0 after:rounded-xs after:bg-transparent after:content-[''] hover:text-foreground focus-visible:ring focus-visible:outline-none data-active:text-foreground",
+  "relative rounded-xs font-sans text-sm leading-none whitespace-nowrap text-muted-foreground after:pointer-events-auto after:absolute after:z-0 after:rounded-xs after:bg-transparent after:content-[''] hover:text-foreground focus-visible:ring focus-visible:outline-none data-active:text-foreground",
   {
     variants: {
       layout: {

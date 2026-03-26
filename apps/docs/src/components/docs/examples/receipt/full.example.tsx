@@ -12,8 +12,8 @@ export function ReceiptFullExample() {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header className="flex items-baseline justify-between">
-          <span className="text-4 font-semibold">Order #12345</span>
-          <span className="text-1 text-muted-foreground">March 16, 2026</span>
+          <span className="text-xl font-semibold">Order #12345</span>
+          <span className="text-xs leading-[18px] text-muted-foreground">March 16, 2026</span>
         </Receipt.Header>
         <Receipt.Item label="Product A" value={2500000n} />
         <Receipt.Item label="Product B" value={1800000n} />

@@ -50,7 +50,7 @@ export const CustomRender: StoryObj<typeof Countdown> = {
   render: () => (
     <Countdown to={new Date(Date.now() + 86400000)}>
       {({ timeString }) => (
-        <span className="font-mono text-4 text-success">{timeString}</span>
+        <span className="font-mono text-xl text-success">{timeString}</span>
       )}
     </Countdown>
   ),
@@ -67,10 +67,10 @@ export const SemanticLabels: StoryObj<typeof Countdown> = {
   render: () => (
     <>
       <div className="flex flex-col gap-2">
-        <span className="text-1 text-muted-foreground">Open:</span>
+        <span className="text-xs text-muted-foreground">Open:</span>
         <Countdown to={new Date(Date.now() + 3600000)}>
           {({ timeString, isExpired }) => (
-            <span className="font-mono text-3 text-success">
+            <span className="font-mono text-base text-success">
               {isExpired ? "Closed" : `Open - ${timeString} left`}
             </span>
           )}
@@ -78,10 +78,10 @@ export const SemanticLabels: StoryObj<typeof Countdown> = {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-1 text-muted-foreground">Upcoming:</span>
+        <span className="text-xs text-muted-foreground">Upcoming:</span>
         <Countdown to={new Date(Date.now() + 86400000 * 3)}>
           {({ timeString, isExpired }) => (
-            <span className="font-mono text-3 text-warning">
+            <span className="font-mono text-base text-warning">
               {isExpired ? "Live now!" : `Opens in ${timeString}`}
             </span>
           )}
@@ -89,10 +89,10 @@ export const SemanticLabels: StoryObj<typeof Countdown> = {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-1 text-muted-foreground">Closed:</span>
+        <span className="text-xs text-muted-foreground">Closed:</span>
         <Countdown to={new Date(Date.now() - 3600000)} showWhenExpired>
           {({ timeString }) => (
-            <span className="font-mono text-3 text-destructive">
+            <span className="font-mono text-base text-destructive">
               Closed - {timeString} ago
             </span>
           )}
@@ -108,14 +108,14 @@ export const LiveToClosed: StoryObj<typeof Countdown> = {
 
     return (
       <>
-        <p className="mb-2 text-2 text-muted-foreground">
+        <p className="mb-2 text-sm text-muted-foreground">
           Watch the transition (expires in ~10s):
         </p>
         <Countdown to={targetDate}>
           {({ timeString, isExpired }) => (
             <span
               className={cn(
-                "font-mono text-4 transition-colors",
+                "font-mono text-xl transition-colors",
                 isExpired ? "text-destructive" : "text-success",
               )}
             >
@@ -141,7 +141,7 @@ export const WithProgress: StoryObj<typeof Countdown> = {
 
         return (
           <Meter.Root value={progress} className="w-full">
-            <div className="mb-1 flex justify-between gap-4 text-2">
+            <div className="mb-1 flex justify-between gap-4 text-sm">
               <Meter.Label className="text-muted-foreground">
                 Time remaining
               </Meter.Label>

@@ -55,7 +55,7 @@ export const WithMinMax: StoryObj<typeof SteppedInput.Root> = {
 
     return (
       <div className="flex flex-col gap-2">
-        <span className="text-text-tertiary text-1">Min 0, Max 100</span>
+        <span className="text-text-tertiary text-xs">Min 0, Max 100</span>
         <SteppedInput.Root
           value={value}
           onChange={setValue}
@@ -95,7 +95,7 @@ export const DynamicStepSize: StoryObj<typeof SteppedInput.Root> = {
         getTickSize={getTickSize}
       >
         <div className="flex flex-col gap-2">
-          <span className="text-text-tertiary text-1">
+          <span className="text-text-tertiary text-xs">
             Step size changes based on value (1, 10, or 100)
           </span>
           <SteppedInput.Group>
@@ -152,7 +152,7 @@ export const EthereumPrice: StoryObj<typeof SteppedInput.Root> = {
 
     return (
       <div className="flex flex-col gap-2">
-        <span className="text-text-tertiary text-1">
+        <span className="text-text-tertiary text-xs">
           Amount (in base units)
         </span>
         <SteppedInput.Root

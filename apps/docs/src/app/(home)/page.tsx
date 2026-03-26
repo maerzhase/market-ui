@@ -109,7 +109,7 @@ function CountdownDemo() {
     <div className="flex h-full w-full items-center justify-center text-center">
       <Countdown to={new Date(Date.now() + 86400000 * 3)}>
         {({ timeString, isExpired }) => (
-          <span className="text-3 font-mono" suppressHydrationWarning>
+          <span className="text-base font-mono" suppressHydrationWarning>
             {isExpired ? "Expired" : timeString}
           </span>
         )}
@@ -127,7 +127,7 @@ function ReceiptDemo() {
           <Price.Value />
         </Receipt.Price>
         <Receipt.Header>
-          <span className="text-3 font-semibold">Order Summary</span>
+          <span className="text-base font-semibold">Order Summary</span>
         </Receipt.Header>
         <Receipt.Item label="Premium Item" value={15000n} />
         <Receipt.Item label="Standard Item" value={5000n} />

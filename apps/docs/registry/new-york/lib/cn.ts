@@ -69,29 +69,6 @@ const THEME_COLORS = [...PRIMITIVE_COLORS, ...SEMANTIC_COLORS];
 const customTwMerge = extendTailwindMerge({
   extend: {
     classGroups: {
-      leading: [
-        "leading-0",
-        "leading-1",
-        "leading-2",
-        "leading-3",
-        "leading-4",
-        "leading-5",
-        "leading-6",
-        "leading-7",
-        "leading-8",
-        "leading-9",
-      ],
-      "font-size": [
-        "text-1",
-        "text-2",
-        "text-3",
-        "text-4",
-        "text-5",
-        "text-6",
-        "text-7",
-        "text-8",
-        "text-9",
-      ],
       "text-color": [{ text: THEME_COLORS }],
       "bg-color": [{ bg: THEME_COLORS }],
       "border-color": [{ border: THEME_COLORS }],

@@ -6,7 +6,7 @@ export function CountdownCustomRenderExample() {
 	return (
 		<Countdown to={new Date(Date.now() + 86400000)}>
 			{({ timeString }) => (
-				<span className="font-mono text-4 text-success">{timeString}</span>
+				<span className="font-mono text-xl leading-7 text-success">{timeString}</span>
 			)}
 		</Countdown>
 	);
