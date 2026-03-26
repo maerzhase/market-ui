@@ -1,9 +1,5 @@
-@custom-variant dark (&:where(.dark, .dark *));
 @import "tailwindcss";
 @import "@m3000/market/tokens.css";
-@source "../**/*.{ts,tsx}";
-@source "../../../../packages/ui/src/**/*.{ts,tsx}";
-@source "../../content/**/*.mdx";
 @import "./docs-overrides.css";
 
 html,
