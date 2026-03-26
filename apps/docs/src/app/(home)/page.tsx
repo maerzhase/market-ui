@@ -200,7 +200,7 @@ export default function Home() {
             <h1 className="text-foreground relative z-10 mt-5 max-w-3xl text-[2.5rem] leading-[1.1] font-bold tracking-[-0.04em] sm:text-[2.75rem] md:text-[3rem] lg:text-[3.5rem]">
               Build interfaces shaped by price, time, and competition.
             </h1>
-            <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg">
+            <p className="text-muted-foreground relative z-10 mt-5 text-base leading-4 md:text-lg/normal">
               Declarative components for transactions, auctions, and dynamic
               marketplace logic.
             </p>
