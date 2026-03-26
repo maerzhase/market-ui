@@ -148,6 +148,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
                   preserveAspectRatio="none"
                   className="absolute inset-x-0 -bottom-5 h-5 w-full fill-[#fffaf2]"
                 >
+                  <title>Decorative torn receipt edge</title>
                   <path d="M0 0H200V4L193.33 20L186.67 4L180 20L173.33 4L166.67 20L160 4L153.33 20L146.67 4L140 20L133.33 4L126.67 20L120 4L113.33 20L106.67 4L100 20L93.33 4L86.67 20L80 4L73.33 20L66.67 4L60 20L53.33 4L46.67 20L40 4L33.33 20L26.67 4L20 20L13.33 4L6.67 20L0 4Z" />
                 </svg>
               </div>
