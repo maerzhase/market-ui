@@ -1,7 +1,7 @@
 {
 	"$schema": "https://ui.shadcn.com/schema/registry.json",
 	"name": "m3000-market",
-	"homepage": "https://m3000.market",
+	"homepage": "https://market.m3000.io",
 	"items": [
 		{
 			"name": "price",
