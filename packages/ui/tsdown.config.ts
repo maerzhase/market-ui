@@ -1,12 +1,14 @@
 import type { UserConfig } from "tsdown";
 
+const isWatch = process.argv.includes("--watch");
+
 const config: UserConfig = {
   entry: ["src/index.ts"],
   unbundle: true,
   inlineOnly: false,
   format: "esm",
   dts: true,
-  clean: true,
+  clean: !isWatch,
   outDir: "dist",
   platform: "browser",
   external: [
