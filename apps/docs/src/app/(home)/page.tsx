@@ -9,6 +9,7 @@ import {
   Separator,
   Text,
 } from "@m3000/market";
+import { IconBrandGithub, IconHeartFilled } from "@tabler/icons-react";
 import Link from "next/link";
 import { AuctionComingSoonTeaser } from "@/components/ui/auction-coming-soon-teaser";
 import { ComponentShowcase } from "@/components/ui/component-showcase";
@@ -288,16 +289,42 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-border border-t py-12">
+      <footer className="border-white/5 border-t bg-[#111111] py-12">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <Text color="secondary" size="2">
-              Built with React, Tailwind CSS, and Motion
-            </Text>
-            <Text color="secondary" size="2">
-              MIT License
-            </Text>
-          </div>
+          <Text
+            size="2"
+            className="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 text-center text-[0.82rem] font-medium text-[#7a7a7a] sm:text-[0.9rem]"
+          >
+            <span>build with</span>
+            <IconHeartFilled
+              aria-label="love"
+              className="size-[0.9rem] fill-current text-[#8a8a8a]"
+            />
+            <span>by</span>
+            <Link
+              href="https://m3000.io"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-[#f1f1f1] transition-opacity hover:opacity-70"
+            >
+              m3000.io
+            </Link>
+            <span aria-hidden="true" className="text-[#666666]">
+              ·
+            </span>
+            <Link
+              href="https://github.com/maerzhase/market-ui"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 font-semibold text-[#f1f1f1] transition-opacity hover:opacity-70"
+            >
+              <IconBrandGithub
+                aria-hidden
+                className="size-[0.95rem] stroke-[1.8]"
+              />
+              <span>GitHub</span>
+            </Link>
+          </Text>
         </div>
       </footer>
     </main>
