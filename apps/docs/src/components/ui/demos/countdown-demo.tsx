@@ -1,6 +1,6 @@
 "use client";
 
-import { Countdown, Text } from "@m3000/market";
+import { Countdown } from "@m3000/market";
 
 export function CountdownDemo() {
   return (

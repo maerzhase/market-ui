@@ -388,6 +388,8 @@ export async function GET() {
           {/* Torn bottom edge */}
           <svg
             viewBox="0 0 200 20"
+            aria-hidden="true"
+            focusable="false"
             style={{
               position: "absolute",
               bottom: -20,

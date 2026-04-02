@@ -110,6 +110,7 @@ export const mdxComponents: MDXComponents = {
     <hr className={cn("my-8 border-border", className)} {...props} />
   ),
   img: ({ className, alt, ...props }) => (
+    /* biome-ignore lint/performance/noImgElement: MDX content can reference arbitrary image URLs and dimensions. */
     <img
       alt={alt}
       className={cn("my-6 rounded-2xl border border-border", className)}
