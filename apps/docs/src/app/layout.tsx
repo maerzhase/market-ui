@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
 import { DocsSearchProvider } from "@/components/layout/docs-search";
 import { ThemeProvider } from "@/components/layout/theme-toggle";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Analytics } from "@vercel/analytics/next";
+import { siteDescription, siteTitle, siteUrl } from "@/app/layout.config";
+import { getRootStructuredData } from "@/lib/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "@m3000/market - Market UI Components",
-  description:
-    "A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${siteTitle} - React Marketplace UI Components`,
+    template: `%s | ${siteTitle}`,
+  },
+  description: siteDescription,
   openGraph: {
-    title: "@m3000/market - Market UI Components",
-    description:
-      "A collection of React components for marketplace applications, featuring Price, Ranking, Countdown, Receipt, and more.",
+    title: `${siteTitle} - React Marketplace UI Components`,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: siteTitle,
+    type: "website",
     images: [
       {
         url: "/api/og",
@@ -23,6 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: `${siteTitle} - React Marketplace UI Components`,
+    description: siteDescription,
     images: ["/api/og"],
   },
 };
@@ -32,9 +42,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = getRootStructuredData();
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <JsonLd data={structuredData} />
+      </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Analytics />
         <ThemeProvider>

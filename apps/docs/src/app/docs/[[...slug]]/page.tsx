@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { notFound } from "next/navigation";
+import { siteTitle } from "@/app/layout.config";
 import { mdxComponents } from "@/components/docs/mdx-components";
 import { DocsTableOfContents } from "@/components/layout/docs-toc";
 import { source } from "@/lib/source";
@@ -80,13 +82,25 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
-}) {
+}): Promise<Metadata> {
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
   return {
-    title: page.data.title,
+    title: `${page.data.title} Docs`,
     description: page.data.description,
+    alternates: {
+      canonical: page.url,
+    },
+    openGraph: {
+      title: `${page.data.title} Docs | ${siteTitle}`,
+      description: page.data.description,
+      url: page.url,
+    },
+    twitter: {
+      title: `${page.data.title} Docs | ${siteTitle}`,
+      description: page.data.description,
+    },
   };
 }
