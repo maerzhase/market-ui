@@ -1,7 +1,7 @@
 import { createMDX } from "fumadocs-mdx/next";
-import { readFileSync } from "fs";
+import { readFileSync } from "node:fs";
 import type { NextConfig } from "next";
-import { join } from "path";
+import { join } from "node:path";
 
 const uiPkg = JSON.parse(
   readFileSync(join(__dirname, "../../packages/ui/package.json"), "utf-8"),

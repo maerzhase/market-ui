@@ -3,14 +3,8 @@
  * Transforms imports to use local paths instead of @m3000/market paths.
  */
 
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 const ROOT = join(import.meta.dirname, "..");
 const UI_SRC = join(ROOT, "..", "..", "packages", "ui", "src");
@@ -138,7 +132,7 @@ const COMPONENT_MAPPINGS: ComponentMapping[] = [
  * - @/lib -> @/lib (keep as alias, user needs to configure)
  * - @/components/primitives/X -> relative or @/components/ui/X
  */
-function transformImports(content: string, destDir: string): string {
+function transformImports(content: string, _destDir: string): string {
   let transformed = content;
 
   // Transform @/lib imports to relative
