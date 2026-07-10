@@ -28,7 +28,7 @@
     "prettier": "3.8.1",
     "prettier-plugin-tailwindcss": "0.7.2",
     "syncpack": "13.0.4",
-    "turbo": "2.8.18"
+    "turbo": "2.9.14"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
