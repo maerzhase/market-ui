@@ -74,13 +74,14 @@ export function useDocsSearchDialog() {
   return context;
 }
 
-type SearchResult = NonNullable<
-  ReturnType<typeof useDocsSearch>["query"]["data"]
-> extends infer Data
-  ? Data extends Array<infer Item>
-    ? Item
-    : never
-  : never;
+type SearchResult =
+  NonNullable<
+    ReturnType<typeof useDocsSearch>["query"]["data"]
+  > extends infer Data
+    ? Data extends Array<infer Item>
+      ? Item
+      : never
+    : never;
 
 function HighlightedText({
   value,
@@ -129,6 +130,7 @@ function SearchResultItem({
             <div className="mb-1 flex flex-wrap items-center gap-1 text-[0.68rem] font-semibold tracking-[0.16em] text-muted-foreground uppercase">
               {item.breadcrumbs.map((breadcrumb, index) => (
                 <HighlightedText
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Breadcrumb labels can repeat and do not reorder within a search result.
                   key={`${item.id}-breadcrumb-${index}`}
                   value={breadcrumb}
                 />
