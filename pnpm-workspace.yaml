@@ -13,7 +13,10 @@ trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 10080
 blockExoticSubdeps: true
 strictDepBuilds: true
-onlyBuiltDependencies: []
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "esbuild"
+  - "sharp"
 
 overrides:
   esbuild: 0.28.1
