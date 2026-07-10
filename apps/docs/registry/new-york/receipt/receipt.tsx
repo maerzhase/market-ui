@@ -658,10 +658,7 @@ function ReceiptRoot({
     },
   );
 
-  const computed = React.useMemo(
-    () => computeReceiptValues(calculationDescriptors, decimals),
-    [decimals],
-  );
+  const computed = computeReceiptValues(calculationDescriptors, decimals);
 
   const contextValue = React.useMemo(
     () => ({ decimals, computed }),

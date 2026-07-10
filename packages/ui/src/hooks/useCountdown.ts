@@ -40,7 +40,7 @@ export function useCountdown(
   useLayoutEffect(() => {
     if (!to) {
       setResult({ timeString: null, remainingMs: null, isExpired: false });
-      return;
+      return undefined;
     }
 
     const target = to.getTime();

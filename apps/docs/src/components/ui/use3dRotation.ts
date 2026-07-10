@@ -40,7 +40,7 @@ type Use3DRotationResult<T extends HTMLElement> = [
   PointerHandlers<T>,
 ];
 
-export function use3dRotation<T extends HTMLElement>({
+export function useThreeDRotation<T extends HTMLElement>({
   maxRotation = 8,
   scale = 1.012,
   moveDuration = 90,
