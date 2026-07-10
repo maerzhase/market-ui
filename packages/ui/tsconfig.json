@@ -9,9 +9,8 @@
     "noImplicitReturns": true,
     "declaration": true,
     "isolatedDeclarations": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "exclude": ["dist", "node_modules"]

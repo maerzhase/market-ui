@@ -2,7 +2,7 @@
 
 import { cn, Price, Receipt } from "@m3000/market";
 import { useEffect, useRef, useState } from "react";
-import { use3dRotation } from "@/components/ui/use3dRotation";
+import { useThreeDRotation } from "@/components/ui/use3dRotation";
 
 const receiptMeta = [
   { label: "Customer", value: "Ava Thompson" },
@@ -40,7 +40,7 @@ export function LandingReceipt({ className }: { className?: string } = {}) {
   }, []);
 
   const [{ ref: interactiveRef }, pointerHandlers] =
-    use3dRotation<HTMLDivElement>({
+    useThreeDRotation<HTMLDivElement>({
       maxRotation: 8.2,
       scale: 1.01,
       moveDuration: 110,

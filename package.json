@@ -16,22 +16,22 @@
     "lint:fix": "turbo run lint:fix",
     "release": "pnpm build && changeset publish",
     "storybook": "turbo run storybook --filter=@m3000/ui",
-    "syncpack:fix": "syncpack fix-mismatches && syncpack set-semver-ranges && pnpm syncpack:format",
+    "syncpack:fix": "syncpack fix && pnpm syncpack:format",
     "syncpack:format": "syncpack format && pnpm exec biome format --write package.json apps/docs/package.json packages/ui/package.json",
-    "syncpack:lint": "syncpack lint-semver-ranges && syncpack list-mismatches && ! rg -n --pcre2 '\"@m3000/[^\"]+\": \"(?!workspace:\\*)' package.json apps/docs/package.json packages/ui/package.json",
+    "syncpack:lint": "syncpack lint && syncpack format --check && ! rg -n --pcre2 '\"@m3000/[^\"]+\": \"(?!workspace:\\*)' package.json apps/docs/package.json packages/ui/package.json",
     "typecheck": "turbo run typecheck",
     "version-packages": "changeset version"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
-    "@changesets/cli": "2.30.0",
-    "prettier": "3.8.1",
-    "prettier-plugin-tailwindcss": "0.7.2",
-    "syncpack": "13.0.4",
-    "turbo": "2.9.14"
+    "@biomejs/biome": "2.5.2",
+    "@changesets/cli": "2.31.0",
+    "prettier": "3.9.4",
+    "prettier-plugin-tailwindcss": "0.8.0",
+    "syncpack": "15.3.2",
+    "turbo": "2.10.2"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.34.3",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.19.0"
   }
 }
