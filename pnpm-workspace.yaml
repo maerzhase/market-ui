@@ -1,3 +1,24 @@
 packages:
   - "packages/*"
   - "apps/*"
+
+# Supply-chain hardening: quarantine fresh releases, reject trust downgrades and
+# untrusted transitive sources, and require explicit approval for install scripts.
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - "esbuild@0.28.1"
+  - "postcss@8.5.16"
+  - "vite@7.3.5"
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 10080
+blockExoticSubdeps: true
+strictDepBuilds: true
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "esbuild"
+  - "sharp"
+
+overrides:
+  esbuild: 0.28.1
+  postcss: 8.5.16
+  vite: 7.3.5

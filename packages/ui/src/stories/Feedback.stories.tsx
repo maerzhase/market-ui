@@ -32,7 +32,7 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 export const Primary: StoryObj<typeof Button> = {
-  render() {
+  render: function PrimaryStory() {
     const [feedback, setFeedback] = useState<string | null>();
     const handleClick = async () => {
       setFeedback("feedback for 2000ms");
@@ -53,7 +53,7 @@ export const Primary: StoryObj<typeof Button> = {
 };
 
 export const ChainedFeedback: StoryObj<typeof Button> = {
-  render() {
+  render: function ChainedFeedbackStory() {
     const [message, setMessage] = useState<string | null>(null);
 
     const handleClick = async () => {
