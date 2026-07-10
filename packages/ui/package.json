@@ -68,7 +68,7 @@
     "react": "19.2.4",
     "react-docgen-typescript": "2.4.0",
     "react-dom": "19.2.4",
-    "storybook": "10.1.2",
+    "storybook": "10.2.10",
     "tailwindcss": "4.2.1",
     "tsdown": "0.20.3",
     "typescript": "5.9.2",
