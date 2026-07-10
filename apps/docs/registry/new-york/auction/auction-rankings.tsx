@@ -240,7 +240,7 @@ export function AuctionRankings({
     const justStartedBidding = isBiddingActive && !prevBiddingActiveRef.current;
     prevBiddingActiveRef.current = isBiddingActive;
 
-    if (!showPreview) return;
+    if (!showPreview) return undefined;
 
     const scrollToPreview = () => {
       if (previewRef.current && scrollContainerRef.current) {
